@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Inter, sans-serif;
+        }
+
+        body {
+            width: 100%;
+            background: #1a2226;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            border-radius: 12px;
+            background-color: rgb(19, 25, 28);
+            width: 90%;
+            max-width: 400px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        #otp-form {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        #otp-form input {
+            border: none;
+            background-color: #121517;
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            padding: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            outline: 2px solid rgb(66, 66, 66);
+        }
+
+        #otp-form input:focus-visible {
+            outline: 2px solid royalblue;
+        }
+
+        #otp-form input.filled {
+            outline: 2px solid rgb(7, 192, 99);
+        }
+
+        #timer {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            max-width: 200px;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: none;
+        }
+
+        #verify-btn {
+            background-color: #28a745;
+            color: white;
+            margin-top: 15px;
+        }
+
+        #resend-btn {
+            background-color: #dc3545;
+            color: white;
+            display: none;
+        }
+
+        .message-box {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: none; /* Hide by default */
+}
+
+.success-message {
+    background-color: #28a745;
+    color: white;
+}
+
+.error-message {
+    background-color: #dc3545;
+    color: white;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Enter OTP</h1>
+        <h2 class="title">Sent to your email</h2>
+        
+        <!-- Message Box -->
+    <!-- Message Box -->
+<% if (successMessage) { %>
+  <div class="message-box success-message">
+      <%= successMessage %>
+  </div>
+<% } %>
+<% if (errorMessage) { %>
+  <div class="message-box error-message">
+      <%= errorMessage %>
+  </div>
+<% } %>
+
+        <div class="form-container">
+            <form id="otp-form" action="/otpVerifyPost" method="POST">
+                <input type="hidden" name="email" value="<%= userEmail %>">
+                <input type="text" class="otp-input" name="otp1" maxlength="1">
+                <input type="text" class="otp-input" name="otp2" maxlength="1">
+                <input type="text" class="otp-input" name="otp3" maxlength="1">
+                <input type="text" class="otp-input" name="otp4" maxlength="1">
+                <input type="text" class="otp-input" name="otp5" maxlength="1">
+                <input type="text" class="otp-input" name="otp6" maxlength="1">
+            </form>
+        </div>
+        
+        <div class="btn-group">
+            <button id="verify-btn" type="submit" form="otp-form">Verify OTP</button>
+        </div>
+        
+        <p id="timer">Time remaining: <span id="countdown">60</span> sec</p>
+        
+        <div class="btn-group">
+            <button id="resend-btn">Resend OTP</button>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 60;
+        const countdownElement = document.getElementById("countdown");
+        const resendButton = document.getElementById("resend-btn");
+        let timer;
+
+        function startTimer() {
+            clearInterval(timer);
+            timeLeft = 60;
+            countdownElement.textContent = timeLeft;
+            resendButton.style.display = "none";
+
+            timer = setInterval(() => {
+                timeLeft--;
+                countdownElement.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    resendButton.style.display = "block";
+                }
+            }, 1000);
+        }
+
+        document.querySelectorAll(".otp-input").forEach((input, index, inputs) => {
+            input.addEventListener("input", (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && index > 0 && e.target.value === "") {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Resend OTP Button Click Handler
+        document.getElementById('resend-btn').addEventListener('click', async () => {
+    const email = document.querySelector('input[name="email"]').value;
+    console.log('Resending OTP for email:', email); // Log the email
+
+    try {
+        const response = await fetch('/resendOtpPost', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        const result = await response.json();
+        console.log('Response from server:', result); // Log the server response
+
+        if (result.success) {
+            alert(result.message); // Show success message
+            startTimer(); // Restart the timer
+        } else {
+            alert(result.message); // Show error message
+        }
+    } catch (error) {
+        console.error('Error resending OTP:', error);
+        alert('Something went wrong. Please try again.');
+    }
+});
+
+        window.onload = startTimer;
+
+          // Automatically hide messages after 5 seconds
+    const messageBoxes = document.querySelectorAll('.message-box');
+    messageBoxes.forEach(box => {
+        box.style.display = 'block'; // Show the message box
+        setTimeout(() => {
+            box.style.display = 'none'; // Hide the message box after 5 seconds
+        }, 2000); // 5000 milliseconds = 5 seconds
+    });
+    </script>
+</body>
+</html>

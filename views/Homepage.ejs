@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        a {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .login-btn {
+            background: #667eea;
+        }
+
+        .signup-btn {
+            background: #ff758c;
+        }
+
+        .login-btn:hover {
+            background: #564b93;
+        }
+
+        .signup-btn:hover {
+            background: #ff5a75;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to My Website</h1>
+        <p>Join us and explore amazing features.</p>
+        <div class="buttons">
+            <a href="/UserLogin" class="login-btn">Login</a>
+            <a href="/UserSignup" class="signup-btn">Signup</a>
+        </div>
+    </div>
+</body>
+</html>
