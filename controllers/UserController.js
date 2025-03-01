@@ -1,7 +1,15 @@
 const UserCollection = require('../models/user');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer'); 
+const session=require('express-session')
 require("dotenv").config();
+
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+  }));
 
 //! Render Pages
 const userlogin = (req, res) => res.render('UserLogin');
