@@ -3,6 +3,14 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer'); 
 require("dotenv").config();
 
+//! Render Pages
+const userlogin = (req, res) => res.render('UserLogin');
+const userSignup = (req, res) => res.render('UserSignup');
+const homepage = (req, res) => res.render('Homepage');
+const forgetPassword = (req, res) => res.render('forgetPassword');
+const otp = (req, res) => res.render('otp');
+const resetPassword = (req, res) => res.render('ResetPassword');
+
 let otpStorage = {}; // Temporary storage for OTPs
 
 //! Generate a 6-digit OTP
@@ -27,7 +35,7 @@ const sendOtpEmail = async (email, otp) => {
             from: process.env.EMAIL_ADDRESS,
             to: email,
             subject: "Your OTP Code",
-            text: `Your OTP is: ${otp}. It expires in 5 minutes.`,
+            text: `Your OTP is: ${otp}. It expires in 1 minute.`,
         };
 
         await transporter.sendMail(mailOptions);
@@ -37,66 +45,101 @@ const sendOtpEmail = async (email, otp) => {
     }
 };
 
-//! Render Pages
-const userlogin = (req, res) => res.render('UserLogin');
-const userSignup = (req, res) => res.render('UserSignup');
-const homepage = (req, res) => res.render('Homepage');
-const forgetPassword = (req, res) => res.render('forgetPassword');
-const otp = (req, res) => res.render('otp');
-const resetPassword = (req, res) => res.render('ResetPassword');
 
 
-//! User Login Handler
-const userLoginPost = async (req, res) => {
+const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+  
+  //! User Login Handler
+  const userLoginPost = async (req, res) => {
     const { email, password } = req.body;
-    try {
-        const user = await UserCollection.findOne({ email });
-
-        if (!user) {
-            return res.render('UserLogin', { errorMessage: 'User not found', successMessage: null });
-        }
-
-        if (password !== user.password) { 
-            return res.render('UserLogin', { errorMessage: 'Invalid email or password', successMessage: null });
-        }
-
-        return res.render('UserLogin', { 
-            successMessage: 'Login successful! Redirecting to homepage...', 
-            errorMessage: null 
-        });
-
-    } catch (err) {
-        return res.render('UserLogin', { 
-            errorMessage: 'Invalid email or password', 
-            successMessage: null 
-        });
+  
+    // Check if email or password is empty
+    if (!email || !password) {
+      return res.render('UserLogin', { 
+        errorMessage: 'Please fill in all fields', 
+        successMessage: null 
+      });
     }
-};
-
+  
+    // Validate email format
+    if (!validateEmail(email)) {
+      return res.render('UserLogin', { 
+        errorMessage: 'Please enter a valid email address', 
+        successMessage: null 
+      });
+    }
+  
+    try {
+      const user = await UserCollection.findOne({ email });
+  
+      if (!user) {
+        return res.render('UserLogin', { 
+          errorMessage: 'User not found', 
+          successMessage: null 
+        });
+      }
+  
+      if (password !== user.password) { 
+        return res.render('UserLogin', { 
+          errorMessage: 'Invalid email or password', 
+          successMessage: null 
+        });
+      }
+  
+      return res.render('UserLogin', { 
+        successMessage: 'Login successful! Redirecting to homepage...', 
+        errorMessage: null 
+      });
+  
+    } catch (err) {
+      return res.render('UserLogin', { 
+        errorMessage: 'An error occurred. Please try again.', 
+        successMessage: null 
+      });
+    }
+  };
+  
 //! User Signup Handler
 
 
 const userSignupPost = async (req, res) => {
     const { email, password, username } = req.body;
+
+    // Validate email format
+    if (!validateEmail(email)) {
+        return res.render('UserSignup', { 
+            errorMessage: 'Please enter a valid email address', 
+            successMessage: null 
+        });
+    }
+
     try {
+        // Check if user already exists with the same email or username
         const existingUser = await UserCollection.findOne({
             $or: [{ email }, { username }]
         });
 
         if (existingUser) {
-            return res.render('UserSignup', { errorMessage: 'User already exists with this email or username' });
+            return res.render('UserSignup', { 
+                errorMessage: 'User already exists with this email or username', 
+                successMessage: null 
+            });
         }
 
-        // Hash the password before saving
-        const hashedPassword = await bcrypt.hash(password, 10);
-
+        // Create a new user without hashing the password
         const newUser = new UserCollection({
             email,
             username,
-            password: hashedPassword // Store the hashed password
+            password // Store the password in plain text (not recommended)
         });
 
+        // Save the user to the database
         await newUser.save();
+
+        // Render the signup page with a success message
         res.render('UserSignup', {
             successMessage: 'User registered successfully! You can now log in.',
             errorMessage: null
@@ -104,7 +147,10 @@ const userSignupPost = async (req, res) => {
 
     } catch (err) {
         console.error("Signup error:", err);
-        res.status(500).render('UserSignup', { errorMessage: 'Internal Server Error', successMessage: null });
+        res.status(500).render('UserSignup', { 
+            errorMessage: 'Internal Server Error', 
+            successMessage: null 
+        });
     }
 };
 
@@ -122,15 +168,23 @@ const forgetPasswordPost = async (req, res) => {
             return res.render('forgetPassword', { errorMessage: 'User not found. Please check your email.', successMessage: null });
         }
 
-        // Generate and store OTP
+        // Generate and store OTP with timestamp
         const otp = generateRandomOtp();
-        otpStorage[email] = otp;
+        otpStorage[email] = {
+            otp,
+            timestamp: Date.now()
+        };
 
         // Send OTP via email
         await sendOtpEmail(email, otp);
 
-        // ✅ Pass `userEmail` when rendering `otp.ejs`
-        return res.render('otp', { successMessage: 'OTP has been sent to your email. Please check your inbox.', errorMessage: null, userEmail: email });
+        // ✅ Pass `userEmail` and `showResendButton` when rendering `otp.ejs`
+        return res.render('otp', { 
+            successMessage: 'OTP has been sent to your email. Please check your inbox.', 
+            errorMessage: null, 
+            userEmail: email,
+            showResendButton: false // Default value
+        });
 
     } catch (error) {
         console.error("Error in forgetPasswordPost:", error);
@@ -140,16 +194,28 @@ const forgetPasswordPost = async (req, res) => {
 
 
 //! OTP Verification Handler
-//! OTP Verification Handler
 const otpVerifyPost = async (req, res) => {
     const { email, otp1, otp2, otp3, otp4, otp5, otp6 } = req.body;
     const otp = `${otp1}${otp2}${otp3}${otp4}${otp5}${otp6}`;
 
-    if (!otpStorage[email] || otpStorage[email] !== otp) {
+    const storedOtpData = otpStorage[email];
+
+    if (!storedOtpData || storedOtpData.otp !== otp) {
         return res.render('otp', { 
             errorMessage: 'Invalid OTP. Try again.', 
             successMessage: null, 
-            userEmail: email 
+            userEmail: email,
+            showResendButton: true // Show resend button
+        });
+    }
+
+    // Check if OTP has expired (1 minute = 60000 milliseconds)
+    if (Date.now() - storedOtpData.timestamp > 60000) {
+        return res.render('otp', { 
+            errorMessage: 'OTP has expired. Please resend OTP.', 
+            successMessage: null, 
+            userEmail: email,
+            showResendButton: true // Show resend button
         });
     }
 
@@ -157,22 +223,23 @@ const otpVerifyPost = async (req, res) => {
 
     return res.redirect(`/ResetPassword?successMessage=OTP verified successfully!&email=${email}`);
 };
-
 //! Reset Password Handler
 const resetPasswordPost = async (req, res) => {
     const { newPassword, confirmPassword, email } = req.body;
 
-    if (!newPassword || !confirmPassword) {
-        return res.status(400).json({ 
+    if (!newPassword || !confirmPassword || !email) {
+        return res.render('resetPassword', { 
             success: false, 
-            message: 'Please fill in all fields.' 
+            errorMessage: 'Please fill in all fields.',
+            email
         });
     }
 
     if (newPassword !== confirmPassword) {
-        return res.status(400).json({ 
+        return res.render('resetPassword', { 
             success: false, 
-            message: 'Passwords do not match.' 
+            errorMessage: 'Passwords do not match.',
+            email
         });
     }
 
@@ -180,67 +247,70 @@ const resetPasswordPost = async (req, res) => {
         const user = await UserCollection.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ 
+            return res.render('resetPassword', { 
                 success: false, 
-                message: 'User not found.' 
+                errorMessage: 'User not found.',
+                email
             });
         }
 
         // Update the user's password
-        user.password = newPassword; // Assuming you're storing plain text passwords
+        user.password = newPassword; // Hash this password in a real app!
         await user.save();
 
-        return res.status(200).json({ 
+        // Show success message for 2 seconds and then redirect
+        return res.render('resetPassword', { 
             success: true, 
-            message: 'Password reset successful! Redirecting to login page...' 
+            message: 'Password reset successful! Redirecting to login...',
+            email,
+            redirect: true // This flag helps in JavaScript redirection
         });
 
     } catch (error) {
         console.error('Error resetting password:', error);
-        return res.status(500).json({ 
+        return res.render('resetPassword', { 
             success: false, 
-            message: 'Something went wrong. Please try again.' 
+            errorMessage: 'Something went wrong. Please try again.',
+            email
         });
     }
 };
 
-const resendOtpPost = async (req, res) => {
-    console.log('Request body:', req.body); // Log the request body
 
+const resendOtpPost = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-        console.log('Email is missing in the request body.'); // Log missing email
         return res.status(400).json({ 
             success: false, 
-            message: 'Email is required to resend OTP.' 
+            errorMessage: 'Email is required to resend OTP.' 
         });
     }
 
     try {
         const newOtp = generateRandomOtp(); 
-        console.log(`Generated new OTP for ${email}: ${newOtp}`); // Log the new OTP
+        otpStorage[email] = {
+            otp: newOtp,
+            timestamp: Date.now()
+        };
 
-        otpStorage[email] = newOtp; // Store the new OTP
-        console.log('Updated otpStorage:', otpStorage); // Log the updated otpStorage
+        await sendOtpEmail(email, newOtp);
 
-        await sendOtpEmail(email, newOtp); // Send the OTP via email
-        console.log('OTP email sent successfully.'); // Log email success
-
-        return res.status(200).json({ 
-            success: true, 
-            message: 'A new OTP has been sent to your email.' 
+        // Render the OTP page with the success message and other required variables
+        return res.render('otp', { 
+            successMessage: 'A new OTP has been sent to your email.', 
+            userEmail: email, 
+            showResendButton: false 
         });
 
     } catch (error) {
-        console.error("Error resending OTP:", error); // Log the error
+        console.error("Error resending OTP:", error);
         return res.status(500).json({ 
             success: false, 
-            message: 'Something went wrong. Try again.' 
+            errorMessage: 'Something went wrong. Try again.' 
         });
     }
 };
-
 module.exports = {
     userlogin,
     userSignup,

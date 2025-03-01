@@ -152,17 +152,17 @@ button:hover {
       <% if (typeof successMessage !== 'undefined' && successMessage) { %>
         <div class="success-message" id="success-message"><%= successMessage %></div>
       <% } %>
-
+      
       <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
         <div class="error-message" id="error-message"><%= errorMessage %></div>
       <% } %>
 
       <div class="input-field">
-        <input type="text" name="email" required>
+        <input type="text" name="email">
         <label>Enter your email</label>
       </div>
       <div class="input-field">
-        <input type="password" name="password" required>
+        <input type="password" name="password">
         <label>Enter your password</label>
       </div>
       <div class="forget">
@@ -198,7 +198,35 @@ button:hover {
         }, 3000);
       }
     };
-  </script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+    const email = document.querySelector('input[name="email"]').value;
+    const password = document.querySelector('input[name="password"]').value;
 
+    // Basic email validation using regex
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !password) {
+      e.preventDefault(); // Prevent form submission
+      const errorBox = document.getElementById("error-message");
+      if (errorBox) {
+        errorBox.textContent = 'Please fill in all fields';
+        errorBox.style.display = "block";
+        setTimeout(() => {
+          errorBox.style.display = "none";
+        }, 3000);
+      }
+    } else if (!emailPattern.test(email)) {
+      e.preventDefault(); // Prevent form submission
+      const errorBox = document.getElementById("error-message");
+      if (errorBox) {
+        errorBox.textContent = 'Please enter a valid email address';
+        errorBox.style.display = "block";
+        setTimeout(() => {
+          errorBox.style.display = "none";
+        }, 3000);
+      }
+    }
+  });
+  </script>
 </body>
 </html>

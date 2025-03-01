@@ -6,7 +6,7 @@
   <title>Signup Form</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
-  
+
     * {
       margin: 0;
       padding: 0;
@@ -21,61 +21,66 @@
       min-height: 100vh;
       width: 100%;
       padding: 0 10px;
-      background: linear-gradient(to bottom right, #444, #111);
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url("/images/login-hero-bg.jpg"), #000;
+      background-position: center;
+      background-size: cover;
     }
 
     .wrapper {
-      width: 350px;
+      width: 400px;
       border-radius: 8px;
-      padding: 25px;
+      padding: 30px;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      background: rgba(255, 255, 255, 0.1);
     }
 
     h2 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
+      font-size: 2rem;
+      margin-bottom: 20px;
       color: #fff;
     }
 
     .input-field {
       position: relative;
-      margin: 12px 0;
-      width: 100%;
+      border-bottom: 2px solid #ccc;
+      margin: 15px 0;
     }
 
     .input-field label {
       position: absolute;
       top: 50%;
-      left: 10px;
+      left: 0;
       transform: translateY(-50%);
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
       pointer-events: none;
-      transition: 0.2s ease;
+      transition: 0.15s ease;
     }
 
     .input-field input {
       width: 100%;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid #fff;
-      padding: 10px;
-      border-radius: 5px;
-      color: #fff;
-      font-size: 14px;
+      height: 40px;
+      background: transparent;
+      border: none;
       outline: none;
+      font-size: 16px;
+      color: #fff;
     }
 
     .input-field input:focus ~ label,
     .input-field input:valid ~ label {
-      font-size: 12px;
-      top: -5px;
-      left: 10px;
-      background: #000;
-      padding: 2px 5px;
+      font-size: 0.8rem;
+      top: 10px;
+      transform: translateY(-120%);
     }
 
     button {
@@ -83,26 +88,35 @@
       color: #000;
       font-weight: 600;
       border: none;
-      padding: 10px 16px;
+      padding: 12px 20px;
       cursor: pointer;
       border-radius: 3px;
-      font-size: 14px;
+      font-size: 16px;
+      border: 2px solid transparent;
       transition: 0.3s ease;
       width: 100%;
-      margin-top: 10px;
+      margin-top: 20px;
     }
 
     button:hover {
       color: #fff;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid #fff;
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.15);
     }
 
     .register {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 30px;
       color: #fff;
-      font-size: 14px;
+    }
+
+    .register a {
+      color: #efefef;
+      text-decoration: none;
+    }
+
+    .register a:hover {
+      text-decoration: underline;
     }
 
     .error-message {
@@ -129,25 +143,29 @@
   <div class="wrapper">
     <h2>Signup</h2>
 
-    <% if (typeof successMessage!=='undefined' && successMessage) { %>
-      <div class="message-box success-message" id="success-message"><%=successMessage %></div>
+    <!-- Success and error message containers -->
+    <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+      <div class="success-message" id="success-message"><%= successMessage %></div>
     <% } %>
 
     <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
       <div class="error-message" id="error-message"><%= errorMessage %></div>
     <% } %>
 
-    <form action="/userSignupPost" method="post">
+    <!-- Empty field error message (client-side) -->
+    <div class="error-message" id="empty-field-error" style="display: none;">Please fill in all fields.</div>
+
+    <form id="signup-form" action="/userSignupPost" method="post">
       <div class="input-field">
-        <input type="text" name="username" required>
+        <input type="text" name="username" id="username">
         <label>Enter your username</label>
       </div>
       <div class="input-field">
-        <input type="email" name="email" required>
+        <input type="email" name="email" id="email">
         <label>Enter your email</label>
       </div>
       <div class="input-field">
-        <input type="password" name="password" required>
+        <input type="password" name="password" id="password">
         <label>Enter your password</label>
       </div>
       <button type="submit">Sign Up</button>
@@ -158,21 +176,42 @@
   </div>
 
   <script>
+    // Client-side validation
+    document.getElementById('signup-form').addEventListener('submit', function (event) {
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Check if any field is empty
+      if (!username || !email || !password) {
+        event.preventDefault(); // Prevent form submission
+        document.getElementById('empty-field-error').style.display = 'block'; // Show error message
+      }
+    });
+
+    // Hide messages after some time
     window.onload = function() {
       const successBox = document.getElementById("success-message");
       const errorBox = document.getElementById("error-message");
-  
+      const emptyFieldError = document.getElementById("empty-field-error");
+
       if (successBox) {
         successBox.style.display = "block";
         setTimeout(() => {
           window.location.href = "/UserLogin";
         }, 2000);
       }
-  
+
       if (errorBox) {
         errorBox.style.display = "block";
         setTimeout(() => {
           errorBox.style.display = "none";
+        }, 3000);
+      }
+
+      if (emptyFieldError) {
+        setTimeout(() => {
+          emptyFieldError.style.display = "none";
         }, 3000);
       }
     };

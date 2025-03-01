@@ -12,7 +12,11 @@ router.get('/UserSignup',UserController.userSignup)
 router.get('/forgetPassword',UserController.forgetPassword)
 router.post('/forgetPasswordPost',UserController.forgetPasswordPost)
 
-router.get('/ResetPassword',UserController.resetPassword)
+// In your route handler for rendering the reset password page
+router.get('/resetPassword', (req, res) => {
+    const email = req.query.email; // Assuming email is passed as a query parameter
+    res.render('resetPassword', { email });
+  });
 router.post('/resetPasswordPost',UserController.resetPasswordPost)
 
 router.get('/otp',UserController.otp)
