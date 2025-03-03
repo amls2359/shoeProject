@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer'); 
 const session=require('express-session')
 require("dotenv").config();
+const express=require('express')
+const app=express()
 
 app.use(session({
     secret: 'your-secret-key',
