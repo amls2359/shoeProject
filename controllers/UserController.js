@@ -98,6 +98,11 @@ const validateEmail = (email) => {
           successMessage: null 
         });
       }
+      //set session data
+
+      req.session.UserId=user._id;
+      req.session.email = user.email;
+      req.session.isAuthenticated=true
   
       return res.render('UserLogin', { 
         successMessage: 'Login successful! Redirecting to homepage...', 
