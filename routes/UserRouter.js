@@ -29,7 +29,7 @@ router.post('/otpVerifyPost',UserController.otpVerifyPost)
 
 
 
-router.get('/Homepage',UserController.homepage)
+router.get('/Homepage',authMiddleware,UserController.homepage)
 
 
 
