@@ -4,4 +4,10 @@ const authController=require('../controllers/authController')
 const router=express.Router();
 
 //login route
-router.post('/UserLogin',authController.login)
+router.post('/login',authController.login)
+
+//logout route
+
+router.get('/logout',authController.logout)
+
+module,exports=router;
