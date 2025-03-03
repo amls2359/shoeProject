@@ -72,6 +72,13 @@
 <body>
     <div class="container">
         <h1>Welcome to My Website</h1>
+        <% if (isAuthenticated) { %>
+            <p>Welcome, <%= email %>!</p>
+            <a href="/logout">Logout</a>
+        <% } else { %>
+            <a href="/UserLogin">Login</a>
+            <a href="/UserSignup">Signup</a>
+        <% } %>
         <p>Join us and explore amazing features.</p>
         <div class="buttons">
             <a href="/UserLogin" class="login-btn">Login</a>

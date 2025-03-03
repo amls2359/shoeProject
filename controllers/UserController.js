@@ -16,7 +16,12 @@ app.use(session({
 //! Render Pages
 const userlogin = (req, res) => res.render('UserLogin');
 const userSignup = (req, res) => res.render('UserSignup');
-const homepage = (req, res) => res.render('Homepage');
+const homepage = (req, res) => {
+    res.render('Homepage', {
+        isAuthenticated: req.session.isAuthenticated,
+        email: req.session.email
+    });
+};
 const forgetPassword = (req, res) => res.render('forgetPassword');
 const otp = (req, res) => res.render('otp');
 const resetPassword = (req, res) => res.render('ResetPassword');
