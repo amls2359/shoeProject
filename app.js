@@ -3,9 +3,21 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const UserRouter=require('./routes/UserRouter')
 const path = require('path');
+const exress=require('express')
+const session=require('express-session')
 
 const app = express();
 const port =  3001;
+
+app.use(session({
+    secret:'key',
+    resave:false,
+    saveUninitialized:false,
+    cookie:{
+        secure:false,
+        maxAge:1000*60*60*24
+    }
+}))
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
