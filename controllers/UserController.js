@@ -154,6 +154,10 @@ const userSignupPost = async (req, res) => {
         // Save the user to the database
         await newUser.save();
 
+      req.session.UserId=user._id;
+      req.session.email = user.email;
+      req.session.isAuthenticated=true
+
         // Render the signup page with a success message
         res.render('UserSignup', {
             successMessage: 'User registered successfully! You can now log in.',
