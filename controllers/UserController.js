@@ -20,6 +20,7 @@ const Landingpage = (req, res) => res.render('Landingpage')
 const forgetPassword = (req, res) => res.render('forgetPassword');
 const otp = (req, res) => res.render('otp');
 const resetPassword = (req, res) => res.render('ResetPassword');
+const Homepage=(req,res)=>res.render('Homepage')
 
 let otpStorage = {}; // Temporary storage for OTPs
 
@@ -343,5 +344,6 @@ module.exports = {
     resetPassword,
     resetPasswordPost,
     sendOtpEmail,
-    resendOtpPost
+    resendOtpPost,
+    Homepage
 };
