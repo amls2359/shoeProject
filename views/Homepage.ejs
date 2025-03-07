@@ -151,6 +151,29 @@
                 width: 100%;
                 margin-right: none;
             }
+            /* Add this CSS for the Sign In button */
+.container .sign-in button {
+    background: transparent;
+    border: 2px solid #f74f10;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 20px;
+    transition: 0.3s linear;
+}
+
+.container .sign-in button:hover {
+    background: #f74f10;
+    color: black;
+    box-shadow: 0 0 20px #f74f10;
+}
+
+/* Adjust the search icon margin to align with the new button */
+.container .search i {
+    margin-right: 10px; /* Reduced margin to accommodate the Sign In button */
+}
         }
     </style>
 </head>
@@ -169,6 +192,9 @@
             </div>
             <div class="search">
                 <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="sign-in">
+                <button>Sign In</button>
             </div>
         </div>
     </nav>
