@@ -16,7 +16,7 @@ app.use(session({
 //! Render Pages
 const userlogin = (req, res) => res.render('UserLogin');
 const userSignup = (req, res) => res.render('UserSignup');
-const homepage = (req, res) => {
+const Landingpage = (req, res) => {
     res.render('Homepage', {
         isAuthenticated: req.session.isAuthenticated,
         email: req.session.email
@@ -340,7 +340,7 @@ module.exports = {
     userSignup,
     userSignupPost,
     userLoginPost,
-    homepage,
+    Landingpage,
     forgetPassword,
     forgetPasswordPost,
     otp,

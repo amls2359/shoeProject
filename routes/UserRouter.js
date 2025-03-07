@@ -29,7 +29,7 @@ router.post('/otpVerifyPost',UserController.otpVerifyPost)
 
 
 
-router.get('/Homepage',authMiddleware,UserController.homepage)
+router.get('/Landingpage',authMiddleware,UserController.Landingpage)
 
 router.get('/logout',(req,res)=>{
   req.session.destroy(err=>{
