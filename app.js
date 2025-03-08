@@ -5,7 +5,6 @@ const UserRouter=require('./routes/UserRouter')
 const adminRoute=require('./routes/adminRoute')
 const path = require('path');
 const session=require('express-session')
-
 const app = express();
 const port =  3000;
 
