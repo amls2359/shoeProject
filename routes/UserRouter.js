@@ -29,11 +29,6 @@ router.post('/otpVerifyPost',UserController.otpVerifyPost)
 router.get('/Landingpage',UserController.Landingpage)
 router.get('/Homepage',UserController.Homepage)
 
-//login route
-router.post('/login',UserController.login)
-
-//logout route
-
 router.get('/logout',UserController.logout)
 
 
