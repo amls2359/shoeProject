@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const UserRouter=require('./routes/UserRouter')
+const adminRoute=require('./routes/adminRoute')
 const path = require('path');
 const session=require('express-session')
 
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
 app.use('/', UserRouter);
+app.use('/admin',adminRoute)
 
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
