@@ -11,7 +11,7 @@ const logout = (req, res) => {
         res.clearCookie('connect.sid'); // 'connect.sid' is the default name for the session cookie
 
         // Redirect to the login page or home page
-        res.redirect('/login');
+        res.redirect('/UserLogin');
     });
 };
 module.exports={
