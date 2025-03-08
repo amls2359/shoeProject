@@ -29,17 +29,13 @@ router.post('/otpVerifyPost',UserController.otpVerifyPost)
 router.get('/Landingpage',UserController.Landingpage)
 router.get('/Homepage',UserController.Homepage)
 
+//login route
+router.post('/login',UserController.login)
 
-router.get('/logout',(req,res)=>{
-  req.session.destroy(err=>{
-    if(err)
-    {
-      return res.redirect('/Homepage')
-    }
-    res.clearCookie('connect.sid')
-    res.redirect('/UserLogin')
-  })
-})
+//logout route
+
+router.get('/logout',UserController.logout)
+
 
 
 module.exports=router;
