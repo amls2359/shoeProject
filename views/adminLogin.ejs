@@ -154,7 +154,12 @@ button:hover {
   <div class="wrapper">
     <form action="/adminloginpost" method="post">
       <h2>Admin Login</h2>
-      
+          <!-- Error Message Box -->
+          <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error-message" id="error-message">
+              <%= error %>
+            </div>
+          <% } %>
 
       <div class="input-field">
         <input type="text" name="username">

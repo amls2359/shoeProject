@@ -6,7 +6,6 @@ const adminLogin=(req,res)=>res.render('adminLogin')
 
 //adminlogin post
 const adminloginpost = async (req, res) => {
-    
     try {
         const admin = {
             username: "admin",
@@ -17,8 +16,7 @@ const adminloginpost = async (req, res) => {
             req.session.admin = admin.username;
             res.redirect("/admin/dashboard");
         } else {
-           res.redirect('/admin/adminlogin/?message=InvalidEntry')
-            
+            res.redirect('/admin/adminlogin?error=Invalid username or password');
         }
     } catch (error) {
         console.log("Error:", error);
