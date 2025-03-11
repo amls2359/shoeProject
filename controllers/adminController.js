@@ -44,16 +44,7 @@ const usermanagementpost=async(req,res)=>{
             password: hashedPassword,
             isblocked:true,
         }
-        await UserCollection.insertMany([data])
-        .then(()=>{
-            console.log("inserted sucessful");
-            res.redirect('/admin/usermanagement')
-        }).catch((err)=>{
-            console.log("inserted failed",err);
-        })
-        res.redirect("/admin/usermanagement")
     }
-
     catch (error) {
         console.log("Error:", error);
         res.status(500).send("Internal Server Error");
