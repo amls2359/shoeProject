@@ -36,20 +36,7 @@ const usermanagement = async (req, res) => {
     }
 }
 
-const usermanagementpost=async(req,res)=>{
-    try{
-        const data={
-            username: req.body.username,
-            email: req.body.Email,
-            password: hashedPassword,
-            isblocked:true,
-        }
-    }
-    catch (error) {
-        console.log("Error:", error);
-        res.status(500).send("Internal Server Error");
-    }
-}
+
 
 
 module.exports={
@@ -57,5 +44,5 @@ module.exports={
     adminloginpost,
     dashboard,
     usermanagement,
-    usermanagementpost
+
 }
