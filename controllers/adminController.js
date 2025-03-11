@@ -26,8 +26,20 @@ const adminloginpost = async (req, res) => {
     }
 };
 
+const usermanagement = async (req, res) => {
+    try {
+       const userdata=await UserCollection.find();
+       console.log("userdata",userdata);
+        res.render('usermanagement',{userdata});
+    } catch (error) {
+        console.log("Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
 module.exports={
     adminLogin,
     adminloginpost,
-    dashboard
+    dashboard,
+    usermanagement
 }
