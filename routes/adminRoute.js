@@ -7,5 +7,7 @@ router.post('/adminloginpost',adminController.adminloginpost)
 
 router.get('/dashboard',adminController.dashboard)
 
+router.get('/usermanagement',adminController.usermanagement)
+
 
 module.exports=router
