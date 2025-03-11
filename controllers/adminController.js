@@ -3,6 +3,7 @@ const UserCollection =require('../models/user')
 const express=require('express')
 
 const adminLogin=(req,res)=>res.render('adminLogin')
+const 
 
 //adminlogin post
 const adminloginpost = async (req, res) => {
