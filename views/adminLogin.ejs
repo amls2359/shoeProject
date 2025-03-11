@@ -177,35 +177,22 @@ h2 {
 
   <script>
   
-    document.querySelector('form').addEventListener('submit', function (e) {
-    const username = document.querySelector('input[name="username"]').value;
-    const password = document.querySelector('input[name="password"]').value;
+  document.querySelector('form').addEventListener('submit', function (e) {
+  const username = document.querySelector('input[name="username"]').value;
+  const password = document.querySelector('input[name="password"]').value;
 
-    // Basic email validation using regex
-   
-
-    if (!username || !password) {
-      e.preventDefault(); // Prevent form submission
-      const errorBox = document.getElementById("error-message");
-      if (errorBox) {
-        errorBox.textContent = 'Please fill in all fields';
-        errorBox.style.display = "block";
-        setTimeout(() => {
-          errorBox.style.display = "none";
-        }, 3000);
-      }
-    } 
-      e.preventDefault(); // Prevent form submission
-      const errorBox = document.getElementById("error-message");
-      if (errorBox) {
-        errorBox.textContent = 'Please enter a valid email address';
-        errorBox.style.display = "block";
-        setTimeout(() => {
-          errorBox.style.display = "none";
-        }, 3000);
-      }
+  if (!username || !password) {
+    e.preventDefault(); // Prevent form submission
+    const errorBox = document.getElementById("error-message");
+    if (errorBox) {
+      errorBox.textContent = 'Please fill in all fields';
+      errorBox.style.display = "block";
+      setTimeout(() => {
+        errorBox.style.display = "none";
+      }, 3000);
     }
-  );
+  }
+});
   </script>
 </body>
 </html>
