@@ -178,13 +178,13 @@ h2 {
   <script>
   
     document.querySelector('form').addEventListener('submit', function (e) {
-    const email = document.querySelector('input[name="username"]').value;
+    const username = document.querySelector('input[name="username"]').value;
     const password = document.querySelector('input[name="password"]').value;
 
     // Basic email validation using regex
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+   
 
-    if (!email || !password) {
+    if (!username || !password) {
       e.preventDefault(); // Prevent form submission
       const errorBox = document.getElementById("error-message");
       if (errorBox) {
@@ -194,7 +194,7 @@ h2 {
           errorBox.style.display = "none";
         }, 3000);
       }
-    } else if (!emailPattern.test(email)) {
+    } 
       e.preventDefault(); // Prevent form submission
       const errorBox = document.getElementById("error-message");
       if (errorBox) {
@@ -205,7 +205,7 @@ h2 {
         }, 3000);
       }
     }
-  });
+  );
   </script>
 </body>
 </html>
