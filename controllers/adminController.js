@@ -8,10 +8,14 @@ const dashboard=(req,res)=>res.render('dashboard')
 //adminlogin post
 const adminloginpost = async (req, res) => {
     try {
+        console.log('before');
+        
         const admin = {
             username: "admin",
             password: "12345"
         };
+        console.log('body');
+        
 
         if (req.body.username === admin.username && req.body.password === admin.password) {
             req.session.admin = admin.username;
