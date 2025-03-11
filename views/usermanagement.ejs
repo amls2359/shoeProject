@@ -127,7 +127,25 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <h2 style="text-align: center">User Management</h2>  <!-- Add your main content here -->
+        <h2 style="text-align: center">User Management</h2>
+    
+        <!-- Search and Filter Form -->
+        <form action="/admin/usermanagement" method="GET" style="margin-bottom: 20px;">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search by username or email"
+                value="<%= searchQuery %>"
+            />
+            <select name="status">
+                <option value="">All Statuses</option>
+                <option value="active" <%= statusFilter === 'active' ? 'selected' : '' %>>Active</option>
+                <option value="inactive" <%= statusFilter === 'inactive' ? 'selected' : '' %>>Inactive</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    
+        <!-- User Table -->
         <table id="example" class="table-striped" style="width: 100%;">
             <thead>
                 <tr>
@@ -140,18 +158,18 @@
             </thead>
             <tbody>
                 <% userdata.forEach((user, index) => { %>
-                 <tr>
-                    <td><%= index + 1 %></td>
-                    <td><%=user.username%></td>
-                    <td><%=user.email%></td>
-                    <td>Active</td>
-                    <td>
-                        <button>Edit</button>
-                        <button>Delete</button>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= user.username %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.status || 'Active' %></td>
+                        <td>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </td>
+                    </tr>
                 <% }); %>
-            </tbody>  
+            </tbody>
         </table>
     </div>
 </body>
