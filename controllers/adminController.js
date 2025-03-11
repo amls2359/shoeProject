@@ -19,6 +19,8 @@ const adminloginpost = async (req, res) => {
             console.log('after body');
             
         } else {
+            console.log('error');
+            
             return res.render('adminLogin', { 
                 errorMessage: 'Invalid username or password', 
                 successMessage: null 
