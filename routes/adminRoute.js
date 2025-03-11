@@ -5,6 +5,6 @@ const adminController=require('../controllers/adminController')
 router.get('/adminLogin',adminController.adminLogin)
 router.post('/adminloginpost',adminController.adminloginpost)
 
-router.get('/admin/dashboard',adminController.dashboard)
+router.get('/dashboard',adminController.dashboard)
 
 module.exports=router
