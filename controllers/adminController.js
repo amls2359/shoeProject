@@ -3,7 +3,7 @@ const UserCollection =require('../models/user')
 const express=require('express')
 
 const adminLogin=(req,res)=>res.render('adminLogin')
-const 
+const dashboard=(req,res)=>res.render('dashboard')
 
 //adminlogin post
 const adminloginpost = async (req, res) => {
@@ -27,5 +27,6 @@ const adminloginpost = async (req, res) => {
 
 module.exports={
     adminLogin,
-    adminloginpost
+    adminloginpost,
+    dashboard
 }
