@@ -151,9 +151,9 @@ h2 {
     <form action="/admin/adminloginpost" method="post">
       <h2>Admin Login</h2>
           <!-- Error Message Box -->
-          <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+          <!-- <% if (typeof successMessage !== 'undefined' && successMessage) { %>
             <div class="success-message" id="success-message"><%= successMessage %></div>
-          <% } %>
+          <% } %> -->
           
           <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
             <div class="error-message" id="error-message"><%= errorMessage %></div>
@@ -190,6 +190,17 @@ h2 {
         }
       }
     });
+    // Display server-side error message if it exists
+    const errorMessage = "<%= typeof errorMessage !== 'undefined' ? errorMessage : '' %>";
+    if (errorMessage) {
+      const errorBox = document.getElementById("error-message");
+      if (errorBox) {
+        errorBox.style.display = "block";
+        setTimeout(() => {
+          errorBox.style.display = "none";
+        }, 3000);
+      }
+    }
   </script>
 </body>
 </html>
