@@ -16,7 +16,7 @@ const adminloginpost = async (req, res) => {
         if (req.body.username === admin.username && req.body.password === admin.password) {
             res.redirect("/admin/dashboard");
         } else {
-            return res.render('adminLogin', { 
+            return res.render('/adminLogin', { 
                 errorMessage: 'Invalid username or password', 
                 successMessage: null 
             });
