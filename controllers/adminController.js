@@ -29,7 +29,6 @@ const adminloginpost = async (req, res) => {
 const usermanagement = async (req, res) => {
     try {
        const userdata=await UserCollection.find();
-       console.log("userdata",userdata);
         res.render('usermanagement',{userdata});
     } catch (error) {
         console.log("Error:", error);
