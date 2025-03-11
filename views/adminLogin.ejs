@@ -163,7 +163,7 @@ button:hover {
 
       <div class="input-field">
         <input type="text" name="username">
-        <label>Enter your name</label>
+        <label>Enter your username</label>
       </div>
       <div class="input-field">
         <input type="password" name="password">
@@ -176,7 +176,7 @@ button:hover {
   <script>
   
     document.querySelector('form').addEventListener('submit', function (e) {
-    const email = document.querySelector('input[name="email"]').value;
+    const email = document.querySelector('input[name="username"]').value;
     const password = document.querySelector('input[name="password"]').value;
 
     // Basic email validation using regex
