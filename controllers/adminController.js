@@ -12,9 +12,12 @@ const adminloginpost = async (req, res) => {
             username: "admin",
             password: "12345"
         };
-
+           console.log('before body');
+           
         if (req.body.username === admin.username && req.body.password === admin.password) {
             res.redirect("/admin/dashboard");
+            console.log('after body');
+            
         } else {
             return res.render('adminLogin', { 
                 errorMessage: 'Invalid username or password', 
