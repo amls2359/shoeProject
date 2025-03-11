@@ -4,36 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+<style>
+    body {
+    display: flex;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar h2 {
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+button {
+    margin: 10px 0;
+}
+</style>
+
 </head>
 <body>
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
         <ul>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#users">Users</a></li>
-            <li><a href="#settings">Settings</a></li>
-            <li><a href="#logout">Logout</a></li>
+            <li><a href="#users">User Management</a></li>
+            <li><a href="#products">Product Management</a></li>
         </ul>
     </div>
     <div class="main-content">
-        <header>
-            <h1>Welcome, Admin</h1>
-            <p>March 11, 2025</p>
-        </header>
-        <section id="dashboard">
-            <h2>Dashboard</h2>
-            <p>Dashboard content goes here.</p>
-        </section>
         <section id="users">
-            <h2>Users</h2>
-            <p>Users content goes here.</p>
+            <h2>User Management</h2>
+            <button onclick="addUser()">Add User</button>
+            <div id="user-list"></div>
         </section>
-        <section id="settings">
-            <h2>Settings</h2>
-            <p>Settings content goes here.</p>
+        <section id="products">
+            <h2>Product Management</h2>
+            <button onclick="addProduct()">Add Product</button>
+            <div id="product-list"></div>
         </section>
     </div>
-    <script src="scripts.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    loadUsers();
+    loadProducts();
+});
+
+function loadUsers() {
+    const userList = document.getElementById('user-list');
+    userList.innerHTML = '<p>Loading users...</p>';
+    // Fetch users from API or database and display them
+    setTimeout(() => {
+        userList.innerHTML = '<p>No users found.</p>'; // Replace with user data
+    }, 1000);
+}
+
+function loadProducts() {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = '<p>Loading products...</p>';
+    // Fetch products from API or database and display them
+    setTimeout(() => {
+        productList.innerHTML = '<p>No products found.</p>'; // Replace with product data
+    }, 1000);
+}
+
+function addUser() {
+    const userName = prompt('Enter user name:');
+    if (userName) {
+        alert(`User "${userName}" added successfully!`);
+        // Add user to database or API
+        loadUsers();
+    }
+}
+
+function addProduct() {
+    const productName = prompt('Enter product name:');
+    if (productName) {
+        alert(`Product "${productName}" added successfully!`);
+        // Add product to database or API
+        loadProducts();
+    }
+}
+    </script>
 </body>
 </html>
