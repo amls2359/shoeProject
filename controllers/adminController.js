@@ -11,7 +11,7 @@ const adminloginpost = async (req, res) => {
         const admin = {
             username: "admin",
             password: "12345"
-        }
+        };
 
         if (req.body.username === admin.username && req.body.password === admin.password) {
             req.session.admin = admin.username;
