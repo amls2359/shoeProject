@@ -28,14 +28,33 @@ const adminloginpost = async (req, res) => {
 
 const usermanagement = async (req, res) => {
     try {
-       const userdata=await UserCollection.find();
-        res.render('usermanagement',{userdata});
+        const searchQuery = req.query.search || ''; // Get search query from URL
+        const statusFilter = req.query.status || ''; // Get status filter from URL
+
+        // Build the query object
+        const query = {};
+
+        if (searchQuery) {
+            query.$or = [
+                { username: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive username search
+                { email: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive email search
+            ];
+        }
+
+        if (statusFilter) {
+            query.status = statusFilter; // Filter by status (e.g., active/inactive)
+        }
+
+        // Fetch users based on the query
+        const userdata = await UserCollection.find(query);
+
+        // Render the view with user data and search/filter values
+        res.render('usermanagement', { userdata, searchQuery, statusFilter });
     } catch (error) {
         console.log("Error:", error);
         res.status(500).send("Internal Server Error");
     }
-}
-
+};
 
 
 
