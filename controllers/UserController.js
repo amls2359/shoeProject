@@ -160,7 +160,7 @@ const userSignupPost = async (req, res) => {
       req.session.isAuthenticated=true
 
         // Render the signup page with a success message
-        res.render('UserSignup', {
+        res.render('/UserLogin', {
             successMessage: 'User registered successfully! You can now log in.',
             errorMessage: null
         });
