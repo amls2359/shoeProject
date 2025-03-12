@@ -37,7 +37,7 @@ const usermanagement = async (req, res) => {
         if (searchQuery) {
             query.$or = [
                 { username: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive username search
-                { email: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive email search
+                // { email: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive email search
             ];
         }
 
