@@ -46,9 +46,27 @@
             margin-left: 270px; /* Match the width of the sidebar */
             padding: 20px;
             flex-grow: 1; /* Take up remaining space */
-
+            height: 100vh; /* Set height to viewport height */
+            overflow-y: auto; /* Enable vertical scrolling */
         }
 
+        /* Custom scrollbar */
+        .main-content::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Color of the track */
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Color of the scrollbar on hover */
+        }
 
         button {
             margin: 10px 0;
@@ -83,6 +101,10 @@
     <div class="main-content">
         <h2>WELCOME TO DASHBOARD</h2>
         <!-- Add your main content here -->
+        <div style="height: 1500px;"> <!-- Example content to enable scrolling -->
+            <p>This is some example content to make the page scrollable.</p>
+            <p>Add more content here to see the scrollbar in action.</p>
+        </div>
     </div>
 </body>
 </html>
