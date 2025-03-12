@@ -202,15 +202,15 @@
                 </td>
                 <td>
                     <!-- Block Button -->
-                    <% if(!user.isblocked){ %>
-                        <a href="/admin/blockuser/<%= user._id %>" class="btn-danger" style="margin-right: 10px;">Block</a>
-                    <% } %>
-
-                    <!-- Unblock Button -->
-                    <% if(user.isblocked){ %>
-                        <a href="/admin/unblockuser/<%= user._id %>" class="btn-success">Unblock</a>
-                    <% } %>
-                </td>
+                    <td>
+                        <!-- Block Button -->
+                        <% if(!user.isblocked){ %>
+                            <a href="/admin/blockuser/<%= user._id %>" class="btn-danger" style="margin-right: 10px;">Block</a>
+                        <% } else { %>
+                            <!-- Unblock Button -->
+                            <a href="/admin/unblockuser/<%= user._id %>" class="btn-success">Unblock</a>
+                        <% } %>
+                    </td>
             </tr>
         <% }) %>
     </tbody>
