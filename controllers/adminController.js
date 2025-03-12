@@ -1,5 +1,6 @@
 const adminCollection=require('../models/admin')
 const UserCollection =require('../models/user')
+const category=require('../models/category')
 const express=require('express')
 
 const adminLogin=(req,res)=>res.render('adminLogin')
