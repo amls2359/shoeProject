@@ -171,12 +171,12 @@
                             <% } %>
                         </td>
                         <td>
-                            <% if(user.isblocked){%>
-                                <a href="/admin/unblockuser/<%=user.id" class="btn-success">Unblock</a>
-                            <% } else {%>
-                                <a href="/admin/blockuser/<%=user.id%>" class="btn-danger">Block</a>
-                                <% }%>
-                        </td>
+                            <% if(user.isblocked){ %>
+                                <a href="/admin/unblockuser/<%= user.id %>" class="btn-success">Unblock</a>
+                            <% } else { %>
+                                <a href="/admin/blockuser/<%= user.id %>" class="btn-danger">Block</a>
+                            <% } %>
+                        </td>                        
                     </tr>
                 <% }) %>
             </tbody>
