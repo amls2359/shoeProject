@@ -99,36 +99,7 @@
         .table-striped tr:hover {
             background-color: #ddd;
         }
-        /* Block Button (Red) */
-.btn-danger {
-    padding: 6px 12px;
-    background-color: #f44336; /* Red color */
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-}
-
-/* Unblock Button (Green) */
-.btn-success {
-    padding: 6px 12px;
-    background-color: #4CAF50; /* Green color */
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-}
-
-/* Hover Effects */
-.btn-danger:hover {
-    background-color: #d32f2f; /* Darker red on hover */
-}
-
-.btn-success:hover {
-    background-color: #45a049; /* Darker green on hover */
-}
+        
     </style>
 </head>
 <body>
@@ -202,15 +173,15 @@
                 </td>
                 <td>
                     <!-- Block Button -->
-                    <td>
-                        <!-- Block Button -->
-                        <% if(!user.isblocked){ %>
-                            <a href="/admin/blockuser/<%= user._id %>" class="btn-danger" style="margin-right: 10px;">Block</a>
-                        <% } else { %>
-                            <!-- Unblock Button -->
-                            <a href="/admin/unblockuser/<%= user._id %>" class="btn-success">Unblock</a>
-                        <% } %>
-                    </td>
+                    <% if(!user.isblocked){ %>
+                        <a href="/admin/blockuser/<%= user._id %>" class="btn-danger" style="margin-right: 10px;">Block</a>
+                    <% } %>
+
+                    <!-- Unblock Button -->
+                    <% if(user.isblocked){ %>
+                        <a href="/admin/unblockuser/<%= user._id %>" class="btn-success">Unblock</a>
+                    <% } %>
+                </td>
             </tr>
         <% }) %>
     </tbody>
