@@ -56,6 +56,58 @@ const usermanagement = async (req, res) => {
     }
 };
 
+const block= async (req,res)=>{
+    try
+    {
+        const userId=req.params.id;
+        console.log('user',userId);
+        const user= await UserCollection.findById(userId)
+        if(!user)
+        {
+            console.log('User not found');
+            return res.status(404).send('User not found') 
+        }
+        user.isblocked=!user.isblocked;
+        await user.save()
+        console.log('Blocked/Unblocked');
+        res.redirect('/admin/usermanagement') 
+    }
+    catch(err)
+    {
+       console.log(err);
+       return res.status(500).send('Failed to block or unblock user')
+       
+    }
+}
+
+const unblock=async(req,res)=>
+{
+    try
+    {
+      const userId=req.params.id;
+      console.log("user",userId);
+
+      const user = await UserCollection.findById(userId)
+      
+      if(!user)
+      {
+        console.log('User is not found');
+        return res.status(404).send('User not found')
+      }
+      user.isblocked=false;
+      await user.save()
+      console.log('Unblocked');
+      res.redirect('/admin/usermanagement')
+    }
+    catch(err)
+    {
+        console.error(err);
+        return res.status(500).send('Failed to block user.')
+        
+
+    }
+}
+
 
 
 module.exports={
@@ -63,5 +115,7 @@ module.exports={
     adminloginpost,
     dashboard,
     usermanagement,
+    block,
+    unblock
 
 }
