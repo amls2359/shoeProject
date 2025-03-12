@@ -99,6 +99,36 @@
         .table-striped tr:hover {
             background-color: #ddd;
         }
+        /* Block Button (Red) */
+.btn-danger {
+    padding: 6px 12px;
+    background-color: #f44336; /* Red color */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Unblock Button (Green) */
+.btn-success {
+    padding: 6px 12px;
+    background-color: #4CAF50; /* Green color */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hover Effects */
+.btn-danger:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+.btn-success:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
     </style>
 </head>
 <body>
@@ -146,6 +176,7 @@
     
         <!-- User Table -->
       <!-- User Table -->
+<!-- User Table -->
 <table id="example" class="table-striped" style="width: 100%;">
     <thead>
         <tr>
@@ -170,10 +201,14 @@
                     <% } %>
                 </td>
                 <td>
+                    <!-- Block Button -->
+                    <% if(!user.isblocked){ %>
+                        <a href="/admin/blockuser/<%= user._id %>" class="btn-danger" style="margin-right: 10px;">Block</a>
+                    <% } %>
+
+                    <!-- Unblock Button -->
                     <% if(user.isblocked){ %>
-                        <a href="/admin/unblockuser/<%= user._id %>" style="padding: 6px 12px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Unblock</a>
-                    <% } else { %>
-                        <a href="/admin/blockuser/<%= user._id %>" style="padding: 6px 12px; background-color: #f44336; color: white; text-decoration: none; border-radius: 4px;">Block</a>
+                        <a href="/admin/unblockuser/<%= user._id %>" class="btn-success">Unblock</a>
                     <% } %>
                 </td>
             </tr>
