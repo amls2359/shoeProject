@@ -66,57 +66,68 @@ const validateEmail = (email) => {
   //! User Login Handler
   const userLoginPost = async (req, res) => {
     const { email, password } = req.body;
-  
+
     // Check if email or password is empty
     if (!email || !password) {
-      return res.render('UserLogin', { 
-        errorMessage: 'Please fill in all fields', 
-        successMessage: null 
-      });
+        return res.render('UserLogin', { 
+            errorMessage: 'Please fill in all fields', 
+            successMessage: null 
+        });
     }
-  
+
     // Validate email format
     if (!validateEmail(email)) {
-      return res.render('UserLogin', { 
-        errorMessage: 'Please enter a valid email address', 
-        successMessage: null 
-      });
+        return res.render('UserLogin', { 
+            errorMessage: 'Please enter a valid email address', 
+            successMessage: null 
+        });
     }
-  
-    try {
-      const user = await UserCollection.findOne({ email });
-  
-      if (!user) {
-        return res.render('UserLogin', { 
-          errorMessage: 'User not found', 
-          successMessage: null 
-        });
-      }
-  
-      if (password !== user.password) { 
-        return res.render('UserLogin', { 
-          errorMessage: 'Invalid email or password', 
-          successMessage: null 
-        });
-      }
-      //set session data
 
-      req.session.UserId=user._id;
-      req.session.email = user.email;
-      req.session.isAuthenticated=true
-  
-      return res.render('UserLogin', { 
-        successMessage: 'Login successful! Redirecting to homepage...', 
-        errorMessage: null 
-      });
-  
+    try {
+        const user = await UserCollection.findOne({ email });
+
+        if (!user) {
+            return res.render('UserLogin', { 
+                errorMessage: 'User not found', 
+                successMessage: null 
+            });
+        }
+
+        // Check if the user is blocked
+        if (user.isblocked) {
+            return res.render('UserLogin', { 
+                errorMessage: 'You are blocked. Please contact the admin.', 
+                successMessage: null 
+            });
+        }
+
+        // Compare passwords (plain text comparison for now, but you should use bcrypt)
+        if (password !== user.password) { 
+            return res.render('UserLogin', { 
+                errorMessage: 'Invalid email or password', 
+                successMessage: null 
+            });
+        }
+
+        // Set session data
+        req.session.UserId = user._id;
+        req.session.email = user.email;
+        req.session.isAuthenticated = true;
+
+        // Render the login page with a success message
+        return res.render('UserLogin', { 
+            successMessage: 'Login successful! Redirecting to homepage...', 
+            errorMessage: null 
+        });
+
     } catch (err) {
-      return res.render('UserLogin', { 
-        errorMessage: 'An error occurred. Please try again.', 
-        successMessage: null 
-      });
+        console.error("Login error:", err);
+        return res.render('UserLogin', { 
+            errorMessage: 'An error occurred. Please try again.', 
+            successMessage: null 
+        });
     }
-  };
+};
   
 //! User Signup Handler
 const userSignupPost = async (req, res) => {
