@@ -28,22 +28,18 @@ const adminloginpost = async (req, res) => {
 
 const usermanagement = async (req, res) => {
     try {
-        const searchQuery = req.query.search || ''; // Get search query from URL
-
-        // Build the query object
+        const searchQuery = req.query.search || '';
         const query = {};
 
         if (searchQuery) {
             query.$or = [
-                { username: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive username search
-                { email: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive email search
+                { username: { $regex: searchQuery, $options: 'i' } },
+                { email: { $regex: searchQuery, $options: 'i' } },
             ];
         }
 
-        // Fetch users based on the query
         const userdata = await UserCollection.find(query);
-
-        // Render the view with user data and search query
+        console.log('Userdata:', userdata); // Log the userdata
         res.render('usermanagement', { userdata, searchQuery });
     } catch (error) {
         console.log("Error:", error);
@@ -54,15 +50,14 @@ const usermanagement = async (req, res) => {
 const block = async (req, res) => {
     try {
         const userId = req.params.id;
-        console.log('user', userId);
         const user = await UserCollection.findById(userId);
         if (!user) {
             console.log('User not found');
             return res.status(404).send('User not found');
         }
-        user.isblocked = !user.isblocked; // Fix typo: isblocked (not isblocked)
+        user.isblocked = !user.isblocked; // Toggle the block status
         await user.save();
-        console.log('Blocked/Unblocked');
+        console.log('User after block/unblock:', user); // Log the user object
         res.redirect('/admin/usermanagement');
     } catch (err) {
         console.log(err);
@@ -73,16 +68,14 @@ const block = async (req, res) => {
 const unblock = async (req, res) => {
     try {
         const userId = req.params.id;
-        console.log("user", userId);
-
         const user = await UserCollection.findById(userId);
         if (!user) {
             console.log('User is not found');
             return res.status(404).send('User not found');
         }
-        user.isblocked = false;
+        user.isblocked = false; // Explicitly set to unblocked
         await user.save();
-        console.log('Unblocked');
+        console.log('User after unblock:', user); // Log the user object
         res.redirect('/admin/usermanagement');
     } catch (err) {
         console.error(err);
