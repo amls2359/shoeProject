@@ -92,6 +92,8 @@ const validateEmail = (email) => {
                 successMessage: null 
             });
         }
+        console.log("Input Password:", password);
+        console.log("Stored Password:", user.password);
 
         // Check if the user is blocked
         if (user.isblocked) {
