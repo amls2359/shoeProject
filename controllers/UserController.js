@@ -119,8 +119,6 @@ const validateEmail = (email) => {
   };
   
 //! User Signup Handler
-
-
 const userSignupPost = async (req, res) => {
     const { email, password, username } = req.body;
 
@@ -144,26 +142,23 @@ const userSignupPost = async (req, res) => {
                 successMessage: null 
             });
         }
-
-        // Create a new user without hashing the password
         const newUser = new UserCollection({
             email,
             username,
-            password // Store the password in plain text (not recommended)
+            password // Store the hashed password
         });
 
         // Save the user to the database
         await newUser.save();
 
-      req.session.UserId=user._id;
-      req.session.email = user.email;
-      req.session.isAuthenticated=true
+        // Set session variables
+        req.session.UserId = newUser._id;
+        req.session.email = newUser.email;
+        req.session.isAuthenticated = true;
 
-        // Render the signup page with a success message
-        res.render('/UserLogin', {
-            successMessage: 'User registered successfully! You can now log in.',
-            errorMessage: null
-        });
+        // Redirect to the login page with a success message
+        req.session.successMessage = 'User registered successfully! You can now log in.';
+        res.redirect('/UserLogin');
 
     } catch (err) {
         console.error("Signup error:", err);
@@ -173,7 +168,6 @@ const userSignupPost = async (req, res) => {
         });
     }
 };
-
 //! Forget Password Handler
 const forgetPasswordPost = async (req, res) => {
     try {
