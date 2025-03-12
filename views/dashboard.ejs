@@ -48,11 +48,26 @@
             flex-grow: 1; /* Take up remaining space */
 
         }
-
-
         button {
             margin: 10px 0;
         }
+        /* Custom scrollbar styling */
+.sidebar ul::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.sidebar ul::-webkit-scrollbar-track {
+    background: #444; /* Color of the track */
+}
+
+.sidebar ul::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.sidebar ul::-webkit-scrollbar-thumb:hover {
+    background: #aaa; /* Color of the scrollbar thumb on hover */
+}
     </style>
 </head>
 <body>
