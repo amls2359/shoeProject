@@ -110,9 +110,14 @@ const addCategoryPost= async (req, res) => {
         return res.status(500).send("Error inserting category");
       }
       res.redirect("/admin/categorymanagement");
-    } else {
-      res.render("addcategory", { message: "Category already exist!" });
     }
+     else
+     {
+        res.render('addcategory',{
+           errorMessage:'Category already exist!',
+           successMessage:null
+       })
+      }
   }
 
 module.exports={
