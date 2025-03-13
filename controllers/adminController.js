@@ -129,7 +129,7 @@ module.exports={
     unblock,
     categorymanagement,
     addcategoryget,
-     addCategoryPost
+    addCategoryPost
 
 
 }
