@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0; /* Remove default body margin */
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h1 {
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            margin-left: 270px; /* Match the width of the sidebar */
+            padding: 20px;
+            flex-grow: 1; /* Take up remaining space */
+        }
+        
+        button {
+            margin: 10px 0;
+        }
+        
+        /* Custom scrollbar styling */
+        .sidebar ul::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+
+        .sidebar ul::-webkit-scrollbar-track {
+            background: #444; /* Color of the track */
+        }
+
+        .sidebar ul::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar thumb */
+            border-radius: 4px; /* Rounded corners */
+        }
+
+        .sidebar ul::-webkit-scrollbar-thumb:hover {
+            background: #aaa; /* Color of the scrollbar thumb on hover */
+        }
+
+        /* Form styling */
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <br>
+        <ul>
+            <li><a href="/admin/usermanagement">User Management</a></li>
+            <br>
+            <li><a href="/admin/categorymanagement">Category Management</a></li>
+            <br>
+            <li><a href="">Product Management</a></li>
+            <br>
+            <li><a href="">Order Management</a></li>
+            <br>
+            <li><a href="">Coupon Management</a></li>
+            <br>
+            <li><a href="">Sales</a></li>
+            <br>
+            <li><a href="">Offer Management</a></li>
+            <br>
+            <li><a href="/admin/adminLogin" id="logout-link">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 style="text-align: center">Add New Category</h2>
+        
+        <div class="form-container">
+            <form action="/admin/addcategory" method="POST">
+                <div class="form-group">
+                    <label for="categoryName">Category Name</label>
+                    <input type="text" id="categoryName" name="categoryName" required placeholder="Enter category name">
+                </div>
+                
+                <div class="button-group">
+                    <a href="/admin/categorymanagement" class="btn-secondary">Go Back</a>
+                    <button type="submit" class="btn-success">Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
