@@ -14,4 +14,6 @@ router.get('/unblockuser/:id',adminController.unblock)
 router.get('/categorymanagement',adminController.categorymanagement)
 router.get('/addcategory',adminController.addcategoryget)
 
+router.post('/addCategoryPost',adminController.addCategoryPost)
+
 module.exports=router

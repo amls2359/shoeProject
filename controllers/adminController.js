@@ -91,6 +91,30 @@ const addcategoryget=async(req,res)=>{
     res.render('addcategory')
 }
 
+const addCategoryPost= async (req, res) => {
+    console.log("reached post category")
+    const name = req.body.name.trim();  
+    console.log(name);
+    const newCategory = await category.findOne({
+        category: { $regex: new RegExp("^" + name + "$", "i") },
+      });
+    if (newCategory === null) {
+      try {
+        console.log("worked");
+        const newCategory = new Category({
+            category: name,
+        });
+        newCategory.save();
+      } catch (err) {
+        console.error(err);
+        return res.status(500).send("Error inserting category");
+      }
+      res.redirect("/admin/categorymanagement");
+    } else {
+      res.render("addcategory", { message: "Category already exist!" });
+    }
+  }
+
 module.exports={
     adminLogin,
     adminloginpost,
@@ -99,6 +123,8 @@ module.exports={
     block,
     unblock,
     categorymanagement,
-    addcategoryget
+    addcategoryget,
+     addCategoryPost
+
 
 }
