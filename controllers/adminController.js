@@ -87,6 +87,9 @@ const unblock = async (req, res) => {
 const categorymanagement= async(req,res)=>{
     res.render('categorymanagement')
 }
+const addcategoryget=async(req,res)=>{
+    res.render('addcategory')
+}
 
 module.exports={
     adminLogin,
@@ -95,6 +98,7 @@ module.exports={
     usermanagement,
     block,
     unblock,
-    categorymanagement
+    categorymanagement,
+    addcategoryget
 
 }
