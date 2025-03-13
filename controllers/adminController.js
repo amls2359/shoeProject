@@ -84,8 +84,6 @@ const unblock = async (req, res) => {
     }
 };
 
-
-
 module.exports={
     adminLogin,
     adminloginpost,
