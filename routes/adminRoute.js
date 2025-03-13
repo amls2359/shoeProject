@@ -11,5 +11,5 @@ router.get('/usermanagement',adminController.usermanagement)
 router.get('/blockuser/:id',adminController.block)
 router.get('/unblockuser/:id',adminController.unblock)
 
-
+router.get('/categorymanagement',adminController.categorymanagement)
 module.exports=router

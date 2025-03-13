@@ -84,12 +84,17 @@ const unblock = async (req, res) => {
     }
 };
 
+const categorymanagement= async(req,res)=>{
+    res.render('categorymanagement')
+}
+
 module.exports={
     adminLogin,
     adminloginpost,
     dashboard,
     usermanagement,
     block,
-    unblock
+    unblock,
+    categorymanagement
 
 }
