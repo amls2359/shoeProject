@@ -132,12 +132,17 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <h2 style="text-align: center">User Management</h2>
-    
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Category Management</h2>
+            <button id="add-category-btn" class="btn-success" style="margin-right: 20px; padding: 8px 15px; font-weight: bold; cursor: pointer;">
+                + Add Category
+            </button>
+        </div>
+        
         <!-- Search and Filter Form -->
         <form action="/admin/categorymanagement" method="GET">
         </form>
-    
+        
         <!-- User Table -->
         <table id="example" class="table-striped" style="width: 100%;">
             <thead>
