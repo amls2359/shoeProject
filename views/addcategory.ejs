@@ -553,6 +553,11 @@ form a{
                 <div class="card neumorphic">
                     <div class="card-body">
                         <h1 class="text-center text-primary">Add Category</h1>
+                        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                            <div class="alert alert-danger">
+                                <%= errorMessage %>
+                            </div>
+                        <% } %>
                         <form id="categoryForm" action="/admin/addcategory" method="POST">
                             <div class="mb-3 mt-4">
                                 <label for="categoryname" class="form-label">Category Name</label>
