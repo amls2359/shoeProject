@@ -103,6 +103,8 @@
             background-color: #218838;
         }
     </style>
+         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <!-- Sidebar -->
@@ -124,7 +126,7 @@
             <br>
             <li><a href="">Offer Management</a></li>
             <br>
-            <li><a href="/admin/adminLogin">Logout</a></li>
+            <li><a href="/admin/adminLogin" id="logout-link">Logout</a></li>
         </ul>
     </div>
 
@@ -186,5 +188,23 @@
             </tbody>
         </table>
     </div>
+    <script>
+        document.getElementById('logout-link').addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent the default link behavior
+
+            Swal.fire({
+                title: "Are you sure you want to logout?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Yes, logout",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the logout route
+                    window.location.href = "/admin/adminLogin";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
