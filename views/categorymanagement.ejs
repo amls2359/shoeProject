@@ -154,11 +154,10 @@
                 </tr>
             </thead>
             <tbody>
-                <% categories.forEach(category,index) => { %>
+                <% categories.forEach((category,index) => { %>
                     <tr>
                         <td><%= index+1 %></td>
                         <td><%= category.category %></td>
-                        <td><%= category.status %></td>
                         <td>
                             <!-- Add action buttons here if needed -->
                         </td>
