@@ -138,7 +138,7 @@ const addCategoryPost = async (req, res) => {
     } catch (err) {
         console.error("Error inserting category:", err);
         res.status(500).send("Error inserting category");
-    }
+    }  await category.updateMany({ category: category._id }, { isListed: category.islisted });
 };
 
 const UnList = async (req, res) => {    
@@ -158,8 +158,6 @@ const UnList = async (req, res) => {
       // Save the updated category
       await category.save();
 
-      // Find all products with the same category and update their isListed status
-      await category.updateMany({ category: category._id }, { isListed: category.islisted });
   
       console.log("Updated category:", category);
   
