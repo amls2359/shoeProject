@@ -156,6 +156,11 @@
         </table>
     </div>
     <script>
+            // Add event listener to the "Add Category" button
+      document.getElementById('add-category-btn').addEventListener('click', function () {
+        // Redirect to the addcategory page
+        window.location.href = "/admin/addcategory";
+           });
         document.getElementById('logout-link').addEventListener('click', function (e) {
             e.preventDefault(); // Prevent the default link behavior
 
