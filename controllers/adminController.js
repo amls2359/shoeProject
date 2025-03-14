@@ -95,7 +95,7 @@ const addCategoryPost= async (req, res) => {
     console.log("reached post category")
     const name = req.body.name.trim();  
     console.log(name);
-    const newCategory = await category.findOne({
+    const newCategory = await categories.findOne({
         category: { $regex: new RegExp("^" + name + "$", "i") },
       });
     if (newCategory === null) {
@@ -130,4 +130,5 @@ module.exports={
     categorymanagement,
     addcategoryget,
     addCategoryPost
+
 }
