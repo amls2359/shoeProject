@@ -166,7 +166,7 @@
                             <% } %>
                         </td>
                         <td>
-                            <% if (category.islisted) { %>
+                            <% if (!category.islisted) { %>
                                 <a href="/admin/unListcategory/<%= category._id %>" class=" btn-success" style="background-color: red;">UnList</a>
                             <% } %>
                         </td>
