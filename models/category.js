@@ -5,4 +5,8 @@ const categorySchema= new mongoose.Schema({
     islisted:{type:Boolean,default:false}
 
 })
-module.exports=mongoose.model('categories',categorySchema)
+const category=mongoose.model('categories',categorySchema)
+module.exports=
+{
+    category
+}
