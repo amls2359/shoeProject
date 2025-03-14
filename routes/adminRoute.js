@@ -15,5 +15,6 @@ router.get('/categorymanagement',adminController.categorymanagement)
 router.get('/addcategory',adminController.addcategoryget)
 
 router.post('/addCategoryPost',adminController.addCategoryPost)
+router.get('/')
 
 module.exports=router
