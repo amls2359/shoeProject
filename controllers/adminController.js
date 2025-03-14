@@ -88,7 +88,7 @@ const categorymanagement= async(req,res)=>{
     res.render('categorymanagement')
 }
 
-const addcategoryget=async (req, res) => {
+const addcategoryget = async (req, res) => {
     try {
         const categories = await Category.find({}).sort({ _id: -1 }); // Fetch all categories sorted by ID in descending order
         res.render('categorymanagement', { categories: categories });
