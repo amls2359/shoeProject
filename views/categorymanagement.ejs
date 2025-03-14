@@ -153,6 +153,18 @@
                     <th>Action</th>
                 </tr>
             </thead>
+            <tbody>
+                <% categories.forEach(category => { %>
+                    <tr>
+                        <td><%= category._id %></td>
+                        <td><%= category.category %></td>
+                        <td><%= category.status %></td>
+                        <td>
+                            <!-- Add action buttons here if needed -->
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
         </table>
     </div>
     <script>
