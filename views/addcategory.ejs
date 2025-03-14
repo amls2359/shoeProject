@@ -137,5 +137,19 @@
             </div>
         </div>
     </div>
+    <script>
+    // Function to hide the error message after 3 seconds
+    function hideErrorMessage() {
+        const errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 2000); // 3000 milliseconds = 3 seconds
+        }
+    }
+    // Call the function when the page loads
+    window.onload = hideErrorMessage
+</script>
 </body>
+
 </html>
