@@ -15,6 +15,6 @@ router.get('/categorymanagement',adminController.categorymanagement)
 router.get('/addcategory',adminController.addcategoryget)
 
 router.post('/addCategoryPost',adminController.addCategoryPost)
-router.get('/')
+router.get('/unListcategory/:id',adminController.UnList)
 
 module.exports=router
