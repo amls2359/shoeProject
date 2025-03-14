@@ -154,9 +154,9 @@
                 </tr>
             </thead>
             <tbody>
-                <% categories.forEach(category => { %>
+                <% categories.forEach(category,index) => { %>
                     <tr>
-                        <td><%= category._id %></td>
+                        <td><%= index+1 %></td>
                         <td><%= category.category %></td>
                         <td><%= category.status %></td>
                         <td>
