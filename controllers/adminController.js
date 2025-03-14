@@ -130,6 +130,4 @@ module.exports={
     categorymanagement,
     addcategoryget,
     addCategoryPost
-
-
 }
