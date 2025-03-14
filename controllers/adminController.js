@@ -141,10 +141,9 @@ const addCategoryPost = async (req, res) => {
     }  await category.updateMany({ category: category._id }, { isListed: category.islisted });
 };
 
+
 const UnList = async (req, res) => {    
     try {
-      console.log("reached toggler");
-  
       // Find the category by ID
       const category = await Category.findOne({ _id: req.params.id });
   
@@ -157,10 +156,6 @@ const UnList = async (req, res) => {
   
       // Save the updated category
       await category.save();
-
-  
-      console.log("Updated category:", category);
-  
       res.redirect("/admin/categorymanagement");
     } catch (err) {
       console.error(err);
@@ -174,12 +169,6 @@ module.exports={
     adminLogin,
     adminloginpost,
     dashboard,
-    usermanagement,
-    block,
-    unblock,
-    categorymanagement,
-    addcategoryget,
-    addCategoryPost,
-    UnList
-
+    usermanagement,block,unblock,
+    categorymanagement,addcategoryget,addCategoryPost,UnList
 }
