@@ -159,7 +159,11 @@
                         <td><%= index+1 %></td>
                         <td><%= category.category %></td>
                         <td>
-                            <!-- Add action buttons here if needed -->
+                            <% if(user.isblocked){ %>
+                                <span style="color: red;">unlisted</span>
+                            <% } else { %>
+                                <span style="color: green;">listed</span>
+                            <% } %>
                         </td>
                     </tr>
                 <% }) %>
