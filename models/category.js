@@ -6,7 +6,5 @@ const categorySchema= new mongoose.Schema({
 
 })
 const category=mongoose.model('categories',categorySchema)
-module.exports=
-{
-    category
-}
+
+module.exports= category
