@@ -105,33 +105,39 @@ const addcategoryget = async(req,res)=>{
 }
 
 const addCategoryPost = async (req, res) => {
-    console.log("reached post category");
-    const name = req.body.name.trim();
+    console.log("Reached post category");
+    const name = req.body.name.trim(); // Trim whitespace from the input
     console.log("Category Name:", name);
 
-    const newCategory = await Category.findOne({
-        category: { $regex: new RegExp("^" + name + "$", "i") },
-    });
-
-    if (newCategory === null) {
-        try {
-            console.log("Creating new category");
-            const newCategory = new Category({
-                category: name,
-            });
-            await newCategory.save();
-            console.log("Category saved successfully");
-            res.redirect("/admin/categorymanagement");
-        } catch (err) {
-            console.error("Error inserting category:", err);
-            return res.status(500).send("Error inserting category");
-        }
-    } else {
-        console.log("Category already exists");
-        res.render('addcategory', {
-            errorMessage: 'Category already exists!',
-            successMessage: null
+    try {
+        // Check if the category already exists (case-insensitive)
+        const existingCategory = await Category.findOne({
+            category: { $regex: new RegExp("^" + name + "$", "i") },
         });
+
+        if (existingCategory) {
+            // If the category already exists, render the addcategory page with an error message
+            console.log("Category already exists");
+            return res.render("addcategory", {
+                errorMessage: "Category already exists!",
+                successMessage: null,
+            });
+        }
+
+        // If the category does not exist, create a new one
+        console.log("Creating new category");
+        const newCategory = new Category({
+            category: name,
+        });
+
+        await newCategory.save(); // Save the new category to the database
+        console.log("Category saved successfully");
+
+        // Redirect to the category management page
+        res.redirect("/admin/categorymanagement");
+    } catch (err) {
+        console.error("Error inserting category:", err);
+        res.status(500).send("Error inserting category");
     }
 };
 
