@@ -118,7 +118,7 @@
                     <div class="card-body">
                         <h1 class="text-center text-primary">Add Category</h1>
                         <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
-                            <div class="alert alert-danger">
+                            <div id="errorMessage" class="alert alert-danger">
                                 <%= errorMessage %>
                             </div>
                         <% } %>
