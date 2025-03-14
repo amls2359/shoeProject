@@ -91,6 +91,7 @@ const categorymanagement= async(req,res)=>{
 const addcategoryget = async (req, res) => {
     try {
         const categories = await Category.find({}).sort({ _id: -1 }); // Fetch all categories sorted by ID in descending order
+        console.log("Fetched categories:", categories); // Debugging statement
         res.render('categorymanagement', { categories: categories });
     } catch (err) {
         console.error("Error fetching categories:", err);
