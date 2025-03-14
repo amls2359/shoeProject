@@ -159,7 +159,7 @@ const UnList = async (req, res) => {
       await category.save();
 
       // Find all products with the same category and update their isListed status
-      await Product.updateMany({ category: category._id }, { isListed: category.islisted });
+      await categories.updateMany({ category: category._id }, { isListed: category.islisted });
   
       console.log("Updated category:", category);
   
