@@ -95,7 +95,7 @@ const addCategoryPost= async (req, res) => {
     console.log("reached post category")
     const name = req.body.name.trim();  
     console.log(name);
-    const newCategory = await categories.findOne({
+    const newCategory = await Category.findOne({
         category: { $regex: new RegExp("^" + name + "$", "i") },
       });
     if (newCategory === null) {
