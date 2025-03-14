@@ -141,6 +141,35 @@ const addCategoryPost = async (req, res) => {
     }
 };
 
+const UnList = async (req, res) => {    
+    try {
+      console.log("reached toggler");
+  
+      // Find the category by ID
+      const category = await Category.findOne({ _id: req.params.id });
+  
+      if (!category) {
+        // return res.status(404).send("Category not found.");
+      }
+  
+      // Update the 'islisted' field to its opposite value
+      category.islisted = !category.islisted;
+  
+      // Save the updated category
+      await category.save();
+
+      // Find all products with the same category and update their isListed status
+      await Product.updateMany({ category: category._id }, { isListed: category.islisted });
+  
+      console.log("Updated category:", category);
+  
+      res.redirect("/admin/categorymanagement");
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send("Failed to toggle category block status.");
+    }
+}
+
 
 
 module.exports={
@@ -152,6 +181,7 @@ module.exports={
     unblock,
     categorymanagement,
     addcategoryget,
-    addCategoryPost
+    addCategoryPost,
+    UnList
 
 }
