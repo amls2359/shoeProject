@@ -169,6 +169,9 @@
                             <% if (!category.islisted) { %>
                                 <a href="/admin/unListcategory/<%= category._id %>" class=" btn-success" style="background-color: red;">UnList</a>
                             <% } %>
+                            <% } else { %>
+                                <a href="/admin/unListcategory/<%= category._id %>" class="btn btn-danger" style="background-color: green;">List</a>
+                            <% } %>
                         </td>
                     </tr>
                 <% }) %>
