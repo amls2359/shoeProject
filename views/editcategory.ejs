@@ -117,11 +117,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h1 class="text-center text-primary">Edit Category</h1>
-                        <!-- <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
-                            <div id="errorMessage" class="alert alert-danger">
-                                <%= errorMessage %>
-                            </div>
-                        <% } %> -->
                         <form id="categoryForm" action="/admin/editcategory/<%= category._id %>" method="POST">
                             <div class="mb-3 mt-4">
                                 <label for="categoryname" class="form-label">Category Name</label>
@@ -138,20 +133,6 @@
             </div>
         </div>
     </div>
-    <!-- <script>
-    // Function to hide the error message after 3 seconds
-    function hideErrorMessage() {
-        const errorMessage = document.getElementById('errorMessage');
-        if (errorMessage) {
-            setTimeout(() => {
-                errorMessage.style.display = 'none';
-            }, 2000); // 3000 milliseconds = 3 seconds
-        }
-    }
-    // Call the function when the page loads
-    window.onload = hideErrorMessage
-</script> -->
-
 <script>
     // Function to hide the error message after a specified timeout
     function hideError(elementId) {
