@@ -153,37 +153,47 @@
 </script> -->
 
 <script>
-     document.getElementById('categoryForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const categoryNameInput = document.getElementById('categoryname');
-            const categoryName = categoryNameInput.value.trim();
-            const maxLength = 15; // Set a maximum length for the category name
-            const isAllCaps = /^[A-Z\s]+$/.test(categoryName); // Check if the name is in all capital letters
-            const isUrl = /^(ftp|http|https):\/\/[^ "]+$/.test(categoryName); // Check if the name looks like a URL
+  document.getElementById('categoryForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const categoryNameInput = document.getElementById('categoryname');
+    const categoryName = categoryNameInput.value.trim();
+    const maxLength = 15; // Set a maximum length for the category name
+    const isAllCaps = /^[A-Z\s]+$/.test(categoryName); // Check if the name is in all capital letters
+    const isUrl = /^(ftp|http|https):\/\/[^ "]+$/.test(categoryName); // Check if the name looks like a URL
 
-            // Check if category name is already added and only the first letter is capitalized
-            const existingCategories = Array.from(document.querySelectorAll('.existing-category')).map(category => category.textContent.trim());
-            const firstLetterCapitalized = categoryName.charAt(0) === categoryName.charAt(0).toUpperCase();
-            const categoryExists = existingCategories.includes(categoryName.toLowerCase());
+    // Debugging: Log the category name and validation results
+    console.log('Category Name:', categoryName);
+    console.log('Is All Caps:', isAllCaps);
+    console.log('Is URL:', isUrl);
 
-            // Clear previous error messages
-            document.getElementById('categorynameError').textContent = '';
+    // Check if category name is already added and only the first letter is capitalized
+    const existingCategories = Array.from(document.querySelectorAll('.existing-category')).map(category => category.textContent.trim());
+    const firstLetterCapitalized = categoryName.charAt(0) === categoryName.charAt(0).toUpperCase();
+    const categoryExists = existingCategories.includes(categoryName.toLowerCase());
 
-            if (!categoryName) {
-                document.getElementById('categorynameError').textContent = 'Please enter a category name.';
-            } else if (categoryName.length > maxLength) {
-                document.getElementById('categorynameError').textContent = 'Category name cannot be longer than ' + maxLength + ' characters.';
-            } else if (isAllCaps) {
-                document.getElementById('categorynameError').textContent = 'Category name cannot be in all capital letters.';
-            } else if (isUrl) {
-                document.getElementById('categorynameError').textContent = 'Category name cannot be a URL.';
-            } else if (categoryExists && firstLetterCapitalized) {
-                document.getElementById('categorynameError').textContent = 'Category name cannot be entered again if only the first letter is capitalized.';
-            } else {
-                // Proceed with form submission
-                this.submit();
-            }
-        });
+    // Debugging: Log existing categories and validation results
+    console.log('Existing Categories:', existingCategories);
+    console.log('First Letter Capitalized:', firstLetterCapitalized);
+    console.log('Category Exists:', categoryExists);
+
+    // Clear previous error messages
+    document.getElementById('categorynameError').textContent = '';
+
+    if (!categoryName) {
+        document.getElementById('categorynameError').textContent = 'Please enter a category name.';
+    } else if (categoryName.length > maxLength) {
+        document.getElementById('categorynameError').textContent = 'Category name cannot be longer than ' + maxLength + ' characters.';
+    } else if (isAllCaps) {
+        document.getElementById('categorynameError').textContent = 'Category name cannot be in all capital letters.';
+    } else if (isUrl) {
+        document.getElementById('categorynameError').textContent = 'Category name cannot be a URL.';
+    } else if (categoryExists && firstLetterCapitalized) {
+        document.getElementById('categorynameError').textContent = 'Category name cannot be entered again if only the first letter is capitalized.';
+    } else {
+        // Proceed with form submission
+        this.submit();
+    }
+});
 </script>
 </body>
 
