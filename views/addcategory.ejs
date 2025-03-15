@@ -141,6 +141,16 @@ body {
         </div>
     </div>
     <script>
+        // Function to hide the error message after a specified timeout
+        function hideError(elementId) {
+            const errorElement = document.getElementById(elementId);
+            if (errorElement) {
+                setTimeout(() => {
+                    errorElement.textContent = ''; // Clear the error message
+                }, 2000); // 2000 milliseconds = 2 seconds
+            }
+        }
+    
         // Function to hide the error message after 3 seconds
         function hideErrorMessage() {
             const errorMessage = document.getElementById('errorMessage');
@@ -150,18 +160,10 @@ body {
                 }, 2000); // 3000 milliseconds = 3 seconds
             }
         }
+    
         // Call the function when the page loads
         window.onload = hideErrorMessage;
-
-          // Function to display error messages and hide them after 2 seconds
-          function showError(elementId, message) {
-            const errorElement = document.getElementById(elementId);
-            if (errorElement) {
-                errorElement.textContent = message; // Display the error message
-                hideErrorMessage(elementId); // Hide the error message after 2 seconds
-            }
-        }
-
+    
         document.getElementById('categoryForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const categoryNameInput = document.getElementById('name');
@@ -169,35 +171,40 @@ body {
             const maxLength = 15; // Set a maximum length for the category name
             const isAllCaps = /^[A-Z\s]+$/.test(categoryName); // Check if the name is in all capital letters
             const isUrl = /^(ftp|http|https):\/\/[^ "]+$/.test(categoryName); // Check if the name looks like a URL
-
+    
             // Debugging: Log the category name and validation results
             console.log('Category Name:', categoryName);
             console.log('Is All Caps:', isAllCaps);
             console.log('Is URL:', isUrl);
-
+    
             // Check if category name is already added and only the first letter is capitalized
             const existingCategories = Array.from(document.querySelectorAll('.existing-category')).map(category => category.textContent.trim());
             const firstLetterCapitalized = categoryName.charAt(0) === categoryName.charAt(0).toUpperCase();
             const categoryExists = existingCategories.includes(categoryName.toLowerCase());
-
+    
             // Debugging: Log existing categories and validation results
             console.log('Existing Categories:', existingCategories);
             console.log('First Letter Capitalized:', firstLetterCapitalized);
             console.log('Category Exists:', categoryExists);
-
+    
             // Clear previous error messages
             document.getElementById('categorynameError').textContent = '';
-
+    
             if (!categoryName) {
                 document.getElementById('categorynameError').textContent = 'Please enter a category name.';
+                hideError('categorynameError'); // Hide the error message after 2 seconds
             } else if (categoryName.length > maxLength) {
                 document.getElementById('categorynameError').textContent = 'Category name cannot be longer than ' + maxLength + ' characters.';
+                hideError('categorynameError'); // Hide the error message after 2 seconds
             } else if (isAllCaps) {
                 document.getElementById('categorynameError').textContent = 'Category name cannot be in all capital letters.';
+                hideError('categorynameError'); // Hide the error message after 2 seconds
             } else if (isUrl) {
                 document.getElementById('categorynameError').textContent = 'Category name cannot be a URL.';
+                hideError('categorynameError'); // Hide the error message after 2 seconds
             } else if (categoryExists && firstLetterCapitalized) {
                 document.getElementById('categorynameError').textContent = 'Category name cannot be entered again if only the first letter is capitalized.';
+                hideError('categorynameError'); // Hide the error message after 2 seconds
             } else {
                 // Proceed with form submission
                 this.submit();
