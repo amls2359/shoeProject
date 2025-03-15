@@ -195,7 +195,10 @@
             hideError('categorynameError'); // Hide the error message after 2 seconds
         } else if (isUrl) {
             document.getElementById('categorynameError').textContent = 'Category name cannot be a URL.';
-            hideError('categorynameError'); // Hide the error message after 2 seconds
+            hideError('categorynameError');
+        }else if (hasNumbers) {
+                document.getElementById('categorynameError').textContent = 'Category name cannot contain numbers.';
+                hideError('categorynameError'); // Hide the error message after 2 seconds
         } else if (categoryExists && firstLetterCapitalized) {
             document.getElementById('categorynameError').textContent = 'Category name cannot be entered again if only the first letter is capitalized.';
             hideError('categorynameError'); // Hide the error message after 2 seconds
