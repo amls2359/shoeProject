@@ -179,7 +179,12 @@ const editCategoryget = async (req, res) => {
 const editCategorypost = async (req, res) => {
     try {
         const id = req.params.id;
-        const categoryname = req.body.categoryname.trim();
+        const categoryname = req.body.categoryname ? req.body.categoryname.trim() : null;
+
+        if (!categoryname) {
+            return res.render('editcategory', { message: "Category name is required!", category: category });
+        }
+
         console.log(`this is the id ${id} and this is the categoryname ${categoryname}`);
 
         // Fetch the category details from the database
@@ -209,7 +214,6 @@ const editCategorypost = async (req, res) => {
         return res.status(500).send("Failed to edit category.");
     }
 }
-
 
 
 
