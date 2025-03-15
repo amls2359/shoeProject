@@ -122,7 +122,7 @@
                                 <%= errorMessage %>
                             </div>
                         <% } %> -->
-                        <form id="categoryForm" action="/admin/editCategorypost" method="POST">
+                        <form id="categoryForm" action="/admin/editcategory/<%= category._id %>" method="POST">
                             <div class="mb-3 mt-4">
                                 <label for="categoryname" class="form-label">Category Name</label>
                                 <input type="text" class="form-control" id="name" name="name">
