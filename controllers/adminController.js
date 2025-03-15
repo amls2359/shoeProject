@@ -165,14 +165,16 @@ const UnList = async (req, res) => {
 
 const editCategoryget = async (req, res) => {
     try {
-      const id = req.params.id;
-      const category = await Category.findOne({ _id: id });
-      res.render("editcategory", { category: category });
+        const id = req.params.id;
+        console.log("Fetching category with ID:", id); // Add this line for debugging
+        const category = await Category.findOne({ _id: id });
+        console.log("Category found:", category); // Add this line for debugging
+        res.render("editcategory", { category: category });
     } catch (err) {
-      console.error(err);
-      return res.status(500).send("Failed to display the category edit page.");
+        console.error(err);
+        return res.status(500).send("Failed to display the category edit page.");
     }
-  }
+}
 
 
 
