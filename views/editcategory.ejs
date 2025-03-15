@@ -164,6 +164,7 @@
         const maxLength = 15; // Set a maximum length for the category name
         const isAllCaps = /^[A-Z\s]+$/.test(categoryName); // Check if the name is in all capital letters
         const isUrl = /^(ftp|http|https):\/\/[^ "]+$/.test(categoryName); // Check if the name looks like a URL
+        const hasNumbers = /\d/.test(categoryName); // Check if the name contains any numbers
 
         // Debugging: Log the category name and validation results
         console.log('Category Name:', categoryName);
