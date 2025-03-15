@@ -176,6 +176,41 @@ const editCategoryget = async (req, res) => {
     }
 }
 
+const editCategorypost = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const categoryname = req.body.categoryname.trim();
+        console.log(`this is the id ${id} and this is the categoryname ${categoryname}`);
+
+        // Fetch the category details from the database
+        const category = await Category.findById(id);
+
+        // Check if there's already a category with the new name
+        const existingCategory = await Category.findOne({
+            category: { $regex: new RegExp("^" + categoryname + "$", "i") },
+            _id: { $ne: id } // Ensure the category being checked is not the one being edited
+        });
+
+        if (existingCategory) {
+            // If a category with the new name exists, render the same page with an error message
+            return res.render('editcategory', { message: "Category already exists!", category: category });
+        }
+
+        // Update the category name
+        await Category.updateOne(
+            { _id: id },
+            { $set: { category: categoryname } }
+        );
+
+        // Redirect to category management page upon successful update
+        return res.redirect("/admin/categorymanagement");
+    } catch (err) {
+        console.error("Error editing category:", err);
+        return res.status(500).send("Failed to edit category.");
+    }
+}
+
+
 
 
 
@@ -184,5 +219,5 @@ module.exports={
     adminloginpost,
     dashboard,
     usermanagement,block,unblock,
-    categorymanagement,addcategoryget,addCategoryPost,UnList,editCategoryget
+    categorymanagement,addcategoryget,addCategoryPost,UnList,editCategoryget,editCategorypost
 }
