@@ -125,7 +125,7 @@
                         <form id="categoryForm" action="/admin/editcategory/<%= category._id %>" method="POST">
                             <div class="mb-3 mt-4">
                                 <label for="categoryname" class="form-label">Category Name</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control" id="categoryname" name="categoryname" value="<%= category.category %>">
                             </div>
                             <div class="text-center login-button mb-4">
                                 <button type="submit" class="btn btn-primary w-100">Edit</button>
