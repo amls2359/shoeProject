@@ -153,6 +153,15 @@ body {
         // Call the function when the page loads
         window.onload = hideErrorMessage;
 
+          // Function to display error messages and hide them after 2 seconds
+          function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            if (errorElement) {
+                errorElement.textContent = message; // Display the error message
+                hideErrorMessage(elementId); // Hide the error message after 2 seconds
+            }
+        }
+
         document.getElementById('categoryForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const categoryNameInput = document.getElementById('name');
