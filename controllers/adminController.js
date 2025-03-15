@@ -163,6 +163,18 @@ const UnList = async (req, res) => {
     }
 }
 
+const editCategoryget = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const category = await Category.findOne({ _id: id });
+      res.render("editcategory", { category: category });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send("Failed to display the category edit page.");
+    }
+  }
+
+
 
 
 module.exports={
@@ -170,5 +182,5 @@ module.exports={
     adminloginpost,
     dashboard,
     usermanagement,block,unblock,
-    categorymanagement,addcategoryget,addCategoryPost,UnList
+    categorymanagement,addcategoryget,addCategoryPost,UnList,editCategoryget
 }
