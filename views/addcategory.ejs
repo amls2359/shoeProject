@@ -171,11 +171,13 @@ body {
             const maxLength = 15; // Set a maximum length for the category name
             const isAllCaps = /^[A-Z\s]+$/.test(categoryName); // Check if the name is in all capital letters
             const isUrl = /^(ftp|http|https):\/\/[^ "]+$/.test(categoryName); // Check if the name looks like a URL
+            const hasNumbers = /\d/.test(categoryName); // Check if the name contains any numbers
     
             // Debugging: Log the category name and validation results
             console.log('Category Name:', categoryName);
             console.log('Is All Caps:', isAllCaps);
             console.log('Is URL:', isUrl);
+            console.log('Has Numbers:', hasNumbers);
     
             // Check if category name is already added and only the first letter is capitalized
             const existingCategories = Array.from(document.querySelectorAll('.existing-category')).map(category => category.textContent.trim());
@@ -201,6 +203,9 @@ body {
                 hideError('categorynameError'); // Hide the error message after 2 seconds
             } else if (isUrl) {
                 document.getElementById('categorynameError').textContent = 'Category name cannot be a URL.';
+                hideError('categorynameError'); // Hide the error message after 2 seconds
+            } else if (hasNumbers) {
+                document.getElementById('categorynameError').textContent = 'Category name cannot contain numbers.';
                 hideError('categorynameError'); // Hide the error message after 2 seconds
             } else if (categoryExists && firstLetterCapitalized) {
                 document.getElementById('categorynameError').textContent = 'Category name cannot be entered again if only the first letter is capitalized.';
