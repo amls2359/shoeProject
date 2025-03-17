@@ -138,7 +138,7 @@ const addCategoryPost = async (req, res) => {
     } catch (err) {
         console.error("Error inserting category:", err);
         res.status(500).send("Error inserting category");
-    }  await categories.updateMany({ category: category._id }, { isListed: category.islisted });
+    }  await category.updateMany({ category: category._id }, { isListed: category.islisted });
 };
 
 
