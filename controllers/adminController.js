@@ -1,4 +1,5 @@
 const adminCollection=require('../models/admin')
+const product=require('../models/product')
 const UserCollection =require('../models/user')
 const Category=require('../models/category')
 const express=require('express')
