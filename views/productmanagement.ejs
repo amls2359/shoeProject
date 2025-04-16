@@ -161,9 +161,9 @@
     <div class="content">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <h2 class="heading">Product Management</h2>
-            <a href="/addProduct" class="btn-blue" style="margin-right: 20px; padding: 8px 15px; font-weight: bold; cursor: pointer;">
+            <button id="add-product-btn" class="btn-success" style="margin-right: 20px; padding: 8px 15px; font-weight: bold; cursor: pointer;">
                 + Add Product
-            </a>
+            </button>
         </div>
         
         <table id="example" class="table-striped" style="width:100%">
@@ -185,21 +185,7 @@
     </div>
 
     <script>
-        document.getElementById('logout-link').addEventListener('click', function (e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: "Are you sure you want to logout?",
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonText: "Yes, logout",
-                cancelButtonText: "Cancel",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/admin/adminLogin";
-                }
-            });
-        });
+      document.getElementById('add-product-btn')
     </script>
 </body>
 </html>
