@@ -216,8 +216,14 @@ const editCategorypost = async (req, res) => {
     }
 }
 
-const addproduct= async(req,res)=>{
-    
+const addproductget= async(req,res)=>{
+    try{ 
+        res.render("addProduct");    
+    }
+    catch(error){
+        console.log("error",error);
+        res.status(500).send("internal server error");
+    }
 }
 
 
@@ -227,5 +233,6 @@ module.exports={
     adminloginpost,
     dashboard,
     usermanagement,block,unblock,
-    categorymanagement,addcategoryget,addCategoryPost,UnList,editCategoryget,editCategorypost
+    categorymanagement,addcategoryget,addCategoryPost,UnList,editCategoryget,editCategorypost,
+     addproductget,
 }
