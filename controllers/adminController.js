@@ -216,7 +216,7 @@ const editCategorypost = async (req, res) => {
     }
 }
 
-const productmanagement=
+const addproduct= await
 
 
 
