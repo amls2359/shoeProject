@@ -96,16 +96,21 @@
     <div class="sidebar">
         <h2>Admin Panel</h2>
         <ul>
-            <li><a href="/admin/dashboard">Dashboard</a></li>  
             <li><a href="/admin/usermanagement">User Management</a></li>
-          <li><a href="/admin/categorymanagement">Category Management</a></li>
-          <li><a href="/productmanagement">Product Management</a></li>
-          <li><a href="/admin/orderManagement">Order Management</a></li>
-          <li><a href="/couponManagement">Coupon Management</a></li>
-          <li><a href="/sales">Sales</a></li>
-          <li><a href="/offerManagement">Offer Management</a></li>
-          <li><a href="/admin/Logoutget" id="logout-button">Logout</a></li>
-
+            <br>
+            <li><a href="/admin/categorymanagement">Category Management</a></li>
+            <br>
+            <li><a href="">Product Management</a></li>
+            <br>
+            <li><a href="">Order Management</a></li>
+            <br>
+            <li><a href="">Coupon Management</a></li>
+            <br>
+            <li><a href="">Sales</a></li>
+            <br>
+            <li><a href="">Offer Management</a></li>
+            <br>
+            <li><a href="/admin/adminLogin" id="logout-link">Logout</a></li>
         </ul>
     </div>
 
@@ -132,65 +137,6 @@
                     
                 </tr>
             </thead>
-            <tbody id="userTableBody">
-                
-                    <% products.forEach( (product,index)=> { %>
-                        <tr>
-                            <td><%= index + 1 %></td>
-
-
-                            <td>
-                                <%= product.productname %>
-                            </td>
-                            <td>
-                                <% if (product.category) { %>
-                                    <%= product.category.category %>
-                                <% }%>
-                            </td>
-                            
-                            <td>
-                                <%= product.price %>
-                            </td>
-                           
-                            <td>
-                                <img style="max-height: 50px; max-width: 50px;" src="<%= product.image[0] %>" alt="no img">
-
-                            </td>
-                            <td>
-                                <%= product.stock %>
-                            </td>
-                            <td>
-                                <%= product.brand %>
-                            </td>
-                            <td>
-                                <% if (product.isListed) { %>
-                                    <span class="text-success">Listed</span>
-                                <% } else { %>
-                                    <span class="text-danger">Not Listed</span>
-                                <% } %>
-                            </td>
-                            <td>
-                                <% if (product.isListed) { %>
-                                    <a href="/unlistproduct/<%= product._id %>" class="btn btn-danger" style="background-color: red;">UnList</a>
-                                <% } else { %>
-                                    <a href="/unlistproduct/<%= product._id %>" class="btn btn-success" style="background-color: green;">List</a>
-                                <% } %>
-                            </td>
-                         
-                            <td>
-                                <!-- Edit Button -->
-                                <a href="/editproduct/<%= product._id %>" class="btn btn-primary">Edit</a>
-                            </td>
-                            <td>
-                                <!-- delete Button -->
-                                <a href="/deleteproduct/<%= product._id %>" class="btn bg-gradient-primary mb-0 delete-button" data-product-id="<%= product._id %>" style="background-color: rgb(236, 31, 31); color: white;">Delete</a>
-
-
-                                  </td>
-                        </tr>
-                        <% }); %>
-                            
-            </tbody>
         </table>
     </div>
 </body>
