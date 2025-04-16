@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
     <!-- DataTable HEADER-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
@@ -12,84 +11,129 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.all.min.js"></script>
     <style>
         body {
+            display: flex;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
         }
-        
+
         .sidebar {
-            height: 100%;
             width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
             background-color: #333;
-            padding-top: 20px;
-        }
-        
-        .sidebar h2 {
             color: #fff;
+            padding: 15px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h2 {
             text-align: center;
         }
-        
+
         .sidebar ul {
             list-style-type: none;
             padding: 0;
         }
-        
+
         .sidebar ul li {
-            padding: 15px;
+            margin: 15px 0;
         }
-        
+
         .sidebar ul li a {
             color: #fff;
             text-decoration: none;
         }
-        
+
         .sidebar ul li a:hover {
-            color: #ccc;
+            text-decoration: underline;
         }
-        
+
         .content {
-            margin-left: 250px;
+            margin-left: 270px;
             padding: 20px;
+            flex-grow: 1;
         }
-        
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        button {
+            margin: 10px 0;
         }
-        
-        h2 {
-            margin-bottom: 20px;
+
+        #example {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        
-        .user-list {
-            list-style-type: none;
-            padding: 0;
+
+        #example th, #example td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
-        
-        .user-item {
-            border-bottom: 1px solid #ccc;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
+
+        #example th {
+            background-color: #333;
+            color: #fff;
         }
-        
-        .user-item button {
-            cursor: pointer;
+
+        #example tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
-        
-        #example thead th {
-            background-color: #007bff; /* Blue */
-            color: #fff; /* White */
+
+        #example tr:hover {
+            background-color: #f1f1f1;
         }
-      
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-blue {
+            background-color: #007bfffb;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-blue:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-edit {
+            background-color: #007bfffb;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .heading {
+            flex-grow: 1;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -115,12 +159,14 @@
     </div>
 
     <div class="content">
-        <h1 style="text-align: center;">product Management</h1>
-        <div style="text-align:left; margin-bottom: 20px;">
-            <a href="/addProduct" class="btn btn-primary">Add Product</a>
-        </div> 
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="heading">Product Management</h2>
+            <a href="/addProduct" class="btn-blue" style="margin-right: 20px; padding: 8px 15px; font-weight: bold; cursor: pointer;">
+                + Add Product
+            </a>
+        </div>
         
-        <table id="example" class="table table-striped" style="width:100%">
+        <table id="example" class="table-striped" style="width:100%">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -133,11 +179,27 @@
                     <th>status</th>
                     <th>List/UnList</th>
                     <th>Action</th>
-                    <th></th>
-                    
                 </tr>
             </thead>
         </table>
     </div>
+
+    <script>
+        document.getElementById('logout-link').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Are you sure you want to logout?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Yes, logout",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/admin/adminLogin";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
