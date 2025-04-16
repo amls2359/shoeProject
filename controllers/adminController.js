@@ -226,6 +226,15 @@ const addproductget= async(req,res)=>{
     }
 }
 
+const productmanagement= async(req,res)=>{
+    try{
+        res.render("productmanagement");
+    }catch(error){
+        console.log("error",error);
+        res.status(500).send("internal server error");
+    }
+}
+
 
 
 module.exports={
@@ -234,5 +243,5 @@ module.exports={
     dashboard,
     usermanagement,block,unblock,
     categorymanagement,addcategoryget,addCategoryPost,UnList,editCategoryget,editCategorypost,
-     addproductget,
+    productmanagement,addproductget,
 }
