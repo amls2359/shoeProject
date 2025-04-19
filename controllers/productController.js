@@ -70,13 +70,14 @@ const addproductpost = async (req, res) => {
         const images = await handleFileUpload(req.files);
 
         // Process category
-        const categoryName = req.body.newCategory || req.body.category;
-        if (!categoryName) throw new Error('Category is required');
-
-        let category = await Category.findOne({ name: categoryName });
-        if (!category) {
-            category = new Category({ name: categoryName });
+        let category;
+        if (req.body.category === 'new') {
+            if (!req.body.newCategory) throw new Error('New category name is required');
+            category = new Category({ name: req.body.newCategory.trim() });
             await category.save();
+        } else {
+            category = await Category.findById(req.body.category);
+            if (!category) throw new Error('Selected category not found');
         }
 
         // Ensure price is a valid number

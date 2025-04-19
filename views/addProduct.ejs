@@ -23,11 +23,11 @@
         .error { color: red; margin-bottom: 15px; }
         .field-error { color: red; font-size: 0.8em; margin-top: 5px; }
         .category-input {
-    margin-top: 5px;
-}
-.hidden {
-    display: none;
-}
+            margin-top: 5px;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -50,9 +50,9 @@
                 <select id="category" name="category" required>
                     <option value="">Select a category</option>
                     <% categories.forEach(cat => { %>
-                        <option value="<%= cat.category %>" 
-                            <%= (formData.category === cat.category) ? 'selected' : '' %>>
-                            <%= cat.category %>
+                        <option value="<%= cat._id %>" 
+                            <%= (formData.category === cat._id.toString()) ? 'selected' : '' %>>
+                            <%= cat.name %>
                         </option>
                     <% }); %>
                     <option value="new" <%= (formData.category === 'new') ? 'selected' : '' %>>+ Add New Category</option>
@@ -115,10 +115,10 @@
         document.getElementById('category').addEventListener('change', function() {
             const newCategoryInput = document.getElementById('newCategory');
             if (this.value === 'new') {
-                newCategoryInput.style.display = 'block';
+                newCategoryInput.classList.remove('hidden');
                 newCategoryInput.setAttribute('required', '');
             } else {
-                newCategoryInput.style.display = 'none';
+                newCategoryInput.classList.add('hidden');
                 newCategoryInput.removeAttribute('required');
             }
         });
