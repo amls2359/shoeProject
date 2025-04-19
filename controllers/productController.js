@@ -5,7 +5,9 @@ const path = require('path');
 const productmanagement = async (req, res) => {
     try {
         const products = await Product.find({}).populate('category');
-        res.render("productmanagement", { products });
+        // Filter out products without a category (optional)
+        const validProducts = products.filter(product => product.category);
+        res.render("productmanagement", { products: validProducts });
     } catch (error) {
         console.error("Error:", error);
         res.status(500).render("error", { message: "Error loading product management" });
