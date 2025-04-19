@@ -1,10 +1,11 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 
-const categorySchema= new mongoose.Schema({
-    category:{type:String},
-    islisted:{type:Boolean,default:false}
-
+const categorySchema = new mongoose.Schema({
+    category: { type: String },
+    islisted: { type: Boolean, default: false }
 })
-const category=mongoose.model('categories',categorySchema)
 
-module.exports= category
+// Change to 'Category' to match what your code expects
+const Category = mongoose.model('Category', categorySchema)
+
+module.exports = Category
