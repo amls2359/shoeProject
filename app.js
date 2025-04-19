@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const UserRouter=require('./routes/UserRouter')
 const adminRoute=require('./routes/adminRoute')
+const productRoute=require('./routes/productRoute')
 const path = require('path');
 const session=require('express-session')
 const Swal = require('sweetalert2')
@@ -25,6 +26,7 @@ app.set('view engine', 'ejs');
 
 app.use('/', UserRouter);
 app.use('/admin',adminRoute)
+app.use('/',productRoute)
 
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));

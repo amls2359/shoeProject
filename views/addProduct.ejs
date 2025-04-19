@@ -5,102 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        .form-container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;
         }
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-        }
-        .checkbox-group input {
-            width: auto;
-            margin-right: 10px;
-        }
-        .button-group {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button[type="button"] {
-            background-color: #f44336;
-        }
-        button:hover {
-            opacity: 0.8;
-        }
+        textarea { height: 100px; resize: vertical; }
+        .checkbox-group { display: flex; align-items: center; }
+        .checkbox-group input { width: auto; margin-right: 10px; }
+        .button-group { margin-top: 20px; display: flex; gap: 10px; }
+        button { padding: 10px 15px; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button[type="submit"] { background-color: #4CAF50; }
+        button[type="button"] { background-color: #f44336; }
+        button:hover { opacity: 0.8; }
+        .error { color: red; margin-bottom: 15px; }
+        .field-error { color: red; font-size: 0.8em; margin-top: 5px; }
+        .category-input {
+    margin-top: 5px;
+}
+.hidden {
+    display: none;
+}
     </style>
 </head>
 <body>
     <div class="form-container">
         <h1>Add Product</h1>
-        <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+        
+        <% if (error) { %>
+            <div class="error"><%= error %></div>
+        <% } %>
+
+        <form action="/addproductpost" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="productname">Product Name:</label>
-                <input type="text" id="productname" name="productname" required>
+                <label for="productname">Product Name:*</label>
+                <input type="text" id="productname" name="productname" 
+                       value="<%= formData.productname || '' %>" required>
             </div>
 
             <div class="form-group">
-                <label for="category">Category:</label>
+                <label for="category">Category:*</label>
                 <select id="category" name="category" required>
-                    <option value="">Select Category</option>
-                    <% categories.forEach(category => { %>
-                        <option value="<%= category._id %>"><%= category.name %></option>
+                    <option value="">Select a category</option>
+                    <% categories.forEach(cat => { %>
+                        <option value="<%= cat.category %>" 
+                            <%= (formData.category === cat.category) ? 'selected' : '' %>>
+                            <%= cat.category %>
+                        </option>
                     <% }); %>
+                    <option value="new" <%= (formData.category === 'new') ? 'selected' : '' %>>+ Add New Category</option>
                 </select>
+                <input type="text" id="newCategory" name="newCategory" 
+                       class="category-input <%= formData.category !== 'new' ? 'hidden' : '' %>"
+                       placeholder="Enter new category name"
+                       value="<%= formData.newCategory || '' %>">
             </div>
 
             <div class="form-group">
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" min="0" step="0.01" required>
+                <label for="price">Price:*</label>
+                <input type="number" id="price" name="price" min="0" step="0.01" 
+                       value="<%= formData.price || '' %>" required>
             </div>
 
             <div class="form-group">
                 <label for="model">Model:</label>
-                <input type="text" id="model" name="model">
+                <input type="text" id="model" name="model" 
+                       value="<%= formData.model || '' %>">
             </div>
 
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea id="description" name="description"></textarea>
+                <textarea id="description" name="description"><%= formData.description || '' %></textarea>
             </div>
 
             <div class="form-group">
@@ -109,25 +86,42 @@
             </div>
 
             <div class="form-group">
-                <label for="stock">Stock:</label>
-                <input type="number" id="stock" name="stock" min="0" required>
+                <label for="stock">Stock:*</label>
+                <input type="number" id="stock" name="stock" min="0" 
+                       value="<%= formData.stock || '' %>" required>
             </div>
 
             <div class="form-group">
                 <label for="brand">Brand:</label>
-                <input type="text" id="brand" name="brand">
+                <input type="text" id="brand" name="brand" 
+                       value="<%= formData.brand || '' %>">
             </div>
 
             <div class="form-group checkbox-group">
-                <input type="checkbox" id="isListed" name="isListed" checked>
+                <input type="checkbox" id="isListed" name="isListed" 
+                       <%= (formData.isListed !== 'off') ? 'checked' : '' %>>
                 <label for="isListed">Listed (Visible to customers)</label>
             </div>
 
             <div class="button-group">
-                <button type="submit">Add</button>
-                <button type="button" onclick="window.history.back()">Go Back</button>
+                <button type="submit">Add Product</button>
+                <button type="button" onclick="window.history.back()">Cancel</button>
             </div>
         </form>
     </div>
+
+    <script>
+        // Show/hide new category input
+        document.getElementById('category').addEventListener('change', function() {
+            const newCategoryInput = document.getElementById('newCategory');
+            if (this.value === 'new') {
+                newCategoryInput.style.display = 'block';
+                newCategoryInput.setAttribute('required', '');
+            } else {
+                newCategoryInput.style.display = 'none';
+                newCategoryInput.removeAttribute('required');
+            }
+        });
+    </script>
 </body>
 </html>

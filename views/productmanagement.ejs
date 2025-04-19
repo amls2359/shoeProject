@@ -3,189 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <!-- DataTable HEADER-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.all.min.js"></script>
+    <title>Product Management</title>
     <style>
-        body {
-            display: flex;
-            font-family: Arial, sans-serif;
-            margin: 0;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #333;
-            color: #fff;
-            padding: 15px;
-            height: 100vh;
-            position: fixed;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 15px 0;
-        }
-
-        .sidebar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .sidebar ul li a:hover {
-            text-decoration: underline;
-        }
-
-        .content {
-            margin-left: 270px;
-            padding: 20px;
-            flex-grow: 1;
-        }
-
-        button {
-            margin: 10px 0;
-        }
-
-        #example {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        #example th, #example td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        #example th {
-            background-color: #333;
-            color: #fff;
-        }
-
-        #example tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        #example tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-        }
-
-        .btn-blue {
-            background-color: #007bfffb;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-
-        .btn-blue:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-edit {
-            background-color: #007bfffb;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-
-        .heading {
-            flex-grow: 1;
-            text-align: center;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .action-buttons { display: flex; gap: 5px; }
+        .button { padding: 5px 10px; color: white; text-decoration: none; border-radius: 3px; }
+        .add-button { background-color: #4CAF50; margin-bottom: 20px; display: inline-block; padding: 10px 15px; }
+        .edit-button { background-color: #2196F3; }
+        .delete-button { background-color: #f44336; }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Admin Panel</h2>
-        <ul>
-            <li><a href="/admin/usermanagement">User Management</a></li>
-            <br>
-            <li><a href="/admin/categorymanagement">Category Management</a></li>
-            <br>
-            <li><a href="">Product Management</a></li>
-            <br>
-            <li><a href="">Order Management</a></li>
-            <br>
-            <li><a href="">Coupon Management</a></li>
-            <br>
-            <li><a href="">Sales</a></li>
-            <br>
-            <li><a href="">Offer Management</a></li>
-            <br>
-            <li><a href="/admin/adminLogin" id="logout-link">Logout</a></li>
-        </ul>
-    </div>
-
-    <div class="content">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 class="heading">Product Management</h2>
-            <button id="add-product-btn" class="btn-success" style="margin-right: 20px; padding: 8px 15px; font-weight: bold; cursor: pointer;">
-                + Add Product
-            </button>
-        </div>
-        
-        <table id="example" class="table-striped" style="width:100%">
-            <thead>
+    <h1>Product Management</h1>
+    <a href="/addproduct" class="button add-button">Add New Product</a>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach(product => { %>
                 <tr>
-                    <th>ID</th>
-                    <th>Product Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Image</th>
-                    <th>Stock</th>
-                    <th>Brand</th>
-                    <th>status</th>
-                    <th>List/UnList</th>
-                    <th>Action</th>
+                    <td><%= product.productname %></td>
+                    <td><%= product.category.name %></td>
+                    <td>$<%= product.price.toFixed(2) %></td>
+                    <td><%= product.stock %></td>
+                    <td><%= product.isListed ? 'Listed' : 'Unlisted' %></td>
+                    <td class="action-buttons">
+                        <a href="#" class="button edit-button">Edit</a>
+                        <a href="#" class="button delete-button">Delete</a>
+                    </td>
                 </tr>
-            </thead>
-        </table>
-    </div>
-
-    <script>
-      document.getElementById('add-product-btn')
-    </script>
+            <% }); %>
+        </tbody>
+    </table>
 </body>
 </html>
