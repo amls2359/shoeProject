@@ -62,7 +62,7 @@ const handleFileUpload = (files) => {
 const addproductpost = async (req, res) => {
     try {
         // Validate required fields
-        if (!req.body.productname || !req.body.price || !req.body.stock) {
+        if (!req.body.productname?.trim() || !req.body.price || !req.body.stock) {
             throw new Error('Product name, price, and stock are required');
         }
 
@@ -72,7 +72,7 @@ const addproductpost = async (req, res) => {
         // Process category
         let category;
         if (req.body.category === 'new') {
-            if (!req.body.newCategory) throw new Error('New category name is required');
+            if (!req.body.newCategory?.trim()) throw new Error('New category name is required');
             category = new Category({ name: req.body.newCategory.trim() });
             await category.save();
         } else {
