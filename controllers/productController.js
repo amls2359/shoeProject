@@ -5,8 +5,14 @@ const path = require('path');
 const productmanagement = async (req, res) => {
     try {
         const products = await Product.find({}).populate('category');
-        // Filter out products without a category (optional)
-        const validProducts = products.filter(product => product.category);
+        // Ensure products have valid prices and filter out products without category
+        const validProducts = products
+            .filter(product => product.category)
+            .map(product => ({
+                ...product._doc,
+                price: product.price ? Number(product.price) : 0
+            }));
+            
         res.render("productmanagement", { products: validProducts });
     } catch (error) {
         console.error("Error:", error);
@@ -73,15 +79,18 @@ const addproductpost = async (req, res) => {
             await category.save();
         }
 
+        // Ensure price is a valid number
+        const price = parseFloat(req.body.price) || 0;
+
         // Create new product
         const newProduct = new Product({
             productname: req.body.productname.trim(),
             category: category._id,
-            price: parseFloat(req.body.price),
+            price: price,
             model: req.body.model?.trim(),
             description: req.body.description?.trim(),
             image: images,
-            stock: parseInt(req.body.stock),
+            stock: parseInt(req.body.stock) || 0,
             brand: req.body.brand?.trim(),
             isListed: req.body.isListed === 'on'
         });

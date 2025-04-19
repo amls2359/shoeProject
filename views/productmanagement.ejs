@@ -46,17 +46,17 @@
                         <td class="<%= !product.category ? 'uncategorized' : '' %>">
                             <%= product.category ? product.category.name : 'Uncategorized' %>
                         </td>
-                        <td>$<%= product.price.toFixed(2) %></td>
-                        <td><%= product.stock %></td>
+                        <td>$<%= (product.price || 0).toFixed(2) %></td>
+                        <td><%= product.stock || 0 %></td>
                         <td class="<%= product.isListed ? 'status-listed' : 'status-unlisted' %>">
                             <%= product.isListed ? 'Listed' : 'Unlisted' %>
                         </td>
-                        <!-- <td class="action-buttons">
+                        <td class="action-buttons">
                             <a href="/editproduct/<%= product._id %>" class="button edit-button">Edit</a>
                             <form action="/deleteproduct/<%= product._id %>" method="POST" style="display: inline;">
                                 <button type="submit" class="button delete-button" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
                             </form>
-                        </td> -->
+                        </td>
                     </tr>
                 <% }); %>
             </tbody>
