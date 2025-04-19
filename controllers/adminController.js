@@ -218,10 +218,6 @@ const editCategorypost = async (req, res) => {
 
 
 
-
-
-
-
 module.exports={
     adminLogin,
     adminloginpost,
