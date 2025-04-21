@@ -94,10 +94,10 @@
     <% } %>
     <form action="/addProductPost" method="post" enctype="multipart/form-data">
       <!-- Other form fields -->
-      <div class="form-group">
-          <label for="images">Product name</label>
-          <input type="file" name="img" id="images" multiple class="form-control">
-      </div>
+      <div class="mb-3">
+        <label for="productname" class="form-label">Product Name</label>
+        <input type="text" class="form-control" id="productname" name="productname" >
+    </div>
       <div class="form-group">
         <label for="category">Category:*</label>
         <select id="category" name="category" required>
