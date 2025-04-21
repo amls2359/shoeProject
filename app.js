@@ -8,7 +8,7 @@ const path = require('path');
 const session=require('express-session')
 const Swal = require('sweetalert2')
 const app = express();
-const port =  3000;
+const port =  3001;
 
 app.use(session({
     secret:'key',

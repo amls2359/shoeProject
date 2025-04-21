@@ -11,7 +11,7 @@ router.get('/usermanagement',adminController.usermanagement)
 router.get('/blockuser/:id',adminController.block)
 router.get('/unblockuser/:id',adminController.unblock)
 
-router.get('/categorymanagement',adminController.categorymanagement)
+router.get('/categorymanagement',adminController.categoryManagement)
 router.get('/addcategory',adminController.addcategoryget)
 
 router.post('/addCategoryPost',adminController.addCategoryPost)

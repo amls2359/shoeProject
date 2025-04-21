@@ -85,63 +85,53 @@ const unblock = async (req, res) => {
     }
 };
 
-const categorymanagement= async (req, res) => {
+const categoryManagement = async (req, res) => {
     try {
-        const categories = await Category.find({}).sort({ _id: -1 }); // Fetch all categories sorted by ID in descending order
-        res.render('categorymanagement', {categories });
-    } catch (err) {
-        console.error("Error fetching categories:", err);
-        res.status(500).send("Error fetching categories");
+        const categories = await Category.find({}).sort({ name: 1 });
+        res.render("categorymanagement", { categories });
+    } catch (error) {
+        console.log("Error fetching categories:", error);
+        res.status(500).send("Internal server error");
     }
 };
 
-const addcategoryget = async(req,res)=>{
-    try{ 
-        res.render("addcategory");    
-    }
-    catch(error){
-        console.log("error",error);
+const addcategoryget = async (req, res) => {
+    try {
+        res.render("addcategory");
+    } catch (error) {
+        console.log("error", error);
         res.status(500).send("internal server error");
     }
-}
+};
 
 const addCategoryPost = async (req, res) => {
-    console.log("Reached post category");
-    const name = req.body.name.trim(); // Trim whitespace from the input
-    console.log("Category Name:", name);
-
+    const name = req.body.name.trim();
+    
     try {
-        // Check if the category already exists (case-insensitive)
+        // Check if category already exists (case-insensitive)
         const existingCategory = await Category.findOne({
-            category: { $regex: new RegExp("^" + name + "$", "i") },
+            name: { $regex: new RegExp("^" + name + "$", "i") }
         });
 
         if (existingCategory) {
-            // If the category already exists, render the addcategory page with an error message
-            console.log("Category already exists");
             return res.render("addcategory", {
                 errorMessage: "Category already exists!",
-                successMessage: null,
+                successMessage: null
             });
         }
 
-        // If the category does not exist, create a new one
-        console.log("Creating new category");
         const newCategory = new Category({
-            category: name,
+            name: name,  // Using 'name' field consistently
+            islisted: true
         });
 
-        await newCategory.save(); // Save the new category to the database
-        console.log("Category saved successfully");
-
-        // Redirect to the category management page
+        await newCategory.save();
         res.redirect("/admin/categorymanagement");
     } catch (err) {
         console.error("Error inserting category:", err);
         res.status(500).send("Error inserting category");
-    }  await category.updateMany({ category: category._id }, { isListed: category.islisted });
+    }
 };
-
 
 const UnList = async (req, res) => {    
     try {
@@ -167,10 +157,13 @@ const UnList = async (req, res) => {
 const editCategoryget = async (req, res) => {
     try {
         const id = req.params.id;
-        console.log("Fetching category with ID:", id); // Add this line for debugging
+        console.log("Fetching category with ID:", id);
         const category = await Category.findOne({ _id: id });
-        console.log("Category found:", category); // Add this line for debugging
-        res.render("editcategory", { category: category });
+        console.log("Category found:", category);
+        res.render("editcategory", { 
+            category: category,
+            message: null // Initialize message as null
+        });
     } catch (err) {
         console.error(err);
         return res.status(500).send("Failed to display the category edit page.");
@@ -182,24 +175,29 @@ const editCategorypost = async (req, res) => {
         const id = req.params.id;
         const categoryname = req.body.categoryname ? req.body.categoryname.trim() : null;
 
+        // Fetch the category details from the database first
+        const category = await Category.findById(id);
+
         if (!categoryname) {
-            return res.render('editcategory', { message: "Category name is required!", category: category });
+            return res.render('editcategory', { 
+                message: "Category name is required!", 
+                category: category // Pass the existing category back to the form
+            });
         }
 
         console.log(`this is the id ${id} and this is the categoryname ${categoryname}`);
 
-        // Fetch the category details from the database
-        const category = await Category.findById(id);
-
         // Check if there's already a category with the new name
         const existingCategory = await Category.findOne({
             category: { $regex: new RegExp("^" + categoryname + "$", "i") },
-            _id: { $ne: id } // Ensure the category being checked is not the one being edited
+            _id: { $ne: id }
         });
 
         if (existingCategory) {
-            // If a category with the new name exists, render the same page with an error message
-            return res.render('editcategory', { message: "Category already exists!", category: category });
+            return res.render('editcategory', { 
+                message: "Category already exists!", 
+                category: category // Pass the existing category back to the form
+            });
         }
 
         // Update the category name
@@ -212,7 +210,12 @@ const editCategorypost = async (req, res) => {
         return res.redirect("/admin/categorymanagement");
     } catch (err) {
         console.error("Error editing category:", err);
-        return res.status(500).send("Failed to edit category.");
+        // In case of error, render the form again with the original category data
+        const category = await Category.findById(id);
+        return res.render('editcategory', { 
+            message: "Failed to edit category.", 
+            category: category 
+        });
     }
 }
 
@@ -223,6 +226,6 @@ module.exports={
     adminloginpost,
     dashboard,
     usermanagement,block,unblock,
-    categorymanagement,addcategoryget,addCategoryPost,UnList,editCategoryget,editCategorypost,
+    categoryManagement,addcategoryget,addCategoryPost,UnList,editCategoryget,editCategorypost,
 
 }

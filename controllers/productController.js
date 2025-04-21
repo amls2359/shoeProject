@@ -1,116 +1,123 @@
+// controllers/productController.js
 const Product = require('../models/product');
 const Category = require('../models/category');
 const path = require('path');
 
 const productmanagement = async (req, res) => {
-    try {
-        const products = await Product.find({}).populate('category');
-        // Ensure products have valid prices and filter out products without category
-        const validProducts = products
-            .filter(product => product.category)
-            .map(product => ({
-                ...product._doc,
-                price: product.price ? Number(product.price) : 0
-            }));
-            
-        res.render("productmanagement", { products: validProducts });
-    } catch (error) {
-        console.error("Error:", error);
-        res.status(500).render("error", { message: "Error loading product management" });
-    }
+  try {
+    const products = await Product.find({}).populate('category');
+    // Ensure products have valid prices and filter out products without category
+    const validProducts = products
+      .filter(product => product.category)
+      .map(product => ({
+        ...product._doc,
+        price: product.price ? Number(product.price) : 0
+      }));
+    res.render("productmanagement", { products: validProducts });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).render("error", { message: "Error loading product management" });
+  }
 };
 
+// controllers/productController.js
 const addproductget = async (req, res) => {
     try {
-        const categories = await Category.find({});
-        res.render("addProduct", {
-            categories,
-            error: null,
-            formData: {}
-        });
+      const categories = await Category.find({ islisted: true }).lean();
+      console.log('Fetched categories:', categories); // Add this line for debugging
+      
+      res.render("addProduct", {
+        categories: categories || [], // Ensure it's never undefined
+        error: null,
+        formData: {}
+      });
     } catch (error) {
-        console.error("Error:", error);
-        res.status(500).render("addProduct", {
-            categories: [],
-            error: "Error loading form",
-            formData: {}
-        });
+      console.error("Error fetching categories:", error);
+      res.status(500).render("addProduct", {
+        categories: [],
+        error: "Error loading categories",
+        formData: {}
+      });
     }
-};
+  };
 
 const handleFileUpload = (files) => {
-    return new Promise((resolve, reject) => {
-        if (!files || !files.image) return resolve([]);
-
-        const images = [];
-        const fileArray = Array.isArray(files.image) ? files.image : [files.image];
-        
-        fileArray.forEach(file => {
-            const newFilename = Date.now() + '-' + file.name;
-            const uploadPath = path.join(__dirname, '../public/uploads', newFilename);
-            
-            file.mv(uploadPath, (err) => {
-                if (err) return reject(err);
-                images.push(newFilename);
-            });
-        });
-
-        resolve(images);
+  return new Promise((resolve, reject) => {
+    if (!files || !files.image) return resolve([]);
+    const images = [];
+    const fileArray = Array.isArray(files.image) ? files.image : [files.image];
+    let processed = 0;
+    
+    fileArray.forEach(file => {
+      const newFilename = Date.now() + '-' + file.name;
+      const uploadPath = path.join(__dirname, '../public/uploads', newFilename);
+      file.mv(uploadPath, (err) => {
+        if (err) return reject(err);
+        images.push(newFilename);
+        processed++;
+        if (processed === fileArray.length) resolve(images);
+      });
     });
+  });
 };
 
 const addproductpost = async (req, res) => {
     try {
         // Validate required fields
-        if (!req.body.productname?.trim() || !req.body.price || !req.body.stock) {
+        const { productname, price, stock, category, newCategory, model, description, brand, isListed } = req.body;
+        
+        if (!productname?.trim() || !price || !stock) {
             throw new Error('Product name, price, and stock are required');
         }
 
         // Handle file uploads
-        const images = await handleFileUpload(req.files);
-
-        // Process category
-        let category;
-        if (req.body.category === 'new') {
-            if (!req.body.newCategory?.trim()) throw new Error('New category name is required');
-            category = new Category({ name: req.body.newCategory.trim() });
-            await category.save();
-        } else {
-            category = await Category.findById(req.body.category);
-            if (!category) throw new Error('Selected category not found');
+        let images = [];
+        if (req.files && req.files.length > 0) {
+            images = req.files.map(file => file.filename);
         }
 
-        // Ensure price is a valid number
-        const price = parseFloat(req.body.price) || 0;
+        // Process category
+        let categoryObj;
+        if (category === 'new') {
+            if (!newCategory?.trim()) throw new Error('New category name is required');
+            categoryObj = new Category({ 
+                name: newCategory.trim(),
+                islisted: true 
+            });
+            await categoryObj.save();
+        } else {
+            categoryObj = await Category.findById(category);
+            if (!categoryObj) throw new Error('Selected category not found');
+        }
 
         // Create new product
         const newProduct = new Product({
-            productname: req.body.productname.trim(),
-            category: category._id,
-            price: price,
-            model: req.body.model?.trim(),
-            description: req.body.description?.trim(),
+            productname: productname.trim(),
+            category: categoryObj._id,
+            price: parseFloat(price) || 0,
+            model: model?.trim(),
+            description: description?.trim(),
             image: images,
-            stock: parseInt(req.body.stock) || 0,
-            brand: req.body.brand?.trim(),
-            isListed: req.body.isListed === 'on'
+            stock: parseInt(stock) || 0,
+            brand: brand?.trim(),
+            isListed: isListed === 'on'
         });
 
         await newProduct.save();
         res.redirect('/productmanagement');
     } catch (error) {
-        console.error("Error:", error);
-        const categories = await Category.find({});
-        res.render("addProduct", {
-            categories,
-            error: error.message,
-            formData: req.body
+        console.error("Error adding product:", error);
+        const categories = await Category.find({ islisted: true });
+        res.render("addProduct", { 
+            categories, 
+            error: error.message, 
+            formData: req.body 
         });
     }
 };
 
 module.exports = {
-    productmanagement,
-    addproductget,
-    addproductpost
+  productmanagement,
+  addproductget,
+  addproductpost
 };
