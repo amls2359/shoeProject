@@ -71,10 +71,9 @@ const addproductpost = async (req, res) => {
         }
 
         // Handle file uploads
-        let images = [];
-        if (req.files && req.files.length > 0) {
-            images = req.files.map(file => file.filename);
-        }
+        const images = req.files.map(file => 
+          path.join('uploads', file.filename).replace(/\\/g, '/')
+      );
 
         // Process category
         let categoryObj;
