@@ -194,19 +194,27 @@
         <table id="category-table" class="table-striped">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Category Name</th>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
                     <th>Image</th>
-                    <th>Status</th>
+                    <th>Stock</th>
+                    <th>Brand</th>
+                    <th>status</th>
+                    <th>List/UnList</th>
                     <th>Action</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <% products.forEach((products,index) => { %>
                     <tr>
                         <td><%= index+1 %></td>
-                        <td><%= products.productname %></td>
-                        <td><%= products.image %></td>
+                        <td><%= products.productname %> </td>
+                        <td><%=products.category %> </td>
+                        <td><%= products.image %> </td>
+                        <td><%=products.stock %> </td>
                         <td>
                             <% if(products.islisted) { %>
                                 <span class="status-listed">Listed</span>
@@ -221,6 +229,7 @@
                                 <a href="/admin/unListcategory/<%= products._id %>" class="btn btn-success">List</a>
                             <% } %>
                             <a href="/admin/editcategory/<%= products._id %>" class="btn btn-edit">Edit</a>
+                            <a href="" class ="btn btn-edit">Delete</a>
                         </td>
                     </tr>
                 <% }) %>
