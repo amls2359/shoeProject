@@ -205,7 +205,7 @@
                 <% products.forEach((products,index) => { %>
                     <tr>
                         <td><%= index+1 %></td>
-                        <td><%= products.name %></td>
+                        <td><%= products.productname %></td>
                         <td><%= products.image %></td>
                         <td>
                             <% if(products.islisted) { %>
@@ -216,11 +216,11 @@
                         </td>
                         <td>
                             <% if (!products.islisted) { %>
-                                <a href="/admin/unListcategory/<%= category._id %>" class="btn btn-danger">UnList</a>
+                                <a href="/admin/unListcategory/<%=products._id %>" class="btn btn-danger">UnList</a>
                             <% } else { %>
-                                <a href="/admin/unListcategory/<%= category._id %>" class="btn btn-success">List</a>
+                                <a href="/admin/unListcategory/<%= products._id %>" class="btn btn-success">List</a>
                             <% } %>
-                            <a href="/admin/editcategory/<%= category._id %>" class="btn btn-edit">Edit</a>
+                            <a href="/admin/editcategory/<%= products._id %>" class="btn btn-edit">Edit</a>
                         </td>
                     </tr>
                 <% }) %>
