@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category Management</title>
     <style>
-        body {
-            display: flex;
-            font-family: Arial, sans-serif;
+        /* General Styles */
+        body { 
+            font-family: Arial, sans-serif; 
             margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f5f5;
         }
-
+        
+        /* Sidebar Styles */
         .sidebar {
             width: 215px;
             background-color: #333;
@@ -76,12 +81,6 @@
         }
         
         /* Table Styles */
-        /* table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        } */
-
         .main-content {
             margin-left: 270px;
             padding: 20px;
@@ -143,51 +142,54 @@
             background-color: #218838;
         }
         .btn-blue {
-    background-color: #007bfffb;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-}
-
-.btn-blue:hover {
-    background-color: #0056b3;
-}
-.btn-edit
-{
-    background-color:  #007bfffb;
+            background-color: #007bfffb;
             color: white;
             padding: 5px 10px;
             border: none;
             border-radius: 4px;
             text-decoration: none;
-}
+        }
 
+        .btn-blue:hover {
+            background-color: #0056b3;
+        }
+        .btn-edit {
+            background-color: #007bfffb;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
     </style>
-         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
-        <br>
         <ul>
             <li><a href="/admin/usermanagement">User Management</a></li>
-            <br>
             <li><a href="/admin/categorymanagement">Category Management</a></li>
-            <br>
             <li><a href="">Product Management</a></li>
-            <br>
             <li><a href="">Order Management</a></li>
-            <br>
             <li><a href="">Coupon Management</a></li>
-            <br>
             <li><a href="">Sales</a></li>
-            <br>
             <li><a href="">Offer Management</a></li>
-            <br>
             <li><a href="/admin/adminLogin" id="logout-link">Logout</a></li>
         </ul>
     </div>
