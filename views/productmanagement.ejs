@@ -163,14 +163,26 @@
                 margin-left: 0;
             }
         }
-        .btn-edit1
-        {
-   
-    
-    color: #f2f2f2;
-    font-weight: bold;
-    background-color: #2196F3; /* Blue color */
-}
+        .btn-edit1 {
+            color: #f2f2f2;
+            font-weight: bold;
+            background-color: #2196F3; /* Blue color */
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-edit2 {
+            color: #f2f2f2;
+            font-weight: bold;
+            background-color: #f44336; /* Red color */
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 5px;
+        }
     
     </style>
 </head>
@@ -243,8 +255,8 @@
                             <% } %>
                          </td>
                          <td>
-                            <a href="/admin/editcategory/<%= products._id %>" class=" btn-edit1">Edit</a>
-                            <a href="" class ="btn-edit2">Delete</a>
+                            <a href="/admin/editcategory/<%= products._id %>" class="btn-edit1">Edit</a>
+                            <a href="" class="btn-edit2">Delete</a>
                         </td>
                     </tr>
                 <% }) %>
