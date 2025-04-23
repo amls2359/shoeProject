@@ -119,7 +119,7 @@ const getEditProduct=async(req,res)=>
 {
   try
   {
-    const product = await Product.findOne({_id:req.params.id}.populate('category'))
+    const product = await Product.findOne({_id:req.params.id}).populate('category')
     const categories=await Category.find()
     res.render('editProduct',{product,categories})
   }
