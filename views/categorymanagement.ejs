@@ -93,6 +93,7 @@
 
         #example {
             width: 100%;
+            border: 1px solid #ddd;
             border-collapse: collapse;
             margin-top: 20px;
         }
@@ -100,12 +101,13 @@
         #example th, #example td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border: 1px solid #ddd;
         }
 
         #example th {
             background-color: #333;
             color: #fff;
+            border: 1px solid #444;
         }
 
         #example tr:nth-child(even) {
@@ -173,6 +175,25 @@
             .main-content {
                 margin-left: 0;
             }
+            
+            #example {
+                width: 100%;
+                border: 1px solid #ddd !important;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            #example th, #example td {
+                border: 1px solid #ddd !important;
+                padding: 12px;
+                text-align: left;
+            }
+
+            #example th {
+                background-color: #333;
+                color: #fff;
+                border: 1px solid #444 !important;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -212,8 +233,8 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>category name</th>
-                    <th>status</th>
+                    <th>Category Name</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -224,9 +245,9 @@
                         <td><%= category.name %></td>
                         <td>
                             <% if(category.islisted){ %>
-                                <span style="color: red;">unlisted</span>
+                                <span style="color: red;">Unlisted</span>
                             <% } else { %>
-                                <span style="color: green;">listed</span>
+                                <span style="color: green;">Listed</span>
                             <% } %>
                         </td>
                         <td>
@@ -235,7 +256,7 @@
                             <% } else { %>
                                 <a href="/admin/unListcategory/<%= category._id %>" class="btn btn-danger" style="background-color: green;">List</a>
                             <% } %>
-                            <a href="/admin/editcategory/<%= category._id %>" class=" btn-edit" >Edit</a>
+                            <a href="/admin/editcategory/<%= category._id %>" class="btn-edit">Edit</a>
                         </td>
                     </tr>
                 <% }) %>
@@ -243,11 +264,12 @@
         </table>
     </div>
     <script>
-            // Add event listener to the "Add Category" button
-      document.getElementById('add-category-btn').addEventListener('click', function () {
-        // Redirect to the addcategory page
-        window.location.href = "/admin/addcategory";
-           });
+        // Add event listener to the "Add Category" button
+        document.getElementById('add-category-btn').addEventListener('click', function () {
+            // Redirect to the addcategory page
+            window.location.href = "/admin/addcategory";
+        });
+        
         document.getElementById('logout-link').addEventListener('click', function (e) {
             e.preventDefault(); // Prevent the default link behavior
 

@@ -115,8 +115,27 @@ const addproductpost = async (req, res) => {
     }
 };
 
+const getEditProduct=async(req,res)=>
+{
+  try
+  {
+    const product = await Product.findOne({_id:req.params.id}.populate('category'))
+    const categories=await Category.find()
+    res.render('editProduct',{product,categories})
+  }
+  catch(err)
+  {
+    console.error(err);
+    return res.status(500).send('Failed to get product edit page')
+    
+  }
+
+}
+
 module.exports = {
   productmanagement,
   addproductget,
-  addproductpost
+  addproductpost,
+  getEditProduct
+
 };
