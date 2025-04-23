@@ -570,6 +570,7 @@ form a{
                                 <input type="text" class="form-control" id="productname" name="productname" value="<%= product.productname %>" required>
                                 <div class="invalid-feedback"></div>
                             </div>
+
                             <div class="mb-4">
                                 <label for="category" class="form-label">Category</label>
                                 <select class="form-select" id="category" name="category" required>
@@ -582,6 +583,7 @@ form a{
                         
                                 </select>
                             </div>
+
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price</label>
                                 <input type="text" class="form-control" id="price" name="price" value="<%= product.price %>" required>
@@ -598,20 +600,29 @@ form a{
                                 <label for="stock" class="form-label">Stock</label>
                                 <input type="number" class="form-control" id="stock" name="stock" value="<%= product.stock %>"  required>
                             </div>
+
                             <div class="mb-4">
                                 <label for="isListed" class="form-label">IsListed</label>
                                 <select class="form-select" id="isListed" name="isListed" required>
-                                    <option value="true">True</option>
-                                    <option value="false">False</option>
+                                    <option value="true" <%= product.isListed === true ? 'selected' : '' %>>True</option>
+                                    <option value="false" <%= product.isListed === false ? 'selected' : '' %>>False</option>
                                 </select>
                             </div>
-                                <div class="mb-3">
+
+                            <div class="mb-3">
                                 <label for="existingImages" class="form-label">Existing Images</label>
+                                <div class="d-flex flex-wrap">
+                                    <% product.img.forEach(image => { %>
+                                        <img src="/productImages/<%= image %>" alt="Product Image" class="img-thumbnail m-1" style="width: 100px; height: 100px;">
+                                    <% }); %>
                                 </div>
+                            </div>
+
                             <div class="mb-3">
                                 <label for="img" class="form-label">Product Image</label>
                                 <input type="file" class="form-control" id="img" name="img" accept="image/*" multiple  alt="no img">
                             </div>
+
                             <div class="text-center login-button mb-4">
                                 <button type="submit" class="btn btn-primary w-100" id="submit-button">Update</button>
 
