@@ -119,6 +119,8 @@ const getEditProduct=async(req,res)=>
 {
   try
   {
+    console.log('Request body:', req.body);
+console.log('Files:', req.files);
     const product = await Product.findOne({_id:req.params.id}).populate('category')
     const categories=await Category.find()
     res.render('editProduct',{product,categories})
@@ -134,6 +136,8 @@ const getEditProduct=async(req,res)=>
 
 const postEditProduct = async (req, res) => {
   try {
+    console.log('Request body:', req.body);
+console.log('Files:', req.files);
     const { productname, category, price, description, stock, isListed } = req.body;
     const productId = req.params.id;
 
