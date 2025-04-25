@@ -137,10 +137,16 @@ const postEditProduct = async (req, res) => {
     const { productname, category, price, description, stock, isListed } = req.body;
     const productId = req.params.id;
 
+    // Get existing product to preserve existing images
+    const existingProduct = await Product.findById(productId);
+    
     // Handle image uploads
-    let images = [];
+    let images = existingProduct.image || []; // Start with existing images
     if (req.files && req.files.length > 0) {
-      images = req.files.map(file => file.filename);
+      const newImages = req.files.map(file => 
+        path.join('uploads', file.filename).replace(/\\/g, '/')
+      );
+      images = [...images, ...newImages]; // Combine existing and new images
     }
 
     // Update product
@@ -149,19 +155,30 @@ const postEditProduct = async (req, res) => {
       {
         productname,
         category,
-        price,
+        price: parseFloat(price),
         description,
-        stock,
-        isListed,
-        $push: { img: { $each: images } } // Add new images to existing ones
+        stock: parseInt(stock),
+        isListed: isListed === 'true',
+        image: images
       },
       { new: true }
     );
 
-    res.redirect('/productmanagement'); // Redirect to product management page
+    if (!updatedProduct) {
+      throw new Error('Product not found');
+    }
+
+    res.redirect('/productmanagement');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Failed to update product');
+    // Render the edit page again with error message
+    const product = await Product.findById(req.params.id).populate('category');
+    const categories = await Category.find();
+    res.render('editProduct', { 
+      product, 
+      categories,
+      error: 'Failed to update product' 
+    });
   }
 };
 
