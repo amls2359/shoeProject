@@ -574,7 +574,7 @@
                                 <div class="mb-4">
                                     <label for="category" class="form-label">Category</label>
                                     <select class="form-select" id="category" name="category" required>
-                                    <%categories.foreach(category=>{%>
+                                        <% categories.forEach(category => { %>
                                         <option value="<%= category._id %>"
                                             <%= product.category && product.category._id.toString()=== category._id.toString() ? 'selected' : '' %>>
                                             <%= category.name%>
