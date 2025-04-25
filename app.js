@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
+app.use('/productImages', express.static('public/productImages'));
 
 app.use('/', UserRouter);
 app.use('/admin',adminRoute)
