@@ -612,11 +612,11 @@
                                 <div class="mb-3">
                                     <label for="existingImages" class="form-label">Existing Images</label>
                                     <div class="d-flex flex-wrap">
-                                        <% product.img.forEach(image => { %>
-                                            <img src="/productImages/<%= image %>" alt="Product Image" class="img-thumbnail m-1" style="width: 100px; height: 100px;">
-                                        <% }); %>
+                                      <% product.image.forEach(image => { %>
+                                        <img src="/<%= image %>" alt="Product Image" class="img-thumbnail m-1" style="width: 100px; height: 100px;">
+                                      <% }); %>
                                     </div>
-                                </div>
+                                  </div>
 
                                 <div class="mb-3">
                                     <label for="img" class="form-label">Product Image</label>
