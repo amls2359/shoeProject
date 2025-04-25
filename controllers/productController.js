@@ -162,7 +162,7 @@ console.log('Files:', req.files);
         price: parseFloat(price),
         description,
         stock: parseInt(stock),
-        isListed: isListed === 'true',
+        isListed: isListed === 'true',isListed: isListed === 'on' || isListed === 'true',
         image: images
       },
       { new: true }
