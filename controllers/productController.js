@@ -132,10 +132,45 @@ const getEditProduct=async(req,res)=>
 
 }
 
+const postEditProduct = async (req, res) => {
+  try {
+    const { productname, category, price, description, stock, isListed } = req.body;
+    const productId = req.params.id;
+
+    // Handle image uploads
+    let images = [];
+    if (req.files && req.files.length > 0) {
+      images = req.files.map(file => file.filename);
+    }
+
+    // Update product
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      {
+        productname,
+        category,
+        price,
+        description,
+        stock,
+        isListed,
+        $push: { img: { $each: images } } // Add new images to existing ones
+      },
+      { new: true }
+    );
+
+    res.redirect('/productmanagement'); // Redirect to product management page
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Failed to update product');
+  }
+};
+
+
 module.exports = {
   productmanagement,
   addproductget,
   addproductpost,
-  getEditProduct
+  getEditProduct,
+  postEditProduct
 
 };
