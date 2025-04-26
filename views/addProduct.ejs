@@ -104,9 +104,11 @@
           <option value="">Select a category</option>
           <% if (categories && categories.length) { %>
               <% categories.forEach(cat => { %>
-                  <option value="<%= cat._id %>">
-                      <%= cat.name %> <%-- Changed from productname to name --%>
-                  </option>
+                <option value="<%= cat._id %>">
+                  <%= cat.name %> <% /* Changed from productname to name */ %>
+
+              </option>
+              
               <% }); %>
           <% } else { %>
               <option value="" disabled>No categories found</option>
