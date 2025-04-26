@@ -35,7 +35,7 @@ const addproductget = async (req, res) => {
       console.error("Error fetching categories:", error);
       res.status(500).render("addProduct", {
         categories: [],
-        error: "Error loading categories",
+        errorMessage: "Error loading categories",
         formData: {}
       });
     }

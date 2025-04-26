@@ -89,8 +89,8 @@
 <body>
   <div class="form-container">
     <h1>Add Product</h1>
-    <% if (error) { %>
-      <div class="error"><%= error %></div>
+    <% if (errorMessage) { %>
+      <div class="error"><%= errorMessage %></div>
     <% } %>
     <form action="/addProductPost" method="post" enctype="multipart/form-data">
       <!-- Other form fields -->
