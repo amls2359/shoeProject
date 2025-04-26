@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Add Product</title>
   <style>
+    /* Your existing styles here */
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
@@ -93,28 +94,25 @@
       <div class="error"><%= errorMessage %></div>
     <% } %>
     <form action="/addProductPost" method="post" enctype="multipart/form-data">
-      <!-- Other form fields -->
       <div class="mb-3">
         <label for="productname" class="form-label">Product Name</label>
-        <input type="text" class="form-control" id="productname" name="productname" >
-    </div>
+        <input type="text" class="form-control" id="productname" name="productname" value="<%= formData.productname || '' %>" required>
+      </div>
       <div class="form-group">
         <label for="category">Category:*</label>
         <select id="category" name="category" required>
           <option value="">Select a category</option>
           <% if (categories && categories.length) { %>
-              <% categories.forEach(cat => { %>
-                <option value="<%= cat._id %>">
-                  <%= cat.name %> <% /* Changed from productname to name */ %>
-
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat._id %>" <%= formData.category == cat._id ? 'selected' : '' %>>
+                <%= cat.name %> <% /* Changed from productname to name */ %>
               </option>
-              
-              <% }); %>
+            <% }); %>
           <% } else { %>
-              <option value="" disabled>No categories found</option>
+            <option value="" disabled>No categories found</option>
           <% } %>
-          <option value="new">+ Add New Category</option>
-      </select>
+          <option value="new" <%= formData.category === 'new' ? 'selected' : '' %>>+ Add New Category</option>
+        </select>
         <input type="text" id="newCategory" name="newCategory" class="category-input <%= formData.category !== 'new' ? 'hidden' : '' %>" placeholder="Enter new category name" value="<%= formData.newCategory || '' %>">
       </div>
       <div class="form-group">
