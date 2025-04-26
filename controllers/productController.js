@@ -75,6 +75,7 @@ const addproductpost = async (req, res) => {
         }
 
         // Handle file uploads
+        req.files = req.files || [];
         const images = req.files.map(file => 
           path.join('uploads', file.filename).replace(/\\/g, '/')
       );
