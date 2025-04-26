@@ -109,7 +109,7 @@ const addproductpost = async (req, res) => {
         const categories = await Category.find({ islisted: true });
         res.render("addProduct", { 
             categories, 
-            error: error.message, 
+            errorMessage: error.message, 
             formData: req.body 
         });
     }
@@ -181,7 +181,7 @@ console.log('Files:', req.files);
     res.render('editProduct', { 
       product, 
       categories,
-      error: 'Failed to update product' 
+      errorMessage: 'Failed to update product' 
     });
   }
 };
