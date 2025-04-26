@@ -27,7 +27,7 @@ const productmanagement = async (req, res) => {
 // controllers/productController.js
 const addproductget = async (req, res) => {
     try {
-      const categories = await Category.find({ islisted: true }).lean();
+      const categories = await Category.find({ islisted: false }).lean();
       console.log('Fetched categories:', categories); // Add this line for debugging
       
       res.render("addProduct", {
