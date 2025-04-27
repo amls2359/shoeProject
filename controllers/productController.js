@@ -26,24 +26,24 @@ const productmanagement = async (req, res) => {
 
 // controllers/productController.js
 const addproductget = async (req, res) => {
-    try {
-      const categories = await Category.find({ islisted: false }).lean();
-      console.log('Fetched categories:', categories); // Add this line for debugging
-      
-      res.render("addProduct", {
-        categories: categories || [], // Ensure it's never undefined
-        error: null,
-        formData: {}
-      });
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      res.status(500).render("addProduct", {
-        categories: [],
-        errorMessage: "Error loading categories",
-        formData: {}
-      });
-    }
-  };
+  try {
+    const categories = await Category.find({ islisted: false }).lean();
+    const errorMessage = req.query.error || null;
+    
+    res.render("addProduct", {
+      categories: categories || [],
+      errorMessage: errorMessage,
+      formData: req.body || {}
+    });
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.render("addProduct", {
+      categories: [],
+      errorMessage: "Error loading categories",
+      formData: {}
+    });
+  }
+};
 
 const handleFileUpload = (files) => {
   return new Promise((resolve, reject) => {
@@ -66,58 +66,63 @@ const handleFileUpload = (files) => {
 };
 
 const addproductpost = async (req, res) => {
-    try {
-        // Validate required fields
-        const { productname, price, stock, category, newCategory, model, description, brand, isListed } = req.body;
-        
-        if (!productname?.trim() || !price || !stock) {
-            throw new Error('Product name, price, and stock are required');
-        }
+  try {
+      // Validate required fields
+      const { productname, price, stock, category, newCategory, model, description, brand, isListed } = req.body;
+      
+      if (!productname?.trim() || !price || !stock) {
+          throw new Error('Product name, price, and stock are required');
+      }
 
-        // Handle file uploads
-        req.files = req.files || [];
-        const images = req.files.map(file => 
-          path.join('uploads', file.filename).replace(/\\/g, '/')
+      // Handle file uploads
+      req.files = req.files || [];
+      const images = req.files.map(file => 
+        path.join('uploads', file.filename).replace(/\\/g, '/')
       );
 
-        // Process category
-        let categoryObj;
-        if (category === 'new') {
-            if (!newCategory?.trim()) throw new Error('New category name is required');
-            categoryObj = new Category({ 
-                name: newCategory.trim(),
-                islisted: true 
-            });
-            await categoryObj.save();
-        } else {
-            categoryObj = await Category.findById(category);
-            if (!categoryObj) throw new Error('Selected category not found');
-        }
+      // Process category
+      let categoryObj;
+      if (category === 'new') {
+          if (!newCategory?.trim()) throw new Error('New category name is required');
+          categoryObj = new Category({ 
+              name: newCategory.trim(),
+              islisted: true 
+          });
+          await categoryObj.save();
+      } else {
+          categoryObj = await Category.findById(category);
+          if (!categoryObj) throw new Error('Selected category not found');
+      }
 
-        // Create new product
-        const newProduct = new Product({
-            productname: productname.trim(),
-            category: categoryObj._id,
-            price: parseFloat(price) || 0,
-            model: model?.trim(),
-            description: description?.trim(),
-            image: images,
-            stock: parseInt(stock) || 0,
-            brand: brand?.trim(),
-            isListed: isListed === 'on'
-        });
+      // Create new product
+      const newProduct = new Product({
+          productname: productname.trim(),
+          category: categoryObj._id,
+          price: parseFloat(price) || 0,
+          model: model?.trim(),
+          description: description?.trim(),
+          image: images,
+          stock: parseInt(stock) || 0,
+          brand: brand?.trim(),
+          isListed: isListed === 'on'
+      });
 
-        await newProduct.save();
-        res.redirect('/productmanagement');
-    } catch (error) {
-        console.error("Error adding product:", error);
-        const categories = await Category.find({ islisted: true });
-        res.render("addProduct", { 
-            categories, 
-            errorMessage: error.message, 
-            formData: req.body 
-        });
-    }
+      await newProduct.save();
+      res.redirect('/productmanagement');
+  } catch (error) {
+      console.error("Error adding product:", error);
+      try {
+          const categories = await Category.find({ islisted: true });
+          res.render("addProduct", { 
+              categories: categories || [], 
+              errorMessage: error.message, 
+              formData: req.body 
+          });
+      } catch (err) {
+          console.error("Error rendering error page:", err);
+          res.redirect('/addProduct?error=' + encodeURIComponent(error.message));
+      }
+  }
 };
 
 const getEditProduct=async(req,res)=>
