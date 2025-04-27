@@ -68,10 +68,12 @@ const addproductpost = async (req, res) => {
       // Validate required fields
       const { productname, price, stock, category, newCategory, model, description, brand, isListed } = req.body;
       
-      if (!productname?.trim()) throw new Error('Product name is required');
-      if (!price) throw new Error('Price is required');
-      if (!stock) throw new Error('Stock is required');
-
+      const errors = {};
+      
+      if (!productname?.trim()) errors.productname = 'Product name is required';
+      if (!price) errors.price = 'Price is required';
+      if (!stock) errors.stock = 'Stock is required';
+      
       // Handle file uploads
       req.files = req.files || [];
       const images = req.files.map(file => 
@@ -81,15 +83,27 @@ const addproductpost = async (req, res) => {
       // Process category
       let categoryObj;
       if (category === 'new') {
-          if (!newCategory?.trim()) throw new Error('New category name is required');
-          categoryObj = new Category({ 
-              name: newCategory.trim(),
-              islisted: true 
-          });
-          await categoryObj.save();
+          if (!newCategory?.trim()) errors.newCategory = 'New category name is required';
+          else {
+              categoryObj = new Category({ 
+                  name: newCategory.trim(),
+                  islisted: true 
+              });
+              await categoryObj.save();
+          }
       } else {
           categoryObj = await Category.findById(category);
-          if (!categoryObj) throw new Error('Selected category not found');
+          if (!categoryObj) errors.category = 'Selected category not found';
+      }
+
+      // If there are errors, return them
+      if (Object.keys(errors).length > 0) {
+          const categories = await Category.find({ islisted: true }).lean();
+          return res.render("addProduct", {
+              categories: categories || [],
+              errors,
+              formData: req.body
+          });
       }
 
       // Create new product
@@ -116,7 +130,7 @@ const addproductpost = async (req, res) => {
       // Render the same page with error message
       res.render("addProduct", {
           categories: categories || [],
-          errorMessage: error.message,
+          errors: { general: error.message },
           formData: req.body
       });
   }

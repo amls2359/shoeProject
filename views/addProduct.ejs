@@ -85,29 +85,39 @@
     .hidden {
       display: none;
     }
+    .error-message {
+      color: red;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ffcccc;
+      background-color: #ffeeee;
+    }
   </style>
 </head>
 <body>
   <div class="form-container">
     <h1>Add Product</h1>
-    <% if (errorMessage) { %>
-      <div class="error" style="color: red; padding: 10px; margin-bottom: 15px; border: 1px solid #ffcccc; background-color: #ffeeee;">
-          <%= errorMessage %>
+    <% if (errors && errors.general) { %>
+      <div class="error-message">
+          <%= errors.general %>
       </div>
-  <% } %>
+    <% } %>
     <form action="/addProductPost" method="post" enctype="multipart/form-data">
-      <div class="mb-3">
-        <label for="productname" class="form-label">Product Name</label>
-        <input type="text" class="form-control" id="productname" name="productname" value="<%= formData.productname || '' %>" required>
+      <div class="form-group">
+        <label for="productname">Product Name*</label>
+        <input type="text" id="productname" name="productname" value="<%= formData.productname || '' %>" required>
+        <% if (errors && errors.productname) { %>
+          <div class="field-error"><%= errors.productname %></div>
+        <% } %>
       </div>
       <div class="form-group">
-        <label for="category">Category:*</label>
+        <label for="category">Category*</label>
         <select id="category" name="category" required>
           <option value="">Select a category</option>
           <% if (categories && categories.length) { %>
             <% categories.forEach(cat => { %>
               <option value="<%= cat._id %>" <%= formData.category == cat._id ? 'selected' : '' %>>
-                <%= cat.name %> <% /* Changed from productname to name */ %>
+                <%= cat.name %>
               </option>
             <% }); %>
           <% } else { %>
@@ -115,11 +125,20 @@
           <% } %>
           <option value="new" <%= formData.category === 'new' ? 'selected' : '' %>>+ Add New Category</option>
         </select>
+        <% if (errors && errors.category) { %>
+          <div class="field-error"><%= errors.category %></div>
+        <% } %>
         <input type="text" id="newCategory" name="newCategory" class="category-input <%= formData.category !== 'new' ? 'hidden' : '' %>" placeholder="Enter new category name" value="<%= formData.newCategory || '' %>">
+        <% if (errors && errors.newCategory) { %>
+          <div class="field-error"><%= errors.newCategory %></div>
+        <% } %>
       </div>
       <div class="form-group">
-        <label for="price">Price:*</label>
+        <label for="price">Price*</label>
         <input type="number" id="price" name="price" min="0" step="0.01" value="<%= formData.price || '' %>" required>
+        <% if (errors && errors.price) { %>
+          <div class="field-error"><%= errors.price %></div>
+        <% } %>
       </div>
       <div class="form-group">
         <label for="model">Model:</label>
@@ -134,8 +153,11 @@
         <input type="file" id="image" name="image" multiple accept="image/*">
       </div>
       <div class="form-group">
-        <label for="stock">Stock:*</label>
+        <label for="stock">Stock*</label>
         <input type="number" id="stock" name="stock" min="0" value="<%= formData.stock || '' %>" required>
+        <% if (errors && errors.stock) { %>
+          <div class="field-error"><%= errors.stock %></div>
+        <% } %>
       </div>
       <div class="form-group">
         <label for="brand">Brand:</label>
