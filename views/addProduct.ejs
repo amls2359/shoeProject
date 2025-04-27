@@ -91,8 +91,10 @@
   <div class="form-container">
     <h1>Add Product</h1>
     <% if (errorMessage) { %>
-      <div class="error"><%= errorMessage %></div>
-    <% } %>
+      <div class="error" style="color: red; padding: 10px; margin-bottom: 15px; border: 1px solid #ffcccc; background-color: #ffeeee;">
+          <%= errorMessage %>
+      </div>
+  <% } %>
     <form action="/addProductPost" method="post" enctype="multipart/form-data">
       <div class="mb-3">
         <label for="productname" class="form-label">Product Name</label>

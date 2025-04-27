@@ -27,21 +27,19 @@ const productmanagement = async (req, res) => {
 // controllers/productController.js
 const addproductget = async (req, res) => {
   try {
-    const categories = await Category.find({ islisted: false }).lean();
-    const errorMessage = req.query.error || null;
-    
-    res.render("addProduct", {
-      categories: categories || [],
-      errorMessage: errorMessage,
-      formData: req.body || {}
-    });
+      const categories = await Category.find({ islisted: false }).lean();
+      res.render("addProduct", {
+          categories: categories || [],
+          errorMessage: null,
+          formData: {}
+      });
   } catch (error) {
-    console.error("Error fetching categories:", error);
-    res.render("addProduct", {
-      categories: [],
-      errorMessage: "Error loading categories",
-      formData: {}
-    });
+      console.error("Error fetching categories:", error);
+      res.render("addProduct", {
+          categories: [],
+          errorMessage: "Error loading categories",
+          formData: {}
+      });
   }
 };
 
@@ -70,14 +68,14 @@ const addproductpost = async (req, res) => {
       // Validate required fields
       const { productname, price, stock, category, newCategory, model, description, brand, isListed } = req.body;
       
-      if (!productname?.trim() || !price || !stock) {
-          throw new Error('Product name, price, and stock are required');
-      }
+      if (!productname?.trim()) throw new Error('Product name is required');
+      if (!price) throw new Error('Price is required');
+      if (!stock) throw new Error('Stock is required');
 
       // Handle file uploads
       req.files = req.files || [];
       const images = req.files.map(file => 
-        path.join('uploads', file.filename).replace(/\\/g, '/')
+          path.join('uploads', file.filename).replace(/\\/g, '/')
       );
 
       // Process category
@@ -111,17 +109,16 @@ const addproductpost = async (req, res) => {
       res.redirect('/productmanagement');
   } catch (error) {
       console.error("Error adding product:", error);
-      try {
-          const categories = await Category.find({ islisted: true });
-          res.render("addProduct", { 
-              categories: categories || [], 
-              errorMessage: error.message, 
-              formData: req.body 
-          });
-      } catch (err) {
-          console.error("Error rendering error page:", err);
-          res.redirect('/addProduct?error=' + encodeURIComponent(error.message));
-      }
+      
+      // Get categories again in case of error
+      const categories = await Category.find({ islisted: true }).lean();
+      
+      // Render the same page with error message
+      res.render("addProduct", {
+          categories: categories || [],
+          errorMessage: error.message,
+          formData: req.body
+      });
   }
 };
 
