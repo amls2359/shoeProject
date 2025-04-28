@@ -65,13 +65,14 @@ const handleFileUpload = (files) => {
       const uploadPath = path.join(__dirname, '../public/uploads', newFilename);
       file.mv(uploadPath, (err) => {
         if (err) return reject(err);
-        images.push(newFilename);
+        // Store with /uploads/ prefix
+        images.push('uploads/' + newFilename);
         processed++;
         if (processed === fileArray.length) resolve(images);
       });
     });
   });
-};
+};;
 
 const addproductpost = async (req, res) => {
   try {
