@@ -143,6 +143,27 @@ const addproductpost = async (req, res) => {
   }
 };
 
+const unlistProduct= async(req,res)=>
+  {
+  try
+  {
+     const productId=req.params.id;
+    
+     const product= await Product.findById(productId);
+     if(!product)
+     {
+      return res.status(404).send('PRODUCT NOT FOUND')
+     }
+     product.isListed=!product.isListed;
+
+     await product.save()
+  }
+  catch
+  {
+
+  }
+}
+
 const getEditProduct=async(req,res)=>
 {
   try
