@@ -30,5 +30,5 @@ router.get('/addProduct', productController.addproductget)
 router.post('/addProductPost', upload, productController.addproductpost)
 router.get('/editProduct/:id',productController.getEditProduct)
 router.post('/editProduct/:id', upload, productController.postEditProduct);
-
+router.get('/unlistProduct/:id',productController.unlistProduct)
 module.exports = router
