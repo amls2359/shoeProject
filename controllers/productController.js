@@ -148,12 +148,13 @@ const unlistProduct= async(req,res)=>
   try
   {
      const productId=req.params.id;
-    
+       // Find the product by ID
      const product= await Product.findById(productId);
      if(!product)
      {
       return res.status(404).send('PRODUCT NOT FOUND')
      }
+      // Toggle the isListed status of the product
      product.isListed=!product.isListed;
 
      await product.save()
