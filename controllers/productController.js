@@ -3,6 +3,7 @@ const Product = require('../models/product');
 const Category = require('../models/category');
 const fs=require('fs')
 const path = require('path');
+const product = require('../models/product');
 
 const productmanagement = async (req, res) => {
   try {
@@ -143,8 +144,10 @@ const addproductpost = async (req, res) => {
   }
 };
 
+
+
 const unlistProduct= async(req,res)=>
-  {
+{
   try
   {
      const productId=req.params.id;
@@ -158,12 +161,23 @@ const unlistProduct= async(req,res)=>
      product.isListed=!product.isListed;
 
      await product.save()
-  }
-  catch
+  
+  if(product.category)
   {
-
+    await Product.updateOne({category:product.category},{isListed:product.isListed})  
   }
+ }
+  catch(err)
+  {
+     console.log(err);
+      return res.status(500).send("Error changing product status")
+      
+  }
+  res.redirect('/productmanagement')
 }
+
+
+
 
 const getEditProduct=async(req,res)=>
 {
@@ -183,6 +197,9 @@ const getEditProduct=async(req,res)=>
   }
 
 }
+
+
+
 
 const postEditProduct = async (req, res) => {
   try {
@@ -234,6 +251,7 @@ module.exports =
   addproductget,
   addproductpost,
   getEditProduct,
-  postEditProduct
+  postEditProduct,
+  unlistProduct
 
 };
