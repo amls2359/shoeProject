@@ -21,7 +21,7 @@ const productmanagement = async (req, res) => {
     res.render("productmanagement", { products: validProducts });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).render("addProduct", { 
+    res.status(500).render("productmanagement", { 
       categories: [], 
       errorMessage: "Error loading product management",
       formData: {}
