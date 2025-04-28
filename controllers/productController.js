@@ -54,6 +54,8 @@ const addproductget = async (req, res) => {
 };
 
 const handleFileUpload = (files) => {
+  console.log('image in');
+  
   return new Promise((resolve, reject) => {
     if (!files || !files.image) return resolve([]);
     const images = [];
@@ -69,6 +71,8 @@ const handleFileUpload = (files) => {
         images.push('uploads/' + newFilename);
         processed++;
         if (processed === fileArray.length) resolve(images);
+        console.log('out');
+        
       });
     });
   });
