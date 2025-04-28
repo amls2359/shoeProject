@@ -3,7 +3,7 @@ const Product = require('../models/product');
 const Category = require('../models/category');
 const fs=require('fs')
 const path = require('path');
-const product = require('../models/product');
+
 
 const productmanagement = async (req, res) => {
   try {
