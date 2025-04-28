@@ -112,7 +112,7 @@
       </div>
       <div class="form-group">
         <label for="category">Category*</label>
-        <select id="category" name="category" required>
+        <select id="category" name="category">
           <option value="">Select a category</option>
           <% if (categories && categories.length) { %>
             <% categories.forEach(cat => { %>
@@ -154,7 +154,7 @@
       </div>
       <div class="form-group">
         <label for="stock">Stock*</label>
-        <input type="number" id="stock" name="stock" min="0" value="<%= formData.stock || '' %>" required>
+        <input type="number" id="stock" name="stock" min="0" value="<%= formData.stock || '' %>">
         <% if (errors && errors.stock) { %>
           <div class="field-error"><%= errors.stock %></div>
         <% } %>
