@@ -54,29 +54,25 @@ const addproductget = async (req, res) => {
 };
 
 const handleFileUpload = (files) => {
-  console.log('image in');
-  
   return new Promise((resolve, reject) => {
-    if (!files || !files.image) return resolve([]);
+    if (!files || files.length === 0) return resolve([]);
+    
     const images = [];
-    const fileArray = Array.isArray(files.image) ? files.image : [files.image];
     let processed = 0;
     
-    fileArray.forEach(file => {
-      const newFilename = Date.now() + '-' + file.name;
+    files.forEach(file => {
+      const newFilename = Date.now() + '-' + file.originalname;
       const uploadPath = path.join(__dirname, '../public/uploads', newFilename);
-      file.mv(uploadPath, (err) => {
+      
+      fs.rename(file.path, uploadPath, (err) => {
         if (err) return reject(err);
-        // Store with /uploads/ prefix
         images.push('uploads/' + newFilename);
         processed++;
-        if (processed === fileArray.length) resolve(images);
-        console.log('out');
-        
+        if (processed === files.length) resolve(images);
       });
     });
   });
-};;
+};
 
 const addproductpost = async (req, res) => {
   try {
