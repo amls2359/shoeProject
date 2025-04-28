@@ -11,7 +11,11 @@ const productmanagement = async (req, res) => {
       .filter(product => product.category)
       .map(product => ({
         ...product._doc,
-        price: product.price ? Number(product.price) : 0
+        price: product.price ? Number(product.price) : 0,
+        // Ensure image paths are correct
+        image: product.image ? product.image.map(img => img.replace(/\\/g, '/')) : [],
+        // Ensure brand has a default if empty
+        brand: product.brand || 'N/A'
       }));
     res.render("productmanagement", { products: validProducts });
   } catch (error) {
@@ -27,19 +31,25 @@ const productmanagement = async (req, res) => {
 // controllers/productController.js
 const addproductget = async (req, res) => {
   try {
-      const categories = await Category.find({ islisted: false }).lean();
-      res.render("addProduct", {
-          categories: categories || [],
-          errorMessage: null,
-          formData: {}
-      });
+    console.log('in');
+    
+    const categories = await Category.find({ islisted: false }).lean();
+    res.render("addProduct", {
+        categories: categories || [],
+        errorMessage: null,
+        formData: {},
+        errors: {} // Add this empty errors object
+    });
   } catch (error) {
-      console.error("Error fetching categories:", error);
-      res.render("addProduct", {
-          categories: [],
-          errorMessage: "Error loading categories",
-          formData: {}
-      });
+    console.log('error');
+    
+    console.error("Error fetching categories:", error);
+    res.render("addProduct", {
+        categories: [],
+        errorMessage: "Error loading categories",
+        formData: {},
+        errors: {} // Add this empty errors object
+    });
   }
 };
 
@@ -65,60 +75,69 @@ const handleFileUpload = (files) => {
 
 const addproductpost = async (req, res) => {
   try {
-      // Validate required fields
-      const { productname, price, stock, category, newCategory, model, description, brand, isListed } = req.body;
-      
-      if (!productname?.trim()) throw new Error('Product name is required');
-      if (!price) throw new Error('Price is required');
-      if (!stock) throw new Error('Stock is required');
+    const { productname, category, price, description, stock, brand } = req.body;
+    const errors = {};
 
-      // Handle file uploads
-      req.files = req.files || [];
-      const images = req.files.map(file => 
-          path.join('uploads', file.filename).replace(/\\/g, '/')
-      );
+    // Validation logic
+    if (!productname || productname.trim() === '') {
+      errors.productname = 'Product name is required';
+    }
+    if (!category) {
+      errors.category = 'Category is required';
+    }
+    if (!price || isNaN(price)) {
+      errors.price = 'Valid price is required';
+    }
+    if (!description || description.trim() === '') {
+      errors.description = 'Description is required';
+    }
+    if (!stock || isNaN(stock)) {
+      errors.stock = 'Valid stock quantity is required';
+    }
 
-      // Process category
-      let categoryObj;
-      if (category === 'new') {
-          if (!newCategory?.trim()) throw new Error('New category name is required');
-          categoryObj = new Category({ 
-              name: newCategory.trim(),
-              islisted: true 
-          });
-          await categoryObj.save();
-      } else {
-          categoryObj = await Category.findById(category);
-          if (!categoryObj) throw new Error('Selected category not found');
-      }
-
-      // Create new product
-      const newProduct = new Product({
-          productname: productname.trim(),
-          category: categoryObj._id,
-          price: parseFloat(price) || 0,
-          model: model?.trim(),
-          description: description?.trim(),
-          image: images,
-          stock: parseInt(stock) || 0,
-          brand: brand?.trim(),
-          isListed: isListed === 'on'
+    // Check if there are any validation errors
+    if (Object.keys(errors).length > 0) {
+      const categories = await Category.find({ islisted: false }).lean();
+      return res.render("addProduct", {
+        categories,
+        formData: req.body,
+        errors,
+        errorMessage: "Please correct the errors below"
       });
+    }
 
-      await newProduct.save();
-      res.redirect('/productmanagement');
+    // Handle file upload
+    let images = [];
+    if (req.files && req.files.image) {
+      images = await handleFileUpload(req.files);
+    }
+
+    // Create new product - include brand here
+    const newProduct = new Product({
+      productname,
+      category,
+      price: parseFloat(price),
+      description,
+      stock: parseInt(stock),
+      image: images,
+      brand: brand || 'N/A', // Add brand field with default value
+      isListed: req.body.isListed === 'on'
+    });
+
+    await newProduct.save();
+    res.redirect('/productmanagement');
+    
   } catch (error) {
-      console.error("Error adding product:", error);
-      
-      // Get categories again in case of error
-      const categories = await Category.find({ islisted: true }).lean();
-      
-      // Render the same page with error message
-      res.render("addProduct", {
-          categories: categories || [],
-          errorMessage: error.message,
-          formData: req.body
-      });
+    console.error("Error adding product:", error);
+    const categories = await Category.find({ islisted: false }).lean();
+    res.render("addProduct", {
+      categories,
+      formData: req.body,
+      errors: {
+        general: "An error occurred while adding the product"
+      },
+      errorMessage: "Failed to add product"
+    });
   }
 };
 
@@ -145,7 +164,7 @@ const postEditProduct = async (req, res) => {
   try {
     console.log('Request body:', req.body);
 console.log('Files:', req.files);
-    const { productname, category, price, description, stock, isListed } = req.body;
+    const { productname, category, price, description, stock, isListed,brand } = req.body;
     const productId = req.params.id;
 
     // Get existing product to preserve existing images
@@ -169,6 +188,7 @@ console.log('Files:', req.files);
         price: parseFloat(price),
         description,
         stock: parseInt(stock),
+        brand:brand ||'N/A',
         isListed: isListed === 'true',isListed: isListed === 'on' || isListed === 'true',
         image: images
       },
@@ -194,7 +214,8 @@ console.log('Files:', req.files);
 };
 
 
-module.exports = {
+module.exports = 
+{
   productmanagement,
   addproductget,
   addproductpost,

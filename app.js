@@ -47,11 +47,16 @@ app.use('/', productRoute); // This should come before adminRoute if they share 
 app.use('/admin', adminRoute);
 
 // Error handling middleware
+// Error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).render('error', { message: 'Something broke!' });
-});
-
+    res.status(500).render('addProduct', { 
+      errorMessage: 'Something went wrong!',
+      errors: {},
+      formData: {},
+      categories: [] 
+    });
+  });
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

@@ -240,10 +240,14 @@
                         <td><%=products.category.name %> </td>
                         <td><%=products.price %></td>
                         <td>
-                            <img class="product-image" src="<%= products.image[0] %>" alt="no img">
+                            <% if(products.image && products.image.length > 0) { %>
+                                <img class="product-image" src="/upload/<%= products.image[0] %>" alt="Product Image">
+                            <% } else { %>
+                                <span>No Image</span>
+                            <% } %>
                         </td>
                         <td><%=products.stock %> </td>
-                        <td><%=products.brand %> </td>
+                        <td><%= products.brand || 'N/A' %></td>
                         <td>
                             <% if(products.islisted) { %>
                                 <span class="status-listed">Listed</span>
