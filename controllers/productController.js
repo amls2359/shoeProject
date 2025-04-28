@@ -109,11 +109,11 @@ const addproductpost = async (req, res) => {
 
     // Handle file upload
     let images = [];
-    if (req.files && req.files.image) {
+    if (req.files && req.files.length > 0) {
       images = await handleFileUpload(req.files);
     }
 
-    // Create new product - include brand here
+    // Create new product
     const newProduct = new Product({
       productname,
       category,
@@ -121,7 +121,7 @@ const addproductpost = async (req, res) => {
       description,
       stock: parseInt(stock),
       image: images,
-      brand: brand || 'N/A', // Add brand field with default value
+      brand: brand || 'N/A',
       isListed: req.body.isListed === 'on'
     });
 
