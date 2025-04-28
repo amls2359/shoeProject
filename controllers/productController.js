@@ -163,24 +163,19 @@ const getEditProduct=async(req,res)=>
 
 const postEditProduct = async (req, res) => {
   try {
-    console.log('Request body:', req.body);
-console.log('Files:', req.files);
-    const { productname, category, price, description, stock, isListed,brand } = req.body;
+    const { productname, category, price, description, stock, isListed, brand } = req.body;
     const productId = req.params.id;
 
-    // Get existing product to preserve existing images
     const existingProduct = await Product.findById(productId);
     
-    // Handle image uploads
-    let images = existingProduct.image || []; // Start with existing images
+    let images = existingProduct.image || [];
     if (req.files && req.files.length > 0) {
       const newImages = req.files.map(file => 
-        path.join('uploads', file.filename).replace(/\\/g, '/')
+        'uploads/' + file.filename // Store with uploads/ prefix
       );
-      images = [...images, ...newImages]; // Combine existing and new images
+      images = [...images, ...newImages];
     }
 
-    // Update product
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
       {
@@ -189,21 +184,16 @@ console.log('Files:', req.files);
         price: parseFloat(price),
         description,
         stock: parseInt(stock),
-        brand:brand ||'N/A',
-        isListed: isListed === 'true',isListed: isListed === 'on' || isListed === 'true',
+        brand: brand || 'N/A',
+        isListed: isListed === 'on' || isListed === 'true',
         image: images
       },
       { new: true }
     );
 
-    if (!updatedProduct) {
-      throw new Error('Product not found');
-    }
-
     res.redirect('/productmanagement');
   } catch (err) {
     console.error(err);
-    // Render the edit page again with error message
     const product = await Product.findById(req.params.id).populate('category');
     const categories = await Category.find();
     res.render('editProduct', { 
