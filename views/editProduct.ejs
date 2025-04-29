@@ -48,7 +48,7 @@
                                 <label for="category" class="form-label">Category</label>
                                 <select class="form-select" id="category" name="category">
                                     <% if (product.category) { %>
-                                        <option value="<%= product.category._id %>"selected><%= product.category.category %></option>
+                                        <option value="<%= product.category._id %>"selected><%= product.category.name %></option>
                                     <% } else { %>
                                         <option value="">No Category</option>
                                     <% } %>
