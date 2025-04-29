@@ -48,14 +48,15 @@
                                 <label for="category" class="form-label">Category</label>
                                 <select class="form-select" id="category" name="category">
                                     <% if (product.category) { %>
-                                        <option value="<%= product.category._id %>"selected><%= product.category.name %></option>
+                                        <option value="<%= product.category._id %>" selected><%= product.category.name %></option>
                                     <% } else { %>
                                         <option value="">No Category</option>
                                     <% } %>
                                     <% if(categories.length > 0) { %>
                                         <% categories.forEach(categorie => { %>
-                                            if(categorie.name!===name)
-                                            <option value="<%= categorie._id %>"><%= categorie.name %></option>
+                                            <% if (!product.category || categorie._id.toString() !== product.category._id.toString()) { %>
+                                                <option value="<%= categorie._id %>"><%= categorie.name %></option>
+                                            <% } %>
                                         <% }) %>
                                     <% } %>
                                 </select>
