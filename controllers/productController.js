@@ -146,32 +146,21 @@ const addproductpost = async (req, res) => {
 
 
 
-const unlistProduct= async(req,res)=>
-{
-  try
-  {
-     const productId=req.params.id;
-       // Find the product by ID
-     const product= await Product.findById(productId);
-     if(!product)
-     {
-      return res.status(404).send('PRODUCT NOT FOUND')
-     }
-      // Toggle the isListed status of the product
-     product.isListed=!product.isListed;
-
-     await product.save()
+const unlistProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).send('PRODUCT NOT FOUND');
+    }
+    product.isListed = !product.isListed;
+    await product.save();
+    res.redirect('/productmanagement');
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Error changing product status");
   }
-  catch(err)
-  {
-     console.log(err);
-      return res.status(500).send("Error changing product status")
-  }
-  res.redirect('/productmanagement')
-}
-
-
-
+};
 
 
 const getEditProduct = async (req, res) => {
