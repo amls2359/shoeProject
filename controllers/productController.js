@@ -173,25 +173,21 @@ const unlistProduct= async(req,res)=>
 
 
 
-const getEditProduct=async(req,res)=>
-{
-  try
-  {
-    console.log('Request body:', req.body);
-    console.log('Files:', req.files);
-    const product = await Product.findOne({_id:req.params.id}).populate('category')
-    const categories=await Category.find()
-    res.render('editProduct',{product,categories})
-  }
-  catch(err)
-  {
-    console.error(err);
-    return res.status(500).send('Failed to get product edit page')
-    
-  }
-  res.render('/editProduct')
 
-}
+const getEditProduct = async (req, res) => {
+  try {
+    const product = await Product.findOne({ _id: req.params.id }).populate('category');
+    const categories = await Category.find();
+    res.render('editProduct', { product, categories });
+  } catch (err) {
+    console.error(err);
+    res.status(500).render('editProduct', {
+      product: null,
+      categories: [],
+      errorMessage: 'Failed to get product edit page'
+    });
+  }
+};
 
 
 
