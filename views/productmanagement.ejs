@@ -249,21 +249,21 @@
                         <td><%=products.stock %> </td>
                         <td><%= products.brand || 'N/A' %></td>
                         <td>
-                            <% if(products.islisted) { %>
+                            <% if(products.isListed) { %>
                                 <span class="status-listed">Listed</span>
                             <% } else { %>
                                 <span class="status-unlisted">Unlisted</span>
                             <% } %>
                         </td>
                         <td>
-                            <% if (!products.islisted) { %>
-                                <a href="/unListProduct/<%=products._id %>" class="btn btn-success">List</a>
+                            <% if (!products.isListed) { %>
+                                <a href="/unlistProduct/<%=products._id %>" class="btn btn-success">List</a>
                             <% } else { %>
-                                <a href="/unListProduct<%= products._id %>" class="btn btn-danger">UnList</a>
+                                <a href="/unlistProduct/<%= products._id %>" class="btn btn-danger">UnList</a>
                             <% } %>
                          </td>
                          <td>
-                            <a href="" class="btn-edit1">Edit</a>
+                            <a href="/editproduct/<%= products._id %>" class="btn-edit1">Edit</a>
                             <a href="" class="btn-edit2">Delete</a>
                         </td>
                     </tr>

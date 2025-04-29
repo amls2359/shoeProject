@@ -161,17 +161,11 @@ const unlistProduct= async(req,res)=>
      product.isListed=!product.isListed;
 
      await product.save()
-  
-  if(product.category)
-  {
-    await Product.updateOne({category:product.category},{isListed:product.isListed})  
   }
- }
   catch(err)
   {
      console.log(err);
       return res.status(500).send("Error changing product status")
-      
   }
   res.redirect('/productmanagement')
 }
@@ -195,6 +189,7 @@ const getEditProduct=async(req,res)=>
     return res.status(500).send('Failed to get product edit page')
     
   }
+  res.render('/editProduct')
 
 }
 
