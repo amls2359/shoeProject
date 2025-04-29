@@ -233,11 +233,6 @@ const postEditProduct = async (req, res) => {
         await newCategory.save();
       }
     }
-
-    res.redirect("/productmanagement");
-
-    await updatedProduct.save()
-    
     res.redirect('/productmanagement');
   } catch (err) {
     console.error(err);
