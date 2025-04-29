@@ -36,7 +36,6 @@
                 <div class="card">
 
                     <div class="card-body">
-
                         <h1 class="text-center text-primary">Edit Product</h1>
                         <form action="/editProduct/<%= product._id %>" method="POST" enctype="multipart/form-data">
                             <div class="mb-3">
@@ -44,11 +43,12 @@
                                 <input type="text" class="form-control" id="productname" name="productname" value="<%= product.productname %>" required>
                                 <div class="invalid-feedback"></div>
                             </div>
+
                             <div class="mb-4">
                                 <label for="category" class="form-label">Category</label>
                                 <select class="form-select" id="category" name="category">
                                     <% if (product.category) { %>
-                                        <option value="<%= product.category._id %>"><%= product.category.category %></option>
+                                        <option value="<%= product.category._id %>"selected><%= product.category.category %></option>
                                     <% } else { %>
                                         <option value="">No Category</option>
                                     <% } %>
@@ -58,8 +58,8 @@
                                         <% }) %>
                                     <% } %>
                                 </select>
-                                
                             </div>
+
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price</label>
                                 <input type="text" class="form-control" id="price" name="price" value="<%= product.price %>">
@@ -83,17 +83,24 @@
                                     <option value="false">False</option>
                                 </select>
                             </div>
-                                <div class="mb-3">
-                                <label for="existingImages" class="form-label">Existing Images</label>
-                                <% if (product.image && product.image.length> 0) { %>
-                                    <p style="color: white;">Previous Image(s):</p>
-                                    <% product.image.forEach((img, index)=> { %>
-                                        <img src="<%= img %>" alt="Previous Image"
-                                            style="max-width: 100px; max-height: 100px; margin-right: 10px;">
-                                        <button class="remove-image btn btn-danger" data-image="<%= index %>"
-                                            data-id="<%= product._id %>" type="button">Remove</button>
+                            <div class="mb-3">
+                                <label class="form-label">Existing Images</label>
+                                <% if (product.image && product.image.length > 0) { %>
+                                    <div class="d-flex flex-wrap gap-2 mb-2">
+                                        <% product.image.forEach((img, index) => { %>
+                                            <div class="position-relative" style="width: 100px;">
+                                                <img src="/uploads/<%=img %>" alt="Product Image" 
+                                                     class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                                <button class="remove-image btn btn-danger btn-sm position-absolute top-0 end-0" 
+                                                        data-image="<%= index %>" data-id="<%= product._id %>" type="button">
+                                                    ×
+                                                </button>
+                                            </div>
                                         <% }); %>
-                                            <% } %>
+                                    </div>
+                                <% } else { %>
+                                    <p class="text-muted">No images available</p>
+                                <% } %>
                             </div>
                             <div class="mb-3">
                                 <label for="img" class="form-label">Product Image</label>

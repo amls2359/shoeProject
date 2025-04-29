@@ -168,6 +168,7 @@ const getEditProduct = async (req, res) => {
     const product = await Product.findOne({ _id: req.params.id }).populate('category');
     const categories = await Category.find();
     res.render('editProduct', { product, categories });
+    console.log('Product images:', product.image);
   } catch (err) {
     console.error(err);
     res.status(500).render('editProduct', {

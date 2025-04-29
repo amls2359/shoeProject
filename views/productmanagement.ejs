@@ -188,20 +188,52 @@
         
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .table-container {
-                max-height: 400px;
-            }
-        }
+    /* ... (keep your existing mobile styles) ... */
+    
+    .action-buttons {
+        flex-direction: row; /* Ensure buttons stay in line */
+        flex-wrap: nowrap; /* Prevent wrapping */
+    }
+    
+    .btn-edit1, .btn-edit2 {
+        font-size: 12px; /* Smaller font on mobile */
+        padding: 4px 8px; /* Smaller padding on mobile */
+    }
+}
+            /* Add this to your style section */
+            .action-buttons {
+    display: flex;
+    gap: 5px; /* Space between buttons */
+    min-width: 100px; /* Give enough width for both buttons */
+}
+
+/* Update the existing button styles */
+.btn-edit1, .btn-edit2 {
+    color: #f2f2f2;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box; /* Include padding in width calculation */
+    margin-left: 0; /* Remove left margin */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.btn-edit1 {
+    background-color: #2196F3;
+}
+
+.btn-edit2 {
+    background-color: #f44336;
+}
+
+/* Update the table cell to prevent text wrapping */
+td {
+    white-space: nowrap; /* Prevent text wrapping */
+    vertical-align: middle; /* Center content vertically */
+}
+        
     </style>
 </head>
 <body>
@@ -276,11 +308,13 @@
                                 <% } else { %>
                                     <a href="/unlistProduct/<%= products._id %>" class="btn btn-danger">UnList</a>
                                 <% } %>
-                             </td>
-                             <td>
-                                <a href="/editproduct/<%= products._id %>" class="btn-edit1">Edit</a>
-                                <a href="" class="btn-edit2">Delete</a>
-                            </td>
+                              </td>
+                                <td>
+                                 <div class="action-buttons">
+                                 <a href="/editproduct/<%= products._id %>" class="btn-edit1">Edit</a>
+                               <a href="" class="btn-edit2">Delete</a>
+                             </div>
+                        </td>
                         </tr>
                     <% }) %>
                 </tbody>
