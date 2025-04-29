@@ -46,7 +46,7 @@
                             </div>
                             <div class="mb-4">
                                 <label for="category" class="form-label">Category</label>
-                                <select class="form-select" id="newCategory" name="newCategory">
+                                <select class="form-select" id="category" name="category">
                                     <% if (product.category) { %>
                                         <option value="<%= product.category._id %>"><%= product.category.category %></option>
                                     <% } else { %>
