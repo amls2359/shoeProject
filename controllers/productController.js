@@ -211,6 +211,7 @@ const postEditProduct = async (req, res) => {
       },
       { new: true }
     );
+    
 
     await updatedProduct.save()
     
