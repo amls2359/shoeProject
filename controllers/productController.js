@@ -212,6 +212,29 @@ const postEditProduct = async (req, res) => {
       { new: true }
     );
     
+    if (!updatedProduct) {
+      return res.status(404).send("Product not found");
+    }
+
+    // Update the isListed status of the old category if it's changed
+    if (updatedProduct.category) {
+      const oldCategory = await Category.findById(updatedProduct.category);
+      if (oldCategory) {
+        oldCategory.islisted = true; // Update based on your logic
+        await oldCategory.save();
+      }
+    }
+
+    // Update the isListed status of the new category
+    if (category) {
+      const newCategory = await Category.findById(category);
+      if (newCategory) {
+        newCategory.islisted = true; // Update based on your logic
+        await newCategory.save();
+      }
+    }
+
+    res.redirect("/productmanagement");
 
     await updatedProduct.save()
     
