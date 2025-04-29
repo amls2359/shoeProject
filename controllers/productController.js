@@ -211,6 +211,8 @@ const postEditProduct = async (req, res) => {
       { new: true }
     );
 
+    await updatedProduct.save()
+    
     res.redirect('/productmanagement');
   } catch (err) {
     console.error(err);
