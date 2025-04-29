@@ -54,6 +54,7 @@
                                     <% } %>
                                     <% if(categories.length > 0) { %>
                                         <% categories.forEach(categorie => { %>
+                                            if(categorie.name!===name)
                                             <option value="<%= categorie._id %>"><%= categorie.name %></option>
                                         <% }) %>
                                     <% } %>
