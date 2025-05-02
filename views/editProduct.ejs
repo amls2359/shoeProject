@@ -163,6 +163,7 @@
     function validateFileType(inputId) {
         var input = $('#' + inputId);
         var submitButton = $('#submit-button');
+        console.log('inside the function');
         
         input.on('change', function() {
             var files = this.files;
