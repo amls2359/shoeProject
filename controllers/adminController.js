@@ -15,6 +15,7 @@ const adminloginpost = async (req, res) => {
             password: "12345"
         };
         if (req.body.username === admin.username && req.body.password === admin.password) {
+            req.session.admin=admin.username;
             res.redirect("/admin/dashboard"); 
         } else {
             return res.render('adminLogin', { 
