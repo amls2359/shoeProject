@@ -6,7 +6,7 @@ const adminController=require('../controllers/adminController')
 const checkSession =async(req,res,next)=>
 {
     console.log('Reached session');
-    if(req.session.admin)
+    if(req.session && req.session.admin)
     {
         console.log('session found');
         next()
