@@ -326,25 +326,22 @@ td {
             // Redirect to the addcategory page
             window.location.href = "/addProduct";
         });
-        document.getElementById('logout-link').addEventListener('click',function(e)
-        {
-            e.preventDefault()
-            Swal.fire(
-                {
+        document.getElementById('logout-link').addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent the default link behavior
+
+            Swal.fire({
                 title: "Are you sure you want to logout?",
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonText: "Yes, logout",
                 cancelButtonText: "Cancel",
-            }).then((result) => 
-            {
-                if (result.isConfirmed) 
-                {
+            }).then((result) => {
+                if (result.isConfirmed) {
                     // Redirect to the logout route
                     window.location.href = "/admin/adminLogin";
                 }
             });
-        })
+        });
     </script>
 </body>
 </html>
