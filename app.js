@@ -24,7 +24,7 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017/mymvcproject' }),
     cookie: {
         secure: false, // Set to true if using HTTPS
-        maxAge: 1000 * 60 * 60 * 24 // 1 day
+        // maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }));
 
