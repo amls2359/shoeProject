@@ -156,5 +156,25 @@
             });
         });
     </script>
+
+    <script>
+      $(document).ready(function ()
+    {
+        function validateFileType(inputId)
+        {
+            var input=$('#'+inputId)
+            input.on('change',function(){
+                var file=this.files[0]
+                var fileType=file.type.split('/')[0]
+                if(fileType != 'image')
+               {
+                 $(this).addClass('is-invalid');
+                 $(this).siblings('.invalid-feedback')
+               }
+            })
+        }
+    })
+    </script>
+
 </body>
 </html>
