@@ -42,7 +42,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Routes
 app.use('/', UserRouter);
-app.use('/', productRoute); // This should come before adminRoute if they share paths
+app.use('/', productRoute); 
 app.use('/admin', adminRoute);
 
 // Error handling middleware
