@@ -213,7 +213,18 @@
                 }
             })
         }
+        function validateNumericInput(inputId)
+        {
+            var input=$('#' + inputId)
+            input.on('input',function(){
+                var numericValue=$(this).val().replace(/[^0-9]/g, '')
+                $(this).val(numericValue)
+            })
+        }
         
+        validateInputLength('productname',30,'product name cannot exceed 30 characters and cannot be empty')
+        validateInputLength('description',400,'description name cannot exceed 400 characters and cannot be empty')
+        validateNumericInput('price')
       })
     </script>
 
