@@ -158,31 +158,27 @@
     </script>
 
     <script>
-      $(document).ready(function ()
-    {
-          // Function to validate the file type
-        function validateFileType(inputId)
-        {
-            var input=$('#'+inputId)
-            input.on('change',function(){
-                var file=this.files[0]
-                var fileType=file.type.split('/')[0]
-                if(fileType != 'image')
-               {
-                 $(this).addClass('is-invalid');
-                 $(this).siblings('.invalid-feedback').text('')
-                 $('#submit-button').prop('disabled',true)
-               }
-               else
-               {
-                $(this).removeClass('is-invalid');
-                $(this).siblings('.invalid-feedback').text('')
-                $('#submit-button').prop('disabled',false)
-               }
-
-            })
+      $(document).ready(function () {
+        // Function to validate the file type
+        function validateFileType(inputId) {
+            var input = $('#' + inputId);
+            input.on('change', function() {
+                var file = this.files[0];
+                if (file) { // Check if file exists
+                    var fileType = file.type.split('/')[0];
+                    if (fileType != 'image') {
+                        $(this).addClass('is-invalid');
+                        $(this).siblings('.invalid-feedback').text('Please upload an image file');
+                        $('#submit-button').prop('disabled', true);
+                    } else {
+                        $(this).removeClass('is-invalid');
+                        $(this).siblings('.invalid-feedback').text('');
+                        $('#submit-button').prop('disabled', false);
+                    }
+                }
+            });
         }
-        validateFileType('img')
+        validateFileType('img');
 
     })
     </script>
