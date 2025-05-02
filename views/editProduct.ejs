@@ -195,7 +195,7 @@
             var input=$('#' + inputId);
             input.on('input',function(){
                 var inputValue=$(this).val().trim()
-                var inputLength= inputValue.inputLength
+                var inputLength= inputValue.length
                 if(inputLength > maxlength || inputLength===0)
                 {
                     $(this).addClass('is-invalid')
