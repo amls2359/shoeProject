@@ -158,10 +158,17 @@
     </script>
 
     <script>
-     $(document).ready(function () {
-    // Function to validate the file type
+   $(document).ready(function () {
+    // Function to validate the file type and check if any file is selected
     function validateFileType(inputId) {
         var input = $('#' + inputId);
+        var submitButton = $('#submit-button');
+        
+        // Initially disable the button if no file is selected
+        if (input[0].files.length === 0) {
+            submitButton.prop('disabled', true);
+        }
+        
         input.on('change', function() {
             var files = this.files;
             var valid = true;
@@ -180,21 +187,27 @@
                 if (!valid) {
                     $(this).addClass('is-invalid');
                     $(this).siblings('.invalid-feedback').text('Please upload only image files (JPEG, PNG, GIF, etc.)');
-                    $('#submit-button').prop('disabled', true);
+                    submitButton.prop('disabled', true);
                 } else {
                     $(this).removeClass('is-invalid');
                     $(this).siblings('.invalid-feedback').text('');
                     // Check if there are any other invalid fields
                     if ($('.is-invalid').length === 0) {
-                        $('#submit-button').prop('disabled', false);
+                        submitButton.prop('disabled', false);
                     }
                 }
+            } else {
+                // No files selected
+                submitButton.prop('disabled', true);
+                $(this).removeClass('is-invalid');
+                $(this).siblings('.invalid-feedback').text('');
             }
         });
     }
     
     validateFileType('img');
 });
+
     </script>
 
     <script>
