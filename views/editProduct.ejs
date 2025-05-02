@@ -158,18 +158,11 @@
     </script>
 
     <script>
-   $(document).ready(function () {
-    // Function to validate the file type and check if any file is selected
+  $(document).ready(function () {
+    // Function to validate the file type
     function validateFileType(inputId) {
-        console.log('inside the function');
-        
         var input = $('#' + inputId);
         var submitButton = $('#submit-button');
-        
-        // Initially disable the button if no file is selected
-        if (input[0].files.length === 0) {
-            submitButton.prop('disabled', true);
-        }
         
         input.on('change', function() {
             var files = this.files;
@@ -188,23 +181,31 @@
                 
                 if (!valid) {
                     $(this).addClass('is-invalid');
-                    $(this).siblings('.invalid-feedback').text('Please upload only image files (JPEG, PNG, GIF, etc.)');
+                    $(this).next('.invalid-feedback').text('Please upload only image files (JPEG, PNG, GIF, etc.)');
                     submitButton.prop('disabled', true);
                 } else {
                     $(this).removeClass('is-invalid');
-                    $(this).siblings('.invalid-feedback').text('');
-                    // Check if there are any other invalid fields
+                    $(this).next('.invalid-feedback').text('');
+                    // Enable button if no other invalid fields
                     if ($('.is-invalid').length === 0) {
                         submitButton.prop('disabled', false);
                     }
                 }
             } else {
-                // No files selected
-                submitButton.prop('disabled', true);
+                // No files selected - this is okay for an edit form
                 $(this).removeClass('is-invalid');
-                $(this).siblings('.invalid-feedback').text('');
+                $(this).next('.invalid-feedback').text('');
+                // Enable button if no other invalid fields
+                if ($('.is-invalid').length === 0) {
+                    submitButton.prop('disabled', false);
+                }
             }
         });
+        
+        // Trigger validation on page load if files are pre-selected
+        if (input[0].files.length > 0) {
+            input.trigger('change');
+        }
     }
     
     validateFileType('img');
