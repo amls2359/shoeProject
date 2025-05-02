@@ -222,8 +222,6 @@
         validateInputLength('productname', 30, 'Product name cannot exceed 30 characters and cannot be empty');
         validateInputLength('description', 400, 'Description cannot exceed 400 characters and cannot be empty');
         validateNumericInput('price');
-        
-        // Also validate stock as numeric input
         validateNumericInput('stock');
         
         // Set initial state of isListed dropdown
