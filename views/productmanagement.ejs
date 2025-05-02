@@ -328,8 +328,24 @@ td {
         });
     </script>
     <script>
-        document.getElementById('logout-link').addEventListener('click',function(e){
+        document.getElementById('logout-link').addEventListener('click',function(e)
+        {
             e.preventDefault()
+            Swal.fire(
+                {
+                title: "Are you sure you want to logout?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Yes, logout",
+                cancelButtonText: "Cancel",
+            }).then((result) => 
+            {
+                if (result.isConfirmed) 
+                {
+                    // Redirect to the logout route
+                    window.location.href = "/admin/adminLogin";
+                }
+            });
         })
     </script>
 </body>
