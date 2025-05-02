@@ -186,44 +186,52 @@
     <script>
               // Function to validate the length of the input and check for whitespace
       $(document).ready(function (){
-        function validateInputLength(inputId,maxlength,errorMessage)
-        {
-            var input=$('#' + inputId);
-            input.on('input',function(){
-                var inputValue=$(this).val().trim()
-                var inputLength= inputValue.length
-                if(inputLength > maxlength || inputLength===0)
-                {
-                    $(this).addClass('is-invalid')
-                    $(this).siblings('.invalid-feedback').text(errorMessage)
-
-                    $('#submit-button').prop('disabled',true)
+        // Function to validate the length of the input and check for whitespace
+        function validateInputLength(inputId, maxlength, errorMessage) {
+            var input = $('#' + inputId);
+            input.on('input', function() {
+                var inputValue = $(this).val().trim();
+                var inputLength = inputValue.length; // Fixed typo here
+                if (inputLength > maxlength || inputLength === 0) {
+                    $(this).addClass('is-invalid');
+                    $(this).siblings('.invalid-feedback').text(errorMessage);
+                    $('#submit-button').prop('disabled', true);
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).siblings('.invalid-feedback').text('');
+                    // Check if there are any other invalid fields
+                    if ($('.is-invalid').length === 0) {
+                        $('#submit-button').prop('disabled', false);
+                    }
                 }
-                else
-                {
-                    $(this).removeClass('is-invalid')
-                    $(this).siblings('.invalid-feedback').text('')
-
-                    if($('.is-invalid').length===0)
-                    {
-                       $('#submit-button').prop('disabled',false)
-                     }
-                }
-            })
+            });
+            // Trigger validation on page load
+            input.trigger('input');
         }
-        function validateNumericInput(inputId)
-        {
-            var input=$('#' + inputId)
-            input.on('input',function(){
-                var numericValue=$(this).val().replace(/[^0-9]/g, '')
-                $(this).val(numericValue)
-            })
+
+        function validateNumericInput(inputId) {
+            var input = $('#' + inputId);
+            input.on('input', function() {
+                var numericValue = $(this).val().replace(/[^0-9]/g, '');
+                $(this).val(numericValue);
+            });
+            // Trigger validation on page load
+            input.trigger('input');
         }
         
-        validateInputLength('productname',30,'product name cannot exceed 30 characters and cannot be empty')
-        validateInputLength('description',400,'description name cannot exceed 400 characters and cannot be empty')
-        validateNumericInput('price')
-      })
+        validateInputLength('productname', 30, 'Product name cannot exceed 30 characters and cannot be empty');
+        validateInputLength('description', 400, 'Description cannot exceed 400 characters and cannot be empty');
+        validateNumericInput('price');
+        
+        // Also validate stock as numeric input
+        validateNumericInput('stock');
+        
+        // Set initial state of isListed dropdown
+        var isListedValue = '<%= product.isListed %>';
+        if (isListedValue) {
+            $('#isListed').val(isListedValue.toString());
+        }
+    });
     </script>
 
 </body>
