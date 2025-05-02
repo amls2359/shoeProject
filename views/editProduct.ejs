@@ -193,8 +193,27 @@
             var input=$('#' + inputId);
             inut.on('input',function(){
                 var inputValue=$(this).val().trim()
+                var inputLength= inputValue.inputLength
+                if(inputLength > maxlength || inputLength===0)
+                {
+                    $(this).addClass('is-invalid')
+                    $(this).siblings('.invalid-feedback').text(errorMessage)
+
+                    $('#submit-button').prop('disabled',true)
+                }
+                else
+                {
+                    $(this).removeClass('is-invalid')
+                    $(this).siblings('.invalid-feedback').text('')
+
+                    if($('.is-invalid').length===0)
+                    {
+                       $('#submit-button').prop('disabled',false)
+                     }
+                }
             })
         }
+        
       })
     </script>
 
