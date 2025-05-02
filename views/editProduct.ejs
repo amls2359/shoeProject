@@ -102,8 +102,8 @@
                                                 <img src="/<%=img %>" alt="Product Image" 
                                                      class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
                                                 <button class="remove-image btn btn-danger btn-sm position-absolute top-0 end-0" 
-                                                        data-image="<%= index %>" data-id="<%= product._id %>" type="button">
-                                                    ×
+                                                        data-image="<%= index %>" data-id="<%= product._id %>" type="button">Remove
+                                                    
                                                 </button>
                                             </div>
                                         <% }); %>
@@ -114,7 +114,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="img" class="form-label">Product Image</label>
-                                <input type="file" class="form-control" id="img" name="img" accept="image/*" multiple  alt="no img">
+                                <input type="file" class="form-control" id="img" name="image" accept="image/*" multiple  alt="no img">
                             </div>
                             <div class="text-center login-button mb-4">
                                 <button type="submit" class="btn btn-primary w-100" id="submit-button">Update</button>
@@ -127,5 +127,34 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            // Correct selector - you had a comma instead of a dot
+            $('.remove-image').on('click', function() {
+                var button = $(this);
+                console.log('remove');
+                
+                var productId = button.data('id');
+                var imageIndex = button.data('image');
+        
+                $.ajax({
+                    url: '/deleteimage',
+                    method: 'POST',
+                    data: {
+                        productId: productId,
+                        imageIndex: imageIndex
+                    },
+                    success: function(response) {
+                        console.log('response');
+                        // Remove the parent div that contains both image and button
+                        button.closest('.position-relative').remove();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

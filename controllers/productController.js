@@ -184,6 +184,8 @@ const getEditProduct = async (req, res) => {
 
 const postEditProduct = async (req, res) => {
   try {
+    console.log('enter into post');
+    
     const { productname, category, price, description, stock, isListed, brand } = req.body;
     const productId = req.params.id;
 
@@ -196,6 +198,8 @@ const postEditProduct = async (req, res) => {
       );
       images = [...images, ...newImages];
     }
+    console.log('images:',images);
+    
 
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
@@ -246,6 +250,66 @@ const postEditProduct = async (req, res) => {
   }
 };
 
+const deleteImage=async(req,res)=>
+{
+  const productId=req.body.productId
+  const imageIndex=req.body.imageIndex;
+  try
+  {
+    const product=await Product.findById(productId)
+    if(!product)
+    {
+      return res.status(404).send('Product not found')
+    }
+    if(imageIndex>0|| imageIndex >=product.image.length)
+     {
+        return res.send(400).send('Invalid image index')
+     }
+     product.image.splice(imageIndex,1)
+     await product.save()
+     .then((c)=>{
+      console.log('deleted');
+      res.status(200).send('Image removed successfully')
+      
+     })
+     .catch((c)=>{
+      console.log(err);
+      
+     })
+}
+catch(err)
+{
+  console.log(err);
+  res.status(500).send('Internal server error')
+  
+}
+}
+
+const getdeleteProduct= async(req,res)=>
+{
+  try
+  {
+    const productId=req.params.id
+    console.log('id:',productId);
+    await Product.findByIdAndDelete(productId)
+    .then((x)=>{
+      console.log('product deleted',x);
+      res.redirect('/productmanagement')
+    })
+    .catch((x)=>{
+      console.log('error in deleting the product');
+      res.redirect('/productmanagement')
+      
+    })
+ }
+  catch(err)
+  {
+    console.log(err);
+    res.status(404).send('Internal server error')
+  }
+}
+
+
 
 module.exports = 
 {
@@ -254,6 +318,8 @@ module.exports =
   addproductpost,
   getEditProduct,
   postEditProduct,
-  unlistProduct
+  unlistProduct,
+  deleteImage,
+  getdeleteProduct
 
 };

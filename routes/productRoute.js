@@ -2,8 +2,6 @@ const express = require('express')
 const router = express.Router()
 const path = require('path')
 const fs = require('fs') 
-const UserCollection = require('../models/user')
-const product = require('../models/product')
 const productController = require('../controllers/productController')
 const multer = require('multer');
 
@@ -25,10 +23,22 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).array('image');
 
-router.get('/productmanagement', productController.productmanagement)
-router.get('/addProduct', productController.addproductget)
+const checkSession=async(req,res,next)=>{
+    if(req.session.admin)
+    {
+        next()
+    }
+    else
+    {
+        res.redirect('/admin/adminLogin')
+    }
+}
+router.get('/productmanagement',checkSession, productController.productmanagement)
+router.get('/addProduct',checkSession, productController.addproductget)
 router.post('/addProductPost', upload, productController.addproductpost)
-router.get('/editProduct/:id',productController.getEditProduct)
+router.get('/editProduct/:id',checkSession,productController.getEditProduct)
 router.post('/editProduct/:id', upload, productController.postEditProduct);
 router.get('/unlistProduct/:id',productController.unlistProduct)
+router.post('/deleteimage',productController.deleteImage)
+router.get('/deleteproduct/:id',productController.getdeleteProduct)
 module.exports = router
