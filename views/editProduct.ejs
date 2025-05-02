@@ -169,10 +169,20 @@
                 if(fileType != 'image')
                {
                  $(this).addClass('is-invalid');
-                 $(this).siblings('.invalid-feedback')
+                 $(this).siblings('.invalid-feedback').text('')
+                 $('#submit-button').prop('disabled',true)
                }
+               else
+               {
+                $(this).removeClass('is-invalid');
+                $(this).siblings('.invalid-feedback').text('')
+                $('#submit-button').prop('disabled',false)
+               }
+
             })
         }
+        validateFileType('img')
+
     })
     </script>
 
