@@ -193,7 +193,7 @@
         function validateInputLength(inputId,maxlength,errorMessage)
         {
             var input=$('#' + inputId);
-            inut.on('input',function(){
+            input.on('input',function(){
                 var inputValue=$(this).val().trim()
                 var inputLength= inputValue.inputLength
                 if(inputLength > maxlength || inputLength===0)
