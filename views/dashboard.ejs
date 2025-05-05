@@ -4,30 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-
     <style>
-        body {
+        /* General Styles */
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0;
+            padding: 0;
             display: flex;
-            font-family: Arial, sans-serif;
-            margin: 0; /* Remove default body margin */
+            min-height: 100vh;
+            background-color: #f5f5f5;
         }
-
+        
+        /* Sidebar Styles */
         .sidebar {
-            width: 250px;
+            width: 215px;
             background-color: #333;
-            color: #fff;
-            padding: 15px;
+            color: white;
+            padding: 20px;
             height: 100vh;
             position: fixed;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
-
-        .sidebar h1 {
+        
+        .sidebar h2 {
             text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
         }
 
         .sidebar ul {
             list-style-type: none;
             padding: 0;
+            margin: 0;
         }
 
         .sidebar ul li {
@@ -37,68 +47,141 @@
         .sidebar ul li a {
             color: #fff;
             text-decoration: none;
+            display: block;
+            padding: 8px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
         }
 
         .sidebar ul li a:hover {
-            text-decoration: underline;
+            background-color: #444;
         }
-
+        
+        /* Main Content Styles */
         .main-content {
-            margin-left: 270px; /* Match the width of the sidebar */
+            flex: 1;
+            margin-left: 250px;
             padding: 20px;
-            flex-grow: 1; /* Take up remaining space */
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .heading {
+            flex-grow: 1;
+            text-align: center;
+            color: #333;
+        }
 
+        /* Button Styles */
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
         }
-        button {
-            margin: 10px 0;
+
+        .btn-danger:hover {
+            background-color: #c82333;
         }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-blue {
+            background-color: #007bfffb;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-blue:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-edit {
+            background-color: #007bfffb;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
         /* Custom scrollbar styling */
-.sidebar ul::-webkit-scrollbar {
-    width: 8px; /* Width of the scrollbar */
-}
+        .sidebar ul::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
 
-.sidebar ul::-webkit-scrollbar-track {
-    background: #444; /* Color of the track */
-}
+        .sidebar ul::-webkit-scrollbar-track {
+            background: #444; /* Color of the track */
+        }
 
-.sidebar ul::-webkit-scrollbar-thumb {
-    background: #888; /* Color of the scrollbar thumb */
-    border-radius: 4px; /* Rounded corners */
-}
+        .sidebar ul::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar thumb */
+            border-radius: 4px; /* Rounded corners */
+        }
 
-.sidebar ul::-webkit-scrollbar-thumb:hover {
-    background: #aaa; /* Color of the scrollbar thumb on hover */
-}
+        .sidebar ul::-webkit-scrollbar-thumb:hover {
+            background: #aaa; /* Color of the scrollbar thumb on hover */
+        }
     </style>
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
-        <br>
         <ul>
             <li><a href="/admin/usermanagement">User Management</a></li>
-            <br>
             <li><a href="/admin/categorymanagement">Category Management</a></li>
-            <br>
             <li><a href="/productmanagement">Product Management</a></li>
-            <br>
             <li><a href="">Order Management</a></li>
-            <br>
             <li><a href="">Coupon Management</a></li>
-            <br>
             <li><a href="">Sales</a></li>
-            <br>
             <li><a href="">Offer Management</a></li>
-            <br>
             <li><a href="/admin/adminLogin" id="logout-link">Logout</a></li>
         </ul>
     </div>
+
     <!-- Main Content -->
     <div class="main-content">
-        <h2>WELCOME TO DASHBOARD</h2>
+        <h2 class="heading">WELCOME TO DASHBOARD</h2>
         <!-- Add your main content here -->
     </div>
     <script>

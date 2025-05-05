@@ -6,17 +6,17 @@ require("dotenv").config();
 const express=require('express')
 const app=express()
 
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
-  }));
+// app.use(session({
+//     secret: 'your-secret-key',
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false } // Set to true if using HTTPS
+//   }));
 
 //! Render Pages
 const userlogin = (req, res) => res.render('UserLogin');
 const userSignup = (req, res) => res.render('UserSignup');
-const Landingpage = (req, res) => res.render('Landingpage')
+const guesthomepage = (req, res) => res.render('Landingpage')
 const forgetPassword = (req, res) => res.render('forgetPassword');
 const otp = (req, res) => res.render('otp');
 const resetPassword = (req, res) => res.render('ResetPassword');
@@ -357,7 +357,7 @@ module.exports = {
     userSignup,
     userSignupPost,
     userLoginPost,
-    Landingpage,
+    guesthomepage,
     forgetPassword,
     forgetPasswordPost,
     otp,

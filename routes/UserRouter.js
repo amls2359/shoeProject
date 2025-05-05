@@ -1,6 +1,7 @@
 const express=require('express')
 const router=express.Router()
 const UserController=require('../controllers/UserController')
+const checkSessionBlocked = require("../Middleware/user");
 
 
 router.get('/UserLogin',UserController.userlogin)
@@ -26,8 +27,8 @@ router.post('/resendOtpPost',UserController.resendOtpPost)
 
 router.post('/otpVerifyPost',UserController.otpVerifyPost)
 
-router.get('/Landingpage',UserController.Landingpage)
-router.get('/Homepage',UserController.Homepage)
+router.get('/guesthomepage',UserController.guesthomepage)
+router.get('/Homepage',checkSessionBlocked,UserController.Homepage)
 
 router.get('/logout',UserController.logout)
 
