@@ -39,7 +39,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 // For product images - make sure this matches where you're saving images
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
-app.use('/images',express.static(path.join(_dirname,'/images')))
+app.use('/images',express.static(path.join(__dirname,'/images')))
 
 // Routes
 app.use('/', UserRouter);
