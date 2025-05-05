@@ -16,7 +16,7 @@ const app=express()
 //! Render Pages
 const userlogin = (req, res) => res.render('UserLogin');
 const userSignup = (req, res) => res.render('UserSignup');
-const guesthomepage = (req, res) => res.render('Landingpage')
+const guesthomepage = (req, res) => res.render('guesthomepage')
 const forgetPassword = (req, res) => res.render('forgetPassword');
 const otp = (req, res) => res.render('otp');
 const resetPassword = (req, res) => res.render('ResetPassword');
