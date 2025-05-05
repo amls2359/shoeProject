@@ -179,7 +179,54 @@
     width: 100%;
 }
         }
+        /* Cropper Modal Styles */
+#cropperModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+}
+
+#cropperModal > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#cropperModal img {
+    max-width: 100%;
+}
+
+#cropButton {
+    padding: 8px 20px;
+    background: #f74f10;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#cancelCrop {
+    padding: 8px 20px;
+    background: #635e5c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
     </style>
+    <!-- Add these lines in your <head> section -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 </head>
 <body>
     <nav>
@@ -219,11 +266,84 @@
             </div>
         </div>
     </section>
+    <!-- Cropper Modal -->
+<div id="cropperModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px;">
+        <div style="width: 500px; height: 500px;">
+            <img id="imageToCrop" src="" style="max-width: 100%;">
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+            <button id="cropButton" style="padding: 8px 20px; background: #f74f10; color: white; border: none; border-radius: 5px; cursor: pointer;">Crop Image</button>
+            <button id="cancelCrop" style="padding: 8px 20px; background: #635e5c; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Cancel</button>
+        </div>
+    </div>
+</div>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
       AOS.init({
         offset: 1
       });
+    </script>
+    <script>
+        // Initialize variables
+        let cropper;
+        let currentImage;
+        
+        // Function to open cropper
+        function openCropper(imageSrc) {
+            const modal = document.getElementById('cropperModal');
+            const image = document.getElementById('imageToCrop');
+            
+            image.src = imageSrc;
+            modal.style.display = 'block';
+            
+            // Initialize cropper
+            cropper = new Cropper(image, {
+                aspectRatio: 1, // Set your desired aspect ratio (1 for square)
+                viewMode: 1,
+                autoCropArea: 0.8,
+                responsive: true,
+                guides: false
+            });
+        }
+        
+        // Function to close cropper
+        function closeCropper() {
+            const modal = document.getElementById('cropperModal');
+            modal.style.display = 'none';
+            if (cropper) {
+                cropper.destroy();
+            }
+        }
+        
+        // Function to get cropped image
+        function getCroppedImage() {
+            if (cropper) {
+                const croppedCanvas = cropper.getCroppedCanvas();
+                const croppedImage = croppedCanvas.toDataURL('image/jpeg');
+                
+                // Apply the cropped image to your original image
+                if (currentImage) {
+                    currentImage.src = croppedImage;
+                }
+                
+                closeCropper();
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // For the product image
+            const productImage = document.querySelector('.image img');
+            productImage.addEventListener('click', function() {
+                currentImage = this;
+                openCropper(this.src);
+            });
+            
+            // For the buttons
+            document.getElementById('cropButton').addEventListener('click', getCroppedImage);
+            document.getElementById('cancelCrop').addEventListener('click', closeCropper);
+        });
     </script>
 </body>
 </html>
