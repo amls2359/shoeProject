@@ -194,5 +194,110 @@
       }
     });
   </script>
+<script>
+$(document).ready(function () {
+// Function to validate the file type
+function validateFileType(inputId) {
+    var input = $('#' + inputId);
+    var submitButton = $('#submit-button');
+    console.log('amal');
+    
+    input.on('change', function() {
+        var files = this.files;
+        var valid = true;
+        
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                // Check if file is an image by extension or MIME type
+                if (!file.type.match('image.*') && 
+                    !file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                    valid = false;
+                    break;
+                }
+            }
+            
+            if (!valid) {
+                $(this).addClass('is-invalid');
+                $(this).next('.invalid-feedback').text('Please upload only image files (JPEG, PNG, GIF, etc.)');
+                submitButton.prop('disabled', true);
+            } else {
+                $(this).removeClass('is-invalid');
+                $(this).next('.invalid-feedback').text('');
+                // Enable button if no other invalid fields
+                if ($('.is-invalid').length === 0) {
+                    submitButton.prop('disabled', false);
+                }
+            }
+        } else {
+            // No files selected - this is okay for an edit form
+            $(this).removeClass('is-invalid');
+            $(this).next('.invalid-feedback').text('');
+            // Enable button if no other invalid fields
+            if ($('.is-invalid').length === 0) {
+                submitButton.prop('disabled', false);
+            }
+        }
+    });
+    
+    // Trigger validation on page load if files are pre-selected
+    if (input[0].files.length > 0) {
+        input.trigger('change');
+    }
+}
+
+validateFileType('img');
+});
+
+</script>
+
+<script>
+          // Function to validate the length of the input and check for whitespace
+  $(document).ready(function (){
+    // Function to validate the length of the input and check for whitespace
+    function validateInputLength(inputId, maxlength, errorMessage) {
+        var input = $('#' + inputId);
+        input.on('input', function() {
+            var inputValue = $(this).val().trim();
+            var inputLength = inputValue.length; // Fixed typo here
+            if (inputLength > maxlength || inputLength === 0) {
+                $(this).addClass('is-invalid');
+                $(this).siblings('.invalid-feedback').text(errorMessage);
+                $('#submit-button').prop('disabled', true);
+            } else {
+                $(this).removeClass('is-invalid');
+                $(this).siblings('.invalid-feedback').text('');
+                // Check if there are any other invalid fields
+                if ($('.is-invalid').length === 0) {
+                    $('#submit-button').prop('disabled', false);
+                }
+            }
+        });
+        // Trigger validation on page load
+        input.trigger('input');
+    }
+
+    function validateNumericInput(inputId) {
+        var input = $('#' + inputId);
+        input.on('input', function() {
+            var numericValue = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(numericValue);
+        });
+        // Trigger validation on page load
+        input.trigger('input');
+    }
+    
+    validateInputLength('productname', 30, 'Product name cannot exceed 30 characters and cannot be empty');
+    validateInputLength('description', 400, 'Description cannot exceed 400 characters and cannot be empty');
+    validateNumericInput('price');
+    validateNumericInput('stock');
+    
+    // Set initial state of isListed dropdown
+    var isListedValue = '<%= product.isListed %>';
+    if (isListedValue) {
+        $('#isListed').val(isListedValue.toString());
+    }
+});
+</script>
 </body>
 </html>
