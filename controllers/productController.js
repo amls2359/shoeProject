@@ -35,7 +35,7 @@ const addproductget = async (req, res) => {
   try {
     console.log('in');
     
-    const categories = await Category.find({ islisted: false }).lean();
+    const categories = await Category.find({ islisted: true }).lean();
     res.render("addProduct", {
         categories: categories || [],
         errorMessage: null,
