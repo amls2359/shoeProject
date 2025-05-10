@@ -43,7 +43,7 @@ app.use('/images',express.static(path.join(__dirname,'/images')))
 
 // Routes
 app.use('/', UserRouter);
-app.use('/', productRoute); 
+app.use('/products', productRoute); 
 app.use('/admin', adminRoute);
 
 // Error handling middleware
