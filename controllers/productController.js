@@ -330,7 +330,7 @@ const getproducts = async (req, res) => {
       return res.status(404).send('No products found');
     }
     
-    res.render('products', { productcollection }); // Match the EJS variable name
+    res.render('allproduct', { productcollection }); // Match the EJS variable name
   }
   catch (err) {
     console.log(err);
