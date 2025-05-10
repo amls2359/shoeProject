@@ -36,8 +36,11 @@ const addproductget = async (req, res) => {
     console.log('in');
     
     const categories = await Category.find({ islisted: true }).lean();
+    const product= await Product.find({isListed:true}).lean()
+
     res.render("addProduct", {
         categories: categories || [],
+        product:product|| [],
         errorMessage: null,
         formData: {},
         errors: {} // Add this empty errors object
@@ -48,6 +51,7 @@ const addproductget = async (req, res) => {
     console.error("Error fetching categories:", error);
     res.render("addProduct", {
         categories: [],
+        product:[],
         errorMessage: "Error loading categories",
         formData: {},
         errors: {} // Add this empty errors object
@@ -309,6 +313,11 @@ const getdeleteProduct= async(req,res)=>
   }
 }
 
+const getproducts= async(req,res)=>
+{
+  res.render('allproduct')
+}
+
 
 
 module.exports = 
@@ -320,6 +329,7 @@ module.exports =
   postEditProduct,
   unlistProduct,
   deleteImage,
-  getdeleteProduct
+  getdeleteProduct,
+  getproducts
 
 };

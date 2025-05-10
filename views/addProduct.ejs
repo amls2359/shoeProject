@@ -95,6 +95,7 @@
   </style>
 </head>
 <body>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <div class="form-container">
     <h1>Add Product</h1>
     <% if (errors && errors.general) { %>
@@ -106,6 +107,7 @@
       <div class="form-group">
         <label for="productname">Product Name*</label>
         <input type="text" id="productname" name="productname" value="<%= formData.productname || '' %>" >
+        <div class="invalid-feedback"></div>
         <% if (errors && errors.productname) { %>
           <div class="field-error"><%= errors.productname %></div>
         <% } %>
@@ -147,6 +149,7 @@
       <div class="form-group">
         <label for="description">Description:</label>
         <textarea id="description" name="description"><%= formData.description || '' %></textarea>
+        <div class="invalid-feedback"></div>
       </div>
       <div class="form-group">
         <label for="image">Product Images:</label>
@@ -168,7 +171,7 @@
         <label for="isListed">Listed (Visible to customers)</label>
       </div>
       <div class="button-group">
-        <button type="submit">Add Product</button>
+        <button type="submit" id="submit-button">Add Product</button>
         <button type="button" onclick="window.history.back()">Cancel</button>
       </div>
     </form>
@@ -179,7 +182,7 @@
       const newCategoryInput = document.getElementById('newCategory');
       if (this.value === 'new') {
         newCategoryInput.classList.remove('hidden');
-        newCategoryInput.setAttribute('required', '');
+        newCategoryInput.setAttribute('required', '');  
       } else {
         newCategoryInput.classList.add('hidden');
         newCategoryInput.removeAttribute('required');
@@ -194,110 +197,90 @@
       }
     });
   </script>
-<script>
-$(document).ready(function () {
-// Function to validate the file type
-function validateFileType(inputId) {
-    var input = $('#' + inputId);
-    var submitButton = $('#submit-button');
-    console.log('amal');
-    
-    input.on('change', function() {
-        var files = this.files;
-        var valid = true;
-        
-        if (files.length > 0) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                // Check if file is an image by extension or MIME type
-                if (!file.type.match('image.*') && 
-                    !file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                    valid = false;
-                    break;
-                }
-            }
+  <script>
+    $(document).ready(function() {
+        // Function to validate the length of the input and check for whitespace
+        function validateInputLength(inputId, maxlength, errorMessage) {
+            var input = $('#' + inputId);
+            var feedback = input.siblings('.invalid-feedback');
             
-            if (!valid) {
-                $(this).addClass('is-invalid');
-                $(this).next('.invalid-feedback').text('Please upload only image files (JPEG, PNG, GIF, etc.)');
-                submitButton.prop('disabled', true);
+            input.on('input blur', function() {
+                var inputValue = $(this).val().trim();
+                var inputLength = inputValue.length;
+                
+                if (inputLength === 0 || inputLength > maxlength) {
+                    $(this).addClass('is-invalid');
+                    feedback.css('color','red').text(errorMessage);
+                    $('#submit-button').prop('disabled', true);
+                } else {
+                    $(this).removeClass('is-invalid');
+                    feedback.css('color','red').text('');
+                    // Check if there are any other invalid fields
+                    if ($('.is-invalid').length === 0) {
+                        $('#submit-button').prop('disabled', false);
+                    }
+                }
+            });
+            
+            // Trigger validation on page load
+            input.trigger('input');
+        }
+    
+        function validateNumericInput(inputId) {
+            var input = $('#' + inputId);
+            input.on('input', function() {
+                var numericValue = $(this).val().replace(/[^0-9.]/g, '');
+                $(this).val(numericValue);
+            });
+            // Trigger validation on page load
+            input.trigger('input');
+        }
+        
+        // Initialize validations
+        validateInputLength('productname', 50, 'Product name cannot exceed 50 characters and cannot be empty');
+        validateInputLength('description', 400, 'Description cannot exceed 400 characters and cannot be empty');
+        validateNumericInput('price');
+        validateNumericInput('stock');
+        
+        // File validation
+        $('#image').on('change', function() {
+            var files = this.files;
+            var valid = true;
+            var submitButton = $('#submit-button');
+            var feedback = $(this).siblings('.invalid-feedback');
+            
+            if (files.length > 0) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (!file.type.match('image.*') && !file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                        valid = false;
+                        break;
+                    }
+                }
+                
+                if (!valid) {
+                    $(this).addClass('is-invalid');
+                    feedback.css('color','red').text('Please upload only image files (JPEG, PNG, GIF, etc.)');
+                    submitButton.prop('disabled', true);
+                } else {
+                    $(this).removeClass('is-invalid');
+                    feedback.css('color','red').text('');
+                    // Check if there are any other invalid fields
+                    if ($('.is-invalid').length === 0) {
+                        submitButton.prop('disabled', false);
+                    }
+                }
             } else {
+                // No files selected - this is okay for an edit form
                 $(this).removeClass('is-invalid');
-                $(this).next('.invalid-feedback').text('');
+                feedback.css('color','red').text('');
                 // Enable button if no other invalid fields
                 if ($('.is-invalid').length === 0) {
                     submitButton.prop('disabled', false);
                 }
             }
-        } else {
-            // No files selected - this is okay for an edit form
-            $(this).removeClass('is-invalid');
-            $(this).next('.invalid-feedback').text('');
-            // Enable button if no other invalid fields
-            if ($('.is-invalid').length === 0) {
-                submitButton.prop('disabled', false);
-            }
-        }
+        });
     });
-    
-    // Trigger validation on page load if files are pre-selected
-    if (input[0].files.length > 0) {
-        input.trigger('change');
-    }
-}
-
-validateFileType('img');
-});
-
-</script>
-
-<script>
-          // Function to validate the length of the input and check for whitespace
-  $(document).ready(function (){
-    // Function to validate the length of the input and check for whitespace
-    function validateInputLength(inputId, maxlength, errorMessage) {
-        var input = $('#' + inputId);
-        input.on('input', function() {
-            var inputValue = $(this).val().trim();
-            var inputLength = inputValue.length; // Fixed typo here
-            if (inputLength > maxlength || inputLength === 0) {
-                $(this).addClass('is-invalid');
-                $(this).siblings('.invalid-feedback').text(errorMessage);
-                $('#submit-button').prop('disabled', true);
-            } else {
-                $(this).removeClass('is-invalid');
-                $(this).siblings('.invalid-feedback').text('');
-                // Check if there are any other invalid fields
-                if ($('.is-invalid').length === 0) {
-                    $('#submit-button').prop('disabled', false);
-                }
-            }
-        });
-        // Trigger validation on page load
-        input.trigger('input');
-    }
-
-    function validateNumericInput(inputId) {
-        var input = $('#' + inputId);
-        input.on('input', function() {
-            var numericValue = $(this).val().replace(/[^0-9]/g, '');
-            $(this).val(numericValue);
-        });
-        // Trigger validation on page load
-        input.trigger('input');
-    }
-    
-    validateInputLength('productname', 30, 'Product name cannot exceed 30 characters and cannot be empty');
-    validateInputLength('description', 400, 'Description cannot exceed 400 characters and cannot be empty');
-    validateNumericInput('price');
-    validateNumericInput('stock');
-    
-    // Set initial state of isListed dropdown
-    var isListedValue = '<%= product.isListed %>';
-    if (isListedValue) {
-        $('#isListed').val(isListedValue.toString());
-    }
-});
-</script>
+    </script>
 </body>
 </html>

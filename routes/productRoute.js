@@ -41,4 +41,5 @@ router.post('/editProduct/:id', upload, productController.postEditProduct);
 router.get('/unlistProduct/:id',productController.unlistProduct)
 router.post('/deleteimage',productController.deleteImage)
 router.get('/deleteproduct/:id',productController.getdeleteProduct)
+router.get('/allproduct',productController.getproducts)
 module.exports = router
