@@ -68,6 +68,13 @@
       <div class="row" id="product-list"></div>
       <% if(productcollection && productcollection.length > 0){%>
         <% productcollection.forEach(product=>{%>
-        })
+      <div class ='col-4 product-container' id="product-item">
+        <div class="row">
+          <div class="col-6">
+            <a href="/getproducts/<%=product._id%>"></a>
+          </div>
+        </div>
+
+      </div>
 </body>
 </html>
