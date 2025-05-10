@@ -318,21 +318,20 @@ const getproducts= async(req,res)=>{
   try
   {
     console.log('entered in the allproductsget');
-    const product=await Product.findById({pdid}).populate('category')
-    console.log('entered into product collection',product);
-    if(!product)
+    const products=await Product.findById({pdid}).populate('category')
+    console.log('entered into product collection',products);
+    if(!products)
     {
       return res.status(404).send('product not found')
     
     }
-    res.render('products')
-    
-    
-  
+    res.render('products',{products})
   }
-  catch
+  catch(err)
   {
-
+     console.log(err);
+     res.status(500).send('internal server error')
+     
   }
 
 }
