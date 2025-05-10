@@ -319,6 +319,14 @@ const getproducts= async(req,res)=>{
   {
     console.log('entered in the allproductsget');
     const product=await Product.findById({pdid}).populate('category')
+    console.log('entered into product collection',product);
+    if(!product)
+    {
+      return res.status(404).send('product not found')
+    
+    }
+    res.render('products')
+    
     
   
   }
