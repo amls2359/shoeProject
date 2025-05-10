@@ -313,29 +313,30 @@ const getdeleteProduct= async(req,res)=>
   }
 }
 
-const getproducts= async(req,res)=>{
-  const pdid=req.params.id
-  try
-  {
+const getproducts = async (req, res) => {
+  try {
     console.log('entered in the allproductsget');
-    const products=await Product.findById({pdid}).populate('category')
-    console.log('entered into product collection',products);
-    if(!products)
-    {
-      return res.status(404).send('product not found')
     
+    // If you want ALL products (not just one by ID):
+    const productcollection = await Product.find({}).populate('category');
+    
+    // If you want to keep the ID lookup (single product):
+    // const pdid = req.params.id;
+    // const productcollection = await Product.find({_id: pdid}).populate('category');
+    
+    console.log('entered into product collection', productcollection);
+    
+    if (!productcollection || productcollection.length === 0) {
+      return res.status(404).send('No products found');
     }
-    res.render('products',{products})
+    
+    res.render('products', { productcollection }); // Match the EJS variable name
   }
-  catch(err)
-  {
-     console.log(err);
-     res.status(500).send('internal server error')
-     
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Internal server error');
   }
-
 }
-
 
 
 
