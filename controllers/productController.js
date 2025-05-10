@@ -313,7 +313,7 @@ const getdeleteProduct= async(req,res)=>
   }
 }
 
-const getproducts= async(req,res)=>
+const getproducts=(req,res)=>
 {
   res.render('allproduct')
 }
