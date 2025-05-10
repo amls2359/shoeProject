@@ -75,9 +75,25 @@
           </div>
           <div class="col-6"></div>
           <a href="/getproduct/<%= product._id %>"><h4><%= product.productname %></h4></a>
-        <div class="rating">
-          
+          <div class="rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-half-o"></i>
+            <i class="fa fa-star-o"></i>
         </div>
-      </div>
+        <p>₹<%= product.price %></p>
+        <a href="/getproduct/<%= product._id %>" class="btn">View</a>
+    </div>
+</div>
+</div>
+<% }) %>
+<% } else { %>
+<div class="col-12">
+<h3 style="color: red;">No products found.</h3>
+</div>
+<% } %>
+</div>
+</div>
 </body>
 </html>
