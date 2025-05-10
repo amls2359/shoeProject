@@ -313,9 +313,21 @@ const getdeleteProduct= async(req,res)=>
   }
 }
 
-const getproducts=(req,res)=>res.render('allproduct')
-
+const getproducts= async(req,res)=>{
+  const pdid=req.params.id
+  try
+  {
+    console.log('entered in the allproductsget');
+    const product=await Product.findById({pdid}).populate('category')
+    
   
+  }
+  catch
+  {
+
+  }
+
+}
 
 
 
