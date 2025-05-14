@@ -81,22 +81,23 @@
         }
 
         /* Sort Options */
-        .sort-options {
-            max-width: 250px;
-            margin: 0 auto 30px;
-            padding: 0 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-        }
-        .sort-options form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-            width: 100%;
-        }
+      .sort-options {
+    max-width: 250px; /* Adjust or remove if you want a wider container */
+    margin: 0 auto 30px;
+    padding: 0 15px;
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping to keep items in a single line */
+    gap: 15px;
+    align-items: center;
+    white-space: nowrap; /* Prevent items from wrapping to the next line */
+}
+.sort-options form {
+    display: flex;
+    flex-wrap: nowrap; /* Keep form items in a single line */
+    gap: 15px;
+    align-items: center;
+    width: auto; /* Allow the form to expand as needed */
+}
         .form-select {
             padding: 8px 15px;
             border: 1px solid #ddd;
