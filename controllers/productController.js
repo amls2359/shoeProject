@@ -313,24 +313,22 @@ const getdeleteProduct= async(req,res)=>
   }
 }
 
+
 const getproducts = async (req, res) => {
   try {
     console.log('entered in the allproductsget');
     
-    // If you want ALL products (not just one by ID):
+    // Get all products with populated category
     const productcollection = await Product.find({}).populate('category');
-    
-    // If you want to keep the ID lookup (single product):
-    // const pdid = req.params.id;
-    // const productcollection = await Product.find({_id: pdid}).populate('category');
-    
-    console.log('entered into product collection', productcollection);
     
     if (!productcollection || productcollection.length === 0) {
       return res.status(404).send('No products found');
     }
     
-    res.render('allproduct', { productcollection }); // Match the EJS variable name
+    // Group products by category and select one product from each
+   
+    
+    res.render('allproduct', { productcollection });
   }
   catch (err) {
     console.log(err);
