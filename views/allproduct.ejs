@@ -9,7 +9,76 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
     <style>
-        /* ... your existing styles ... */
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: white;
+            font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6,
+        .h1, .h2, .h3, .h4, .h5, .h6 {
+            font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+        a {
+            transition: .3s all ease;
+        }
+        a, a:hover {
+            text-decoration: none !important;
+        }
+
+        /* Navigation */
+        nav {
+            width: 100%;
+            height: 10vh;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .container .logo img {
+            margin-left: -80px;
+            width: 150px;
+        }
+        .container .links a {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            margin: 0 40px;
+            transition: 0.3s linear;
+            font-weight: 600;
+        }
+        .links a::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            background-color: #f74f10;
+            height: 3.5px;
+            transition: 0.3s linear;
+        }
+        .links a:hover::before,
+        .links a:hover {
+            color: #f74f10;
+            width: 100%;
+        }
+        .container .search i {
+            color: black;
+            cursor: pointer;
+            font-size: 1.3rem;
+            margin-right: 20px;
+        }
 
         /* Sort Options */
         .sort-options {
@@ -17,37 +86,350 @@
             margin: 0 auto 30px;
             padding: 0 15px;
             display: flex;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             gap: 15px;
             align-items: center;
-            overflow-x: auto;
         }
         .sort-options form {
             display: flex;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             gap: 15px;
             align-items: center;
+            width: 100%;
+        }
+        .form-select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 150px;
+        }
+        .form-select:focus {
+            outline: none;
+            border-color: #f74f10;
+            box-shadow: 0 0 0 2px rgba(247, 79, 16, 0.2);
+        }
+        .animated-button {
+            padding: 8px 20px;
+            background-color: #f74f10;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .animated-button:hover {
+            background-color: #d8430d;
+            transform: translateY(-2px);
+        }
+        .search-input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+            min-width: 200px;
+            transition: all 0.3s;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #f74f10;
+            box-shadow: 0 0 0 2px rgba(247, 79, 16, 0.2);
+        }
+        #searchBtn {
+            padding: 8px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        #searchBtn:hover {
+            background-color: #555;
+        }
+
+        /* Main Content */
+        .title {
+            text-align: center;
+            margin: 30px 0;
+            color: #333;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1270px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        .product-item {
+            position: relative;
+            width: calc(25% - 30px);
+            margin: 15px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .product-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        .product-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .product-item h6 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        .rating {
+            color: #f74f10;
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+        .product-item p {
+            position: relative;
+            font-weight: 600;
+            color: #333;
+            margin: 10px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #f74f10;
+            color: white;
+            padding: 8px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn:hover {
+            background: #8a3313;
+            color: white;
+        }
+        .no-products {
+            text-align: center;
+            padding: 50px 0;
+            width: 100%;
+        }
+
+        /* Wishlist Styles */
+        .wishlist-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        .wishlist-icon {
+            color: #ccc;
+            transition: color 0.3s ease;
+              width: 24px;
+              height: 24px;
+        }
+        .wishlist-icon:hover {
+            color: #f74f10;
+        }
+        .wishlist-icon.active {
+            color: #f74f10;
+        }
+
+        /* New Footer Styles */
+        .simple-footer {
+            background-color: #141d2a;
+            color: white;
+            padding: 4rem 0;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-section {
             flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: white;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #f74f10;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: white;
+        }
+        
+        .footer-cta {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .footer-cta h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .footer-cta p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #aaa;
+            font-weight: bold;
+        }
+        
+        .footer-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .footer-actions .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .footer-actions .btn-outline {
+            background: transparent;
+            border: 1px solid #f74f10;
+            color: #f74f10;
+        }
+        
+        .footer-actions .btn-outline:hover {
+            background: #f74f10;
+            color: white;
+        }
+        
+        .weather-widget {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .weather-widget .temp {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .weather-widget .condition {
+            font-size: 14px;
+            color: #aaa;
         }
 
-        .sort-options .search-input,
-        .sort-options #searchBtn,
-        .sort-options .animated-button {
-            white-space: nowrap;
+        /* Responsive */
+        @media (max-width: 992px) {
+            .product-item {
+                width: calc(33.33% - 30px);
+            }
         }
-
         @media (max-width: 768px) {
+            .product-item {
+                width: calc(50% - 30px);
+            }
+            .footer-section {
+                min-width: 50%;
+            }
+            .sort-options form {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        @media (max-width: 576px) {
+            .product-item {
+                width: calc(100% - 30px);
+            }
+            .container .links {
+                display: none;
+            }
+            .footer-section {
+                min-width: 100%;
+                text-align: center;
+            }
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .footer-actions {
+                flex-direction: column;
+                align-items: center;
+            }
             .sort-options {
                 flex-direction: column;
                 align-items: stretch;
             }
-            .sort-options form {
-                flex-direction: column;
-                align-items: stretch;
+            .search-input {
+                width: 100%;
+            }
+            #searchBtn {
+                width: 100%;
             }
         }
-
-        /* Keep rest of your styles unchanged */
     </style>
 </head>
 <body>
@@ -71,7 +453,6 @@
     </nav>
 
     <h2 class="title">All Products</h2>
-
     <div class="sort-options">
         <form action="" method="post">
             <select name="category" id="category" class="form-select">
@@ -93,21 +474,18 @@
 
             <select name="sortAlphabetically" id="sortAlphabetically" class="form-select">
                 <option value="">Alphabetical Order</option>
-                <option value="ascending">Ascending (A to Z)</option>
-                <option value="descending">Descending (Z to A)</option>
+                <option value="ascending">Ascending(A to Z)</option>
+                <option value="descending">Descending(Z to A)</option>
             </select>
-
             <button type="submit" class="animated-button">Filter</button>
         </form>
-
         <input type="text" id="serchInput" class="search-input" placeholder="Search here...">
         <button id="searchBtn">Search</button>
-
         <form action="" method="get" id="clearFilterForm">
             <button type="submit" class="animated-button">Clear Filter</button>
         </form>
     </div>
-
+    
     <div class="product-grid">
         <% if(productcollection && productcollection.length > 0) { %>
             <% productcollection.forEach(product => { %>
