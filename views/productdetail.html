@@ -437,56 +437,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- Main Content Section -->
-    <h2 class="title">All Products</h2>
-    <div class="sort-options">
-        <form action="" method="post">
-            <select name="category" id="category" class="form-select">
-                <option value="All Categories">All Categories</option>
-            </select>
-
-            <select name="sortprice" id="sortprice" class="form-select">
-                <option value="">All Prices</option>
-                <option value="lowtoHight">Low to High</option>
-                <option value="High to Low">High to Low</option>
-            </select>
-
-            <select name="priceRange" id="priceRange" class="form-select">
-                <option value="">Price Range</option>
-                <option value="100-1000">100-1000</option>
-                <option value="1000-1500">1000-1500</option>
-                <option value="1500-2000">1500-2000</option>
-            </select>
-
-            <select name="sortAlphabetically" id="sortAlphabetically" class="form-select">
-                <option value="">Alphabetical Order</option>
-                <option value="ascending">Ascending(A to Z)</option>
-                <option value="descending">Descending(Z to A)</option>
-            </select>
-            <button type="submit" class="animated-button">Clearfilter</button>
-        </form>
-        <input type="text" id="serchInput" class="search-input" placeholder="Search here...">
-        <button id="searchBtn">Search</button>
-        <form action="" method="get" id="clearFilterForm">
-            <!-- <button type="submit" class="animated-button">Clear Filter</button> -->
-        </form>
-    </div>
-    
-    <div class="product-grid">
-        <% if(productcollection && productcollection.length > 0) { %>
-            <% productcollection.forEach(product => { %>
-                <div class="product-item">
-                    <div class="wishlist-container">
-                        <a href="#"><i class="fa fa-heart wishlist-icon"></i></a>
-                    </div>
-                    <a href="/getproducts/<%=product._id%>">
-                        <img src="<%=product.image[0] %>" alt="<%= product.productname %>">
-                    </a>
-                    <h6 class="product-name"><%= product.category.name %></h6>
-                    <a href="/getproduct/<%= product._id %>">
-                        <h4><%= product.productname %></h4>
-                    </a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
