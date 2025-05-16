@@ -315,11 +315,12 @@ const getdeleteProduct= async(req,res)=>
 
 
 const getproducts = async (req, res) => {
+     const pid=  req.params.id
   try {
     console.log('entered in the allproductsget');
     
     // Get all products with populated category
-    const productcollection = await Product.find({}).populate('category');
+    const productcollection = await Product.findById({pid}).populate('category');
     
     if (!productcollection || productcollection.length === 0) {
       return res.status(404).send('No products found');
