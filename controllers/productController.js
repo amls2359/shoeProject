@@ -375,6 +375,6 @@ module.exports =
   deleteImage,
   getdeleteProduct,
   getproducts,
-  productdetails
+  productdetails,
 
 };
