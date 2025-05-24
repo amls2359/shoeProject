@@ -339,6 +339,8 @@ const getproducts = async (req, res) => {
 
 const productdetails=async(req,res)=>
 {
+  console.log('entered into product details');
+  
   try
   {
     const pid=req.params.id
