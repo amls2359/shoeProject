@@ -341,11 +341,21 @@ const productdetails=async(req,res)=>
 {
   try
   {
-
+    const pid=req.params.id
+    console.log('productid:',pid);
+    const productCollection=await Product.findById(pid)
+      if (!productCollection || productCollection.length === 0)
+     {
+      return res.status(404).send('No products found');
+     }
+    res.render('productdetail',{productCollection})
+  
   }
   catch(err)
   {
-    
+      console.log(err);
+      res.status(500).send('INTERNAL SERVER ERROR')
+      
   }
 
 }
