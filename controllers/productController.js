@@ -337,6 +337,19 @@ const getproducts = async (req, res) => {
   }
 }
 
+const productdetails=async(req,res)=>
+{
+  try
+  {
+
+  }
+  catch(err)
+  {
+    
+  }
+
+}
+
 
 
 module.exports = 
@@ -349,6 +362,7 @@ module.exports =
   unlistProduct,
   deleteImage,
   getdeleteProduct,
-  getproducts
+  getproducts,
+  productdetails
 
 };
