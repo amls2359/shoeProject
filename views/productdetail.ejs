@@ -450,6 +450,16 @@
                     <a href="#" class="btn btn-outline">Continue</a>
                 </div>
             </div>
+
+               <!-- Product Details Section -->
+    <div class="product-detail-container">
+        <div class="product-images">
+            <% if(productCollection.image) { %>
+                <img src="<%= productCollection.image %>" alt="<%= productCollection.name %>" class="product-main-image">
+            <% } else { %>
+                <img src="/images/default-product.jpg" alt="Default product image" class="product-main-image">
+            <% } %>
+        </div>
             
             <div class="footer-section">
                 <h3>COLORLIB</h3>
